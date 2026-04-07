@@ -18,11 +18,12 @@ public class Rut {
 
     }
 
-    public Rut of(String rutCONdv) {
+   // No se hace
+   //public Rut of(String rutCONdv) {
 
 
-        return null;
-    }
+
+  //  }
 
 
     }
