@@ -2,7 +2,7 @@ import java.util.Objects;
 
 public class Nombre {
     private Tratamiento tratamiento;
-    private String nombres;
+    private String nombre;
     private String apellido_paterno;
     private String apellido_materno;
 
@@ -14,12 +14,12 @@ public class Nombre {
         this.tratamiento = tratamiento;
     }
 
-    public String getNombres() {
-        return nombres;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombres(String nombres) {
-        this.nombres = nombres;
+    public void setNombre(String nombres) {
+        this.nombre = nombres;
     }
 
     public String getApellido_paterno() {
@@ -40,16 +40,15 @@ public class Nombre {
 
     @Override
     public String toString() {
-        return "- Tratamiento: " + tratamiento +
-                " - Nombre: " + nombres +
-                " - Apellido paterno: " + apellido_paterno +
-                " - Apellido materno: " + apellido_materno;
+        return tratamiento + " " + nombre + " " + apellido_paterno + " " + apellido_materno;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Nombre nombre = (Nombre) o;
-        return Objects.equals(nombres, nombre.nombres) && Objects.equals(apellido_paterno, nombre.apellido_paterno) && Objects.equals(apellido_materno, nombre.apellido_materno);
+    public boolean equals(Object otro) {
+        if (this==otro) return true;
+        if (otro==null || getClass()!=otro.getClass()) return false;
+
+        Nombre nombre = (Nombre) otro;
+        return Objects.equals(nombre, nombre.nombre) && Objects.equals(apellido_paterno, nombre.apellido_paterno) && Objects.equals(apellido_materno, nombre.apellido_materno);
     }
 }
