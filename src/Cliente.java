@@ -18,6 +18,6 @@ public class Cliente extends Persona {
     }
 
     public void addVenta(Venta venta) {
-
+        ventas.add(venta);
     }
 }
