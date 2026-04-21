@@ -1,15 +1,25 @@
 import java.time.LocalDate;
+import java.util.*;
 
 public class Venta {
 
     private String idDocumento;
     private TipoDocumento tipo;
     private LocalDate fecha;
+    private Cliente cliente;
 
-    public Venta (String id, TipoDocumento tipo, LocalDate fec, Cliente cli ){
-        this.idDocumento = id;
+    private ArrayList<Pasaje> pasajes;
+
+    public Venta(String idDocumento, TipoDocumento tipo, LocalDate fecha, Cliente cliente) {
+
+        this.idDocumento = idDocumento;
         this.tipo = tipo;
-        this.fecha = fec;
+        this.fecha = fecha;
+        this.cliente = cliente;
+
+        pasajes = new ArrayList<>();
+
+       //poner cliente.addVenta(this);
 
     }
 
@@ -27,10 +37,14 @@ public class Venta {
     }
 
     public String getCliente(){
-        return null;
+        return cliente;
     }
 
     public void createPasaje(int asiento, Viaje viaje, Pasajero pasajero){
+
+        Pasaje p = new Pasaje(asiento,viaje,pasajero,this);
+
+        pasajes.add(p);
 
     }
 
