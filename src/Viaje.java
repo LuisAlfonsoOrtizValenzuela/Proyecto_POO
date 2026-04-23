@@ -45,10 +45,8 @@ public class Viaje {
             for(Pasaje pasaje:pasajes) {
                 if(pasaje.getAsiento()==(i+1)){
                     lista[i][1]="Ocupado";
-                }else {
-                    if(pasaje.getAsiento()==null) {
-                        lista[i][1] = "Disponible";
-                    }
+                }else{
+                    lista[i][1]=String.valueOf(i+1);
                 }
             }
         }
@@ -63,7 +61,7 @@ public class Viaje {
         int size=pasajes.size();
         String[][] lista=new String[size][4];
         for(int i=0;i<size;i++){
-            IdPersona id=pasajes.get(i).getVenta().getCliente.getIdPersona();
+            IdPersona id=pasajes.get(i).getVenta().getCliente().getIdPersona();
             lista[i][0]=id.toString();
             lista[i][1]=pasajes.get(i).getPasajero().getNomContacto().getNombres();
             lista[i][2]=pasajes.get(i).getPasajero().getNomContacto().toString();
@@ -90,7 +88,7 @@ public class Viaje {
         String[][] lista=getAsientos();
         int disponibles=0;
         for(int i=0;i<lista.length;i++){
-            if(lista[i][1].equals("Disponible")){
+            if(!lista[i][1].equals("Ocupado")){
                 disponibles++;
             }
         }
