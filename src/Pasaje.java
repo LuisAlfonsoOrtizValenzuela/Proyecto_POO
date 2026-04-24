@@ -22,7 +22,6 @@ public class Pasaje {
 
         //viaje.addPasaje(this);
 
-
     }
 
     public long getNumero() {
