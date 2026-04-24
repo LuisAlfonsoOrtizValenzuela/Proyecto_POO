@@ -1,11 +1,6 @@
-public class IdPersona {
-    @Override
-    public String toString() {
-        return null;
-    }
+public  interface IdPersona {
 
-    @Override
-    public boolean equals(Object obj) {
-        return true;
-    }
+
+    String toString();
+    boolean equals(Object obj);
 }
