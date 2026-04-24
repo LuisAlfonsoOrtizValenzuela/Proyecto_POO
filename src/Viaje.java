@@ -34,11 +34,11 @@ public class Viaje {
     }
 
     public Bus getBus(){
-        return buses.getFirst();
+        return buses.getLast();
     }
 
     public String[][] getAsientos() {
-        int length = buses.getFirst().getNroAsientos();
+        int length = buses.getLast().getNroAsientos();
         String[][] lista = new String[length][2];
         for (int i = 0; i < length; i++) {
             lista[i][0] = String.valueOf((i + 1));
@@ -78,7 +78,7 @@ public class Viaje {
                 ocupados++;
             }
         }
-        if(ocupados<buses.getFirst().getNroAsientos()){
+        if(ocupados<buses.getLast().getNroAsientos()){
             return true;
         }
         return false;
