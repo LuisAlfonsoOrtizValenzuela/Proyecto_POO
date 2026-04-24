@@ -13,10 +13,11 @@ public class Venta {
     public Venta(String idDocumento, TipoDocumento tipo, Cliente cliente) {
 
         this.idDocumento = idDocumento;
+
         this.tipo = tipo;
         this.fecha = LocalDate.now();
         this.cliente = cliente;
-        this.fecha = LocalDate.now();
+
 
         pasajes = new ArrayList<>();
 
@@ -61,7 +62,6 @@ public class Venta {
             total += p.getViaje().getPrecio();
         }
         return total;
-
 
 
 
