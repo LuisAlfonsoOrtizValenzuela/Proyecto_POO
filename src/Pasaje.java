@@ -1,4 +1,4 @@
-import java.util.Random;
+import java.util.*;
 
 public class Pasaje {
 
@@ -19,6 +19,9 @@ public class Pasaje {
 
         Random r = new Random();
         this.numero = Math.abs(r.nextLong());
+
+        //agregar pasaje
+        //viaje.addPasaje(this);
 
 
     }
