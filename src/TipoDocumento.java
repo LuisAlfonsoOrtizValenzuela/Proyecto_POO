@@ -1,3 +1,3 @@
 public enum TipoDocumento {
-    BOLETA, FACTURA
+    BOLETA,FACTURA
 }

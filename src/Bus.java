@@ -37,8 +37,7 @@ public class Bus {
         return nroAsientos;
     }
 
-    public void addViaje(Viaje viaje) {
-        viajes.add(viaje);
+    public void addViaje(Viaje viaje) {viajes.add(viaje);
     }
 
 }

@@ -81,6 +81,7 @@ public class Viaje {
         if(ocupados<buses.getLast().getNroAsientos()){
             return true;
         }
+
         return false;
     }
 
