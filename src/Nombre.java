@@ -18,8 +18,8 @@ public class Nombre {
         return nombre;
     }
 
-    public void setNombre(String nombres) {
-        this.nombre = nombres;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getApellido_paterno() {
