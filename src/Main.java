@@ -1,10 +1,10 @@
 import java.util.Scanner;
 
 public class Main {
-    private Scanner sc;
+    private Scanner sc = new Scanner(System.in);
+    private SistemaVentaPasajes sistema = new SistemaVentaPasajes();
 
     public void menu() {
-        Scanner sc = new Scanner(System.in);
         int opcion;
 
         do {
@@ -69,15 +69,23 @@ public class Main {
         System.out.println("   ...:::: Crear un nuevo Cliente ::::....");
         System.out.println();
         System.out.println("  Rut[1] o Pasaporte[2] : ");
-        int identificador = sc.nextInt();
+        int tipo = sc.nextInt();
         sc.nextLine();
 
-        if (identificador == 1) {
+        IdPersona id;
+
+        if (tipo == 1) {
             System.out.println("                  R.U.T : ");
             String rut = sc.nextLine();
+
+            id = Rut.of(rut);
         } else {
             System.out.println("              Pasaporte : ");
-            String pase = sc.nextLine();
+            String numero = sc.nextLine();
+            System.out.println("           Nacionalidad : ");
+            String nacionalidad = sc.nextLine();
+
+            id = Pasaporte.of(numero, nacionalidad);
         }
 
         System.out.println("     Sr. [1] o Sra. [2] : ");
@@ -95,24 +103,67 @@ public class Main {
         String nombres = sc.nextLine();
 
         System.out.println("       Apellido paterno : ");
-        String apellido_paterno = sc.nextLine();
+        String paterno = sc.nextLine();
 
         System.out.println("       Apellido materno : ");
-        String apellido_materno = sc.nextLine();
+        String materno = sc.nextLine();
+
+        Nombre nombreCompleto = new Nombre();
+        nombreCompleto.setTratamiento(tratamiento);
+        nombreCompleto.setNombre(nombres);
+        nombreCompleto.setApellido_paterno(paterno);
+        nombreCompleto.setApellido_materno(materno);
 
         System.out.println("         Telefono movil : ");
-        String telefono = sc.nextLine();
+        String fono = sc.nextLine();
 
         System.out.println("                  Email : ");
         String email = sc.nextLine();
+
+        boolean clienteCreado = sistema.createCliente(id, nombreCompleto, fono, email);
+
+        if (clienteCreado) {
+            System.out.println("...:::: Cliente guardado exitosamente ::::....");
+        } else {
+            System.out.println("...:::: El cliente ingresado ya existe ::::...");
+        }
+
     }
 
     private void createBus() {
+        System.out.println("...:::: Creacion de un nuevo BUS ::::....");
+        System.out.println();
+        System.out.println("              Patente : ");
+        String patente = sc.nextLine();
+
+        System.out.println("                Marca : ");
+        String marca = sc.nextLine();
+
+        System.out.println("               Modelo : ");
+        String modelo = sc.nextLine();
+
+        System.out.println("   Numero de asientos : ");
+        int nroAsientos = sc.nextInt();
+        sc.nextLine();
+
+        boolean busCreado = sistema.createBus(patente, marca, modelo, nroAsientos);
+
+        if (busCreado) {
+            System.out.println("...:::: Bus guardado exitosamente ::::....");
+        } else {
+            System.out.println("..:: Ya existe un bus con esa patente ::..");
+        }
 
     }
 
     private void createViaje() {
-
+        System.out.println("...:::: Creacion de un nuevo Viaje ::::....");
+        System.out.println();
+        System.out.println("    Fecha [dd/mm/aaaa] : ");
+        System.out.println("          Hora [hh:mm] : ");
+        System.out.println("                Precio : ");
+        System.out.println("           Patente Bus : ");
+        System.out.println();
     }
 
     private void vendePasaje() {
@@ -133,7 +184,9 @@ public class Main {
 
     static void main(String[] args) {
 
-        System.out.println();
+        Main menu = new Main();
+
+        System.out.println(menu);
 
     }
 
