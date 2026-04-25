@@ -1,68 +1,19 @@
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
 
 public class Venta {
-
     private String idDocumento;
-    private TipoDocumento tipo;
+    private TipoDocumento tipoDocumento;
     private LocalDate fecha;
-    private Cliente cliente;
+    private ArrayList<Cliente> clientes;
 
-    private ArrayList<Pasaje> pasajes;
-
-    public Venta(String idDocumento, TipoDocumento tipo, Cliente cliente) {
-
+    public Venta(String idDocumento, TipoDocumento tipoDocumento, LocalDate fecha, Cliente cliente) {
         this.idDocumento = idDocumento;
-
-        this.tipo = tipo;
-        this.fecha = LocalDate.now();
-        this.cliente = cliente;
-
-
-        pasajes = new ArrayList<>();
-
-        //poner cliente.addVenta(this);
-
+        this.tipoDocumento = tipoDocumento;
+        this.fecha = fecha;
     }
 
-    public String getIdDocumento() {
-        return idDocumento;
-
+    public Cliente getCliente(){
+        return clientes.getLast();
     }
-
-    public TipoDocumento getTipo() {
-        return tipo;
-    }
-
-    public LocalDate getFecha() {
-        return fecha;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public boolean createPasaje(int asiento, Viaje viaje, Pasajero pasajero) {
-
-        Pasaje p = new Pasaje(asiento, viaje, pasajero, this);
-        pasajes.add(p);
-        return true;
-    }
-
-    public Pasaje[] getPasajes() {
-        Pasaje[] pasajess = new Pasaje[pasajes.size()];
-        return pasajes.toArray(pasajess);
-    }
-
-    public int getMonto() {
-
-        int total = 0;
-
-        for (Pasaje p : pasajes) {
-            total += p.getViaje().getPrecio();
-        }
-        return total;
-
-
-
-    }}
+}
