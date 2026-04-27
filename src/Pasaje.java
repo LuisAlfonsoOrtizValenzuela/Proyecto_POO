@@ -20,7 +20,7 @@ public class Pasaje {
         Random r = new Random();
         this.numero = Math.abs(r.nextLong());
 
-        //viaje.addPasaje(this);
+        viaje.addPasaje(this);
 
     }
 

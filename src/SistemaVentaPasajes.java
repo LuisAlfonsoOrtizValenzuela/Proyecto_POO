@@ -112,10 +112,10 @@ public class SistemaVentaPasajes {
     }
 
 
-    public String[] listAsientosDeViaje(LocalDate fecha, LocalTime hora, String patBus) {
+    public String[][] listAsientosDeViaje(LocalDate fecha, LocalTime hora, String patBus) {
         Viaje viaje = findViaje(fecha.toString(), hora.toString(), patBus);
-        if (viaje == null) return new String[0];
-        return null; // poner cuando el metodo este listo viaje.getAsientos();
+        if (viaje == null) return new String[0][0]; //revisar bien
+        return viaje.getAsientos(); //revisar
     }
 
     public int getMontoVenta(String idDocumento, TipoDocumento tipo) {

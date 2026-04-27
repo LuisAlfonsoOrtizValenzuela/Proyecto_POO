@@ -21,7 +21,7 @@ public class Venta {
 
         pasajes = new ArrayList<>();
 
-        //poner cliente.addVenta(this);
+        cliente.addVenta(this);
 
     }
 
