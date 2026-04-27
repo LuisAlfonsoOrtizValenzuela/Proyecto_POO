@@ -29,7 +29,7 @@ public class Pasaporte implements IdPersona{
         Pasaporte pasaporte = (Pasaporte) objecto;
         return Objects.equals(numero, pasaporte.numero) && Objects.equals(nacionalidad, pasaporte.nacionalidad);
     }
-    public static Pasaporte of(String pasaporte) {
+    public static Pasaporte of(String pasaporte,String nacionalidad) {
 
         int posicionEspacio = -1;
         for (int i = 0; i < pasaporte.length(); i++) {
@@ -45,7 +45,7 @@ public class Pasaporte implements IdPersona{
         for (int i = 0; i < posicionEspacio; i++) {
             numero = numero + pasaporte.charAt(i);
         }
-        String nacionalidad = "";
+        nacionalidad = "";
         for (int i = posicionEspacio + 1; i < pasaporte.length(); i++) {
             nacionalidad = nacionalidad + pasaporte.charAt(i);
         }
