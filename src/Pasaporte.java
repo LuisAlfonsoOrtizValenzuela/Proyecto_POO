@@ -4,9 +4,9 @@ public class Pasaporte implements IdPersona{
 
     private String numero;
     private String nacionalidad;
-    private Pasaporte (String numero, String nacionalidad){
+    private Pasaporte (String num, String nacionalidad){
         this.nacionalidad=nacionalidad;
-        this.numero=numero;
+        this.numero=num;
     }
 
     public String getNumero() {
