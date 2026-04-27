@@ -1,6 +1,6 @@
 import java.util.Objects;
 
-public class Pasaporte {
+public class Pasaporte implements IdPersona{
 
     private String numero;
     private String nacionalidad;
@@ -38,30 +38,20 @@ public class Pasaporte {
                 break;
             }
         }
-
-
         if (posicionEspacio == -1) {
             return null;
         }
-
-
         String numero = "";
         for (int i = 0; i < posicionEspacio; i++) {
             numero = numero + pasaporte.charAt(i);
         }
-
-
         String nacionalidad = "";
         for (int i = posicionEspacio + 1; i < pasaporte.length(); i++) {
             nacionalidad = nacionalidad + pasaporte.charAt(i);
         }
-
-
         if (numero.length() == 0 || nacionalidad.length() == 0) {
             return null;
         }
-
-
         return new Pasaporte(numero, nacionalidad);
     }
 
