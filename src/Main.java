@@ -167,8 +167,15 @@ public class Main {
         int precio = sc.nextInt();
         System.out.println("           Patente Bus : ");
         String patente = sc.next();
-
         System.out.println();
+
+        boolean viajeCreado = sistema.createViaje(fecha, hora, precio, patente);
+
+        if (viajeCreado) {
+            System.out.println(" Viaje guardado exitosamente ");
+        } else {
+            System.out.println(" Lamentablemente no es posible crear si viaje. Verifique que la patente del bus coinsida con alguna ya existente ");
+        }
 
     }
 
