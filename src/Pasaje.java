@@ -1,16 +1,26 @@
+import java.util.*;
+
 public class Pasaje {
 
     private long numero;
     private int asiento;
 
+    private Viaje viaje;
+    private Pasajero pasajero;
+    private Venta venta;
 
-    Pasaje(int asiento, Viaje viaje, Pasajero pasajero, Venta venta){
+    public Pasaje(int asiento, Viaje viaje, Pasajero pasajero, Venta venta) {
 
-    }
-
-    public Pasaje(long numero, int asiento) {
-        this.numero = numero;
         this.asiento = asiento;
+
+        this.viaje = viaje;
+        this.pasajero = pasajero;
+        this.venta = venta;
+
+        Random r = new Random();
+        this.numero = Math.abs(r.nextLong());
+
+        viaje.addPasaje(this);
 
     }
 
@@ -22,15 +32,15 @@ public class Pasaje {
         return asiento;
     }
 
-    public Viaje getViaje(){
-        return null;
+    public Viaje getViaje() {
+        return viaje;
     }
 
-    public Pasajero getPasajero(){
-        return null;
+    public Pasajero getPasajero() {
+        return pasajero;
     }
 
-    public Venta getVenta(){
-        return null;
+    public Venta getVenta() {
+        return venta;
     }
 }
