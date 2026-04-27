@@ -154,6 +154,7 @@ public class SistemaVentaPasajes {
                     v.getTipo().toString(),
                     v.getFecha().toString(),
                     v.getCliente().getIdPersona().toString(),
+                    v.getCliente().getNombreCompleto().toString(),
                     String.valueOf(v.getPasajes().length),
                     String.valueOf(v.getMonto())
             };
