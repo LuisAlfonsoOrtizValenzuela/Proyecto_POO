@@ -26,7 +26,7 @@ public class SistemaVentaPasajes {
             if (c.getIdPersona().equals(id)) return false;
         }
 
-        Cliente nuevo = new Cliente(nom, id, fono, nom, email);
+        Cliente nuevo = new Cliente(nom, id, fono, email);
 
         clientes.add(nuevo);
 
