@@ -4,9 +4,9 @@ public class Pasaporte implements IdPersona{
 
     private String numero;
     private String nacionalidad;
-    private Pasaporte (String numero, String nacionalidad){
+    private Pasaporte (String num, String nacionalidad){
         this.nacionalidad=nacionalidad;
-        this.numero=numero;
+        this.numero=num;
     }
 
     public String getNumero() {
@@ -29,7 +29,7 @@ public class Pasaporte implements IdPersona{
         Pasaporte pasaporte = (Pasaporte) objecto;
         return Objects.equals(numero, pasaporte.numero) && Objects.equals(nacionalidad, pasaporte.nacionalidad);
     }
-    public static Pasaporte of(String pasaporte) {
+    public static Pasaporte of(String pasaporte,String nacionalidad) {
 
         int posicionEspacio = -1;
         for (int i = 0; i < pasaporte.length(); i++) {
@@ -38,30 +38,20 @@ public class Pasaporte implements IdPersona{
                 break;
             }
         }
-
-
         if (posicionEspacio == -1) {
             return null;
         }
-
-
         String numero = "";
         for (int i = 0; i < posicionEspacio; i++) {
             numero = numero + pasaporte.charAt(i);
         }
-
-
-        String nacionalidad = "";
+        nacionalidad = "";
         for (int i = posicionEspacio + 1; i < pasaporte.length(); i++) {
             nacionalidad = nacionalidad + pasaporte.charAt(i);
         }
-
-
         if (numero.length() == 0 || nacionalidad.length() == 0) {
             return null;
         }
-
-
         return new Pasaporte(numero, nacionalidad);
     }
 
