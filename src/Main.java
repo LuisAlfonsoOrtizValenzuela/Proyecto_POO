@@ -1,7 +1,10 @@
-import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+
 
 public class Main {
-
 
 
     private Scanner sc = new Scanner(System.in);
@@ -28,11 +31,13 @@ public class Main {
             System.out.print("...::: Ingrese su opción: ");
 
             opcion = sc.nextInt();
+            sc.nextLine();
 
             while (opcion < 1 || opcion > 9) {
                 System.out.println("- LA OPCIÓN INGRESADA NO ES VALIDA...");
                 System.out.print("...::: Ingrese su opción: ");
                 opcion = sc.nextInt();
+                sc.nextLine();
             }
 
             switch (opcion) {
@@ -174,10 +179,77 @@ public class Main {
     }
 
     private void listPasajerosViaje() {
+        System.out.println("\n...:::: Listado de pasajeros de un viaje ::::....\n");
 
+        System.out.print("Fecha del viaje [dd/mm/yyyy]: ");
+        String fechaus = sc.nextLine();
+
+       LocalDate fecha = LocalDate.parse(fechaus, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+        System.out.print("Hora del viaje [hh:mm]: ");
+        String horaStr = sc.nextLine();
+        LocalTime hora = LocalTime.parse(horaStr);
+
+        System.out.print("Patente bus: ");
+        String patente = sc.nextLine();
+        System.out.println(" ");
+
+        String[][] pasajeros = sistema.listPasajeros(fecha, hora, patente);
+
+        if (pasajeros.length == 0) {
+            System.out.println("No existe un viaje con los datos indicados. \n");
+            return;
+        }
+
+        System.out.println("\n*---------*----------*----------*----------*-------------------*");
+        System.out.println("\n| ASIENTO | RUT/PASS | PASAJERO | CONTACTO | TELEFONO CONTACTO |");
+        System.out.println  ("|---------+----------+----------+----------+-------------------+");
+
+        for (String[] p : pasajeros) {
+            System.out.printf("| %s | %s | %s | %s | %s |\n",
+                    p[0],
+                    p[1],
+                    p[2],
+                    p[3],
+                    p[4]
+            );
+        }
+
+        System.out.println  ("*---------*----------*----------*----------*-------------------*");
     }
 
+
     private void listVentas() {
+
+        String[][] ventas = sistema.listVentas();
+
+        System.out.println("\n...:::: Listado de ventas ::::....\n");
+
+        if (ventas.length == 0) {
+            System.out.println("No hay ventas registradas.\n");
+            return;
+
+        }
+
+
+        System.out.println("*-------------*-----------*-------*---------------*---------*--------------*-------------*");
+        System.out.println("| ID DOCUMENT | TIPO DOCU | FECHA | RUT/PASAPORTE | CLIENTE | CANT BOLETOS | TOTAL VENTA |");
+        System.out.println("|-------------+-----------+-------+---------------+---------+--------------+-------------|");
+
+
+
+        for (String[] v : ventas) {
+            System.out.printf("| %s | %s | %s | %s | %s | %s | $%s |\n",
+                    v[0],
+                    v[1],
+                    v[2],
+                    v[3],
+                    v[4],
+                    v[5],
+                    v[6]
+            );
+        }
+        System.out.println("*-------------*-----------*-------*---------------*---------*--------------*-------------*");
 
     }
 
