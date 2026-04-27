@@ -4,8 +4,8 @@ public class Cliente extends Persona {
     private String email;
     private ArrayList<Venta> ventas;
 
-    public Cliente(Nombre nombreCompleto, IdPersona idPersona, String telefono, Nombre nombre, String email) {
-        super(nombreCompleto, idPersona);
+    public Cliente(Nombre nombreCompleto, IdPersona idPersona, String telefono, String email) {
+        super(nombreCompleto, idPersona, telefono);
         this.email = email;
         this.ventas = new ArrayList<>();
     }

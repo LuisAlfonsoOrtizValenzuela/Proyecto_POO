@@ -18,8 +18,8 @@ public class Nombre {
         return nombre;
     }
 
-    public void setNombre(String nombres) {
-        this.nombre = nombres;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getApellido_paterno() {
@@ -48,7 +48,7 @@ public class Nombre {
         if (this==otro) return true;
         if (otro==null || getClass()!=otro.getClass()) return false;
 
-        Nombre nombre = (Nombre) otro;
-        return Objects.equals(nombre, nombre.nombre) && Objects.equals(apellido_paterno, nombre.apellido_paterno) && Objects.equals(apellido_materno, nombre.apellido_materno);
+        Nombre nom = (Nombre) otro;
+        return Objects.equals(nombre, nom.nombre) && Objects.equals(apellido_paterno, nom.apellido_paterno) && Objects.equals(apellido_materno, nom.apellido_materno);
     }
 }
