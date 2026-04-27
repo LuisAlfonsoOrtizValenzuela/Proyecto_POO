@@ -6,15 +6,15 @@ public class Viaje {
     private LocalDate fecha;
     private LocalTime hora;
     private int precio;
-    private ArrayList<Bus> buses;
     private ArrayList<Pasaje> pasajes;
+    private Bus bus;
 
     public Viaje(LocalDate fecha, LocalTime hora, int precio, Bus bus) {
         this.fecha = fecha;
         this.hora = hora;
         this.precio = precio;
+        this.bus = bus;
         bus.addViaje(this);
-        buses.add(bus);
     }
 
     public LocalDate getFecha() {
@@ -34,11 +34,11 @@ public class Viaje {
     }
 
     public Bus getBus(){
-        return buses.getLast();
+
     }
 
     public String[][] getAsientos() {
-        int length = buses.getLast().getNroAsientos();
+        int length = bus.getNroAsientos();
         String[][] lista = new String[length][2];
         for (int i = 0; i < length; i++) {
             lista[i][0] = String.valueOf((i + 1));
@@ -78,7 +78,7 @@ public class Viaje {
                 ocupados++;
             }
         }
-        if(ocupados<buses.getLast().getNroAsientos()){
+        if(ocupados<bus.getNroAsientos()){
             return true;
         }
 
