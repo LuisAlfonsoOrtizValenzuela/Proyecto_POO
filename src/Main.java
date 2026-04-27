@@ -228,6 +228,7 @@ public class Main {
         if (ventas.length == 0) {
             System.out.println("No hay ventas registradas.\n");
             return;
+
         }
 
 

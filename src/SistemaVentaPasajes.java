@@ -163,7 +163,7 @@ public class SistemaVentaPasajes {
         return lista.toArray(new String[0][0]);
     }
 
-    // no se bien si se puede usar el String row
+    // no se bien si se pueda usar el String row
     public String[][] listViajes() {
 
         ArrayList<String[]> lista = new ArrayList<>();
