@@ -7,7 +7,7 @@ public class Persona {
     public Persona(Nombre nombreCompleto, IdPersona idPersona){
         this.nombreCompleto=nombreCompleto;
         this.idPersona=idPersona;
-
+        this.telefono=telefono;
 
 
     }
