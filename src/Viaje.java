@@ -34,7 +34,7 @@ public class Viaje {
     }
 
     public Bus getBus(){
-
+        return bus;
     }
 
     public String[][] getAsientos() {
