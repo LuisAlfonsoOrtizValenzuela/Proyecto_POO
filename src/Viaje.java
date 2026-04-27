@@ -40,6 +40,7 @@ public class Viaje {
     public String[][] getAsientos() {
         int length = bus.getNroAsientos();
         String[][] lista = new String[length][2];
+
         for (int i = 0; i < length; i++) {
             lista[i][0] = String.valueOf((i + 1));
             for(Pasaje pasaje:pasajes) {
