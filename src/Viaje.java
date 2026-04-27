@@ -63,7 +63,7 @@ public class Viaje {
         for(int i=0;i<size;i++){
             IdPersona id=pasajes.get(i).getVenta().getCliente().getIdPersona();
             lista[i][0]=id.toString();
-            lista[i][1]=pasajes.get(i).getPasajero().getNomContacto().getNombres();
+            lista[i][1]=pasajes.get(i).getPasajero().getNomContacto().getNombre();
             lista[i][2]=pasajes.get(i).getPasajero().getNomContacto().toString();
             lista[i][3]=pasajes.get(i).getPasajero().getFonoContacto();
         }
