@@ -63,7 +63,7 @@ public class Main {
                     listViajes();
                     break;
                 case 8:
-                    // Nose k metodo se pone ahi :v
+                    consultaFecha();
                     break;
                 case 9:
                     System.out.println("- Cerrando el menu... ¡Hasta pronto!");
@@ -274,7 +274,53 @@ public class Main {
     }
 
     private void listViajes() {
+        System.out.println("\n......: Listado de viajes ......:\n");
 
+        String[][] viajes = sistema.listViajes();
+
+        if (viajes.length == 0) {
+            System.out.println("No hay viajes registrados \n");
+            return;
+        }
+        System.out.println("*---------*--------*----------*---------------*-----------*");
+        System.out.println("|  FECHA  |  HORA  |  PRECIO  |  DISPONIBLES  |  PATENTE  |");
+        System.out.println("*---------*--------*----------*---------------*-----------*");
+        for (String[] v : viajes) {
+            System.out.printf("|  %s  |  %s  |  %s  |  %s  |  %s  |\n",
+                    v[0],
+                    v[1],
+                    v[2],
+                    v[3],
+                    v[4]
+            );
+        }
+    }
+
+    private void consultaFecha() {
+        System.out.println("..::: Consulta de viajes disponibles :::.. ");
+
+        System.out.print(" Fecha del viaje [dd/mm/yyyy] : ");
+        String fechaus = sc.nextLine();
+
+        LocalDate fecha = LocalDate.parse(fechaus, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+        String[][] horarios = sistema.getHorariosDisponibles(fecha);
+
+        if (horarios.length == 0) {
+            System.out.println(":::: No hay viajes para la fecha indicada");
+            return;
+        }
+        System.out.println("*--------*----------*---------------*-----------*");
+        System.out.println("|  HORA  |  PRECIO  |  DISPONIBLES  |  PATENTE  |");
+        System.out.println("*--------*----------*---------------*-----------*");
+        for (String[] h : horarios) {
+            System.out.printf("|  %s  |  %s  |  %s  |  %s  |\n",
+                    h[1],
+                    h[2],
+                    h[3],
+                    h[0]
+            );
+        }
     }
 
     public static void main(String[] args) {
