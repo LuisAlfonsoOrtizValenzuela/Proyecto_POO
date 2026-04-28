@@ -174,7 +174,7 @@ public class Main {
         if (viajeCreado) {
             System.out.println(" Viaje guardado exitosamente ");
         } else {
-            System.out.println(" Lamentablemente no es posible crear si viaje. Verifique que la patente del bus coinsida con alguna ya existente ");
+            System.out.println(" Lamentablemente no es posible crear su viaje. Verifique que la patente del bus coinsida con alguna ya existente ");
         }
 
     }
@@ -192,7 +192,26 @@ public class Main {
     }
 
     private void listViajes() {
+        System.out.println("\n......: Listado de viajes ......:\n");
 
+        String[][] viajes = sistema.listViajes();
+
+        if (viajes.length == 0) {
+            System.out.println("No hay viajes registrados \n");
+            return;
+        }
+        System.out.println("*-----*-----*-----*-----*-----*-----*-----*-----*");
+        System.out.println(" |FECHA | HORA | PRECIO | DISPONIBLES | PATENTE |");
+        System.out.println("*-----*-----*-----*-----*-----*-----*-----*-----*");
+        for (String[] v : viajes) {
+            System.out.printf("| %s | %s | %s | %s | %s |\n",
+                    v[0],
+                    v[1],
+                    v[2],
+                    v[3],
+                    v[4]
+            );
+        }
     }
 
     static void main(String[] args) {
