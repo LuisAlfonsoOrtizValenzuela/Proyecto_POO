@@ -223,10 +223,12 @@ public class Main {
 
         System.out.println("\n*---------*----------*----------*----------*-------------------*");
         System.out.println("\n| ASIENTO | RUT/PASS | PASAJERO | CONTACTO | TELEFONO CONTACTO |");
-        System.out.println  ("|---------+----------+----------+----------+-------------------+");
 
         for (String[] p : pasajeros) {
-            System.out.printf("| %s | %s | %s | %s | %s |\n",
+
+
+            System.out.println ("|---------+----------+----------+----------+-------------------+");
+            System.out.printf("| %-7s | %-8s | %-8s | %-8s | %-17s |\n",
                     p[0],
                     p[1],
                     p[2],
@@ -235,7 +237,7 @@ public class Main {
             );
         }
 
-        System.out.println  ("*---------*----------*----------*----------*-------------------*");
+        System.out.println("*---------*----------*----------*----------*-------------------*");
     }
 
 
@@ -254,12 +256,12 @@ public class Main {
 
         System.out.println("*-------------*-----------*-------*---------------*---------*--------------*-------------*");
         System.out.println("| ID DOCUMENT | TIPO DOCU | FECHA | RUT/PASAPORTE | CLIENTE | CANT BOLETOS | TOTAL VENTA |");
-        System.out.println("|-------------+-----------+-------+---------------+---------+--------------+-------------|");
-
 
 
         for (String[] v : ventas) {
-            System.out.printf("| %s | %s | %s | %s | %s | %s | $%s |\n",
+
+            System.out.println("|-------------+-----------+-------+---------------+---------+--------------+-------------|");
+            System.out.printf("| %-11s | %-9s | %-8s | %-13s | %-7s | %-12s | $%-8s|\n",
                     v[0],
                     v[1],
                     v[2],
@@ -271,7 +273,8 @@ public class Main {
         }
         System.out.println("*-------------*-----------*-------*---------------*---------*--------------*-------------*");
 
-    }
+        }
+
 
     private void listViajes() {
         System.out.println("\n......: Listado de viajes ......:\n");
@@ -282,17 +285,21 @@ public class Main {
             System.out.println("No hay viajes registrados \n");
             return;
         }
-        System.out.println("*---------*--------*----------*---------------*-----------*");
-        System.out.println("|  FECHA  |  HORA  |  PRECIO  |  DISPONIBLES  |  PATENTE  |");
-        System.out.println("*---------*--------*----------*---------------*-----------*");
+        System.out.println("*------------*----------*--------*-------------*----------*");
+        System.out.println("|   FECHA    |   HORA   | PRECIO | DISPONIBLES | PATENTE  |");
+
         for (String[] v : viajes) {
-            System.out.printf("|  %s  |  %s  |  %s  |  %s  |  %s  |\n",
+
+            System.out.println("|------------+----------+--------+-------------+----------|");
+            System.out.printf ("| %-10s | %-8s | $%-5s | %-11s | %-8s |\n",
                     v[0],
                     v[1],
                     v[2],
                     v[3],
                     v[4]
             );
+            System.out.println("*------------*----------*--------*-------------*----------*");
+
         }
     }
 
@@ -310,17 +317,19 @@ public class Main {
             System.out.println(":::: No hay viajes para la fecha indicada");
             return;
         }
-        System.out.println("*--------*----------*---------------*-----------*");
-        System.out.println("|  HORA  |  PRECIO  |  DISPONIBLES  |  PATENTE  |");
-        System.out.println("*--------*----------*---------------*-----------*");
+        System.out.println("*----------*---------*-------------*---------*");
+        System.out.println("|   HORA   |  PRECIO | DISPONIBLES | PATENTE  |");
+
         for (String[] h : horarios) {
-            System.out.printf("|  %s  |  %s  |  %s  |  %s  |\n",
+            System.out.println("|----------+---------+-------------+---------|");
+            System.out.printf("|  %-6s  |  $%-3s  |  %-10s | %-6s  |\n",
                     h[1],
                     h[2],
                     h[3],
                     h[0]
             );
         }
+        System.out.println("*----------*---------*-------------*---------*");
     }
 
     public static void main(String[] args) {
