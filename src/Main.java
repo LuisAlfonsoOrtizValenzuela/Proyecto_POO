@@ -168,10 +168,23 @@ public class Main {
         System.out.println("...:::: Creacion de un nuevo Viaje ::::....");
         System.out.println();
         System.out.println("    Fecha [dd/mm/aaaa] : ");
+        String fecha = sc.next();
         System.out.println("          Hora [hh:mm] : ");
+        String hora = sc.next();
         System.out.println("                Precio : ");
+        int precio = sc.nextInt();
         System.out.println("           Patente Bus : ");
+        String patente = sc.next();
         System.out.println();
+
+        boolean viajeCreado = sistema.createViaje(fecha, hora, precio, patente);
+
+        if (viajeCreado) {
+            System.out.println(" Viaje guardado exitosamente ");
+        } else {
+            System.out.println(" Lamentablemente no es posible crear si viaje. Verifique que la patente del bus coinsida con alguna ya existente ");
+        }
+
     }
 
     private void vendePasaje() {

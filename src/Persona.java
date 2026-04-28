@@ -4,11 +4,10 @@ public class Persona {
     private IdPersona idPersona;
     private Nombre nombreCompleto;
     private String telefono;
-
-    public Persona(Nombre nombreCompleto, IdPersona idPersona,  String telefono) {
+    public Persona(Nombre nombreCompleto, IdPersona idPersona){
         this.nombreCompleto=nombreCompleto;
         this.idPersona=idPersona;
-        this.telefono= telefono;
+        this.telefono=telefono;
 
 
     }
