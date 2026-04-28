@@ -281,6 +281,8 @@ public class Main {
                     char verificador=codigo.charAt(0);
                     rut2=new Rut(numero_rut,verificador);
                     idPersona2=rut2;
+
+
                 }
 
 
