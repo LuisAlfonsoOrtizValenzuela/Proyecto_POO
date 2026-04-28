@@ -6,15 +6,14 @@ public class Viaje {
     private LocalDate fecha;
     private LocalTime hora;
     private int precio;
-    private ArrayList<Bus> buses;
-    private ArrayList<Pasaje> pasajes;
+    private Bus bus;
+    private ArrayList<Pasaje> pasajes = new ArrayList<>();
 
     public Viaje(LocalDate fecha, LocalTime hora, int precio, Bus bus) {
         this.fecha = fecha;
         this.hora = hora;
         this.precio = precio;
-        bus.addViaje(this);
-        buses.add(bus);
+        this.bus = bus;
     }
 
     public LocalDate getFecha() {
@@ -34,19 +33,21 @@ public class Viaje {
     }
 
     public Bus getBus(){
-        return buses.getLast();
+        return bus;
     }
 
     public String[][] getAsientos() {
-        int length = buses.getLast().getNroAsientos();
+        int length = bus.getNroAsientos();
         String[][] lista = new String[length][2];
+
         for (int i = 0; i < length; i++) {
             lista[i][0] = String.valueOf((i + 1));
-            for(Pasaje pasaje:pasajes) {
-                if(pasaje.getAsiento()==(i+1)){
-                    lista[i][1]="Ocupado";
-                }else{
-                    lista[i][1]=String.valueOf(i+1);
+            lista[i][1] = "Disponible";
+
+            for (Pasaje pasaje : pasajes) {
+                if (pasaje.getAsiento() == (i + 1)) {
+                    lista[i][1] = "Ocupado";
+                    break;
                 }
             }
         }
@@ -78,7 +79,7 @@ public class Viaje {
                 ocupados++;
             }
         }
-        if(ocupados<buses.getLast().getNroAsientos()){
+        if(ocupados<bus.getNroAsientos()){
             return true;
         }
 
@@ -95,6 +96,4 @@ public class Viaje {
         }
         return disponibles;
     }
-
-
 }
