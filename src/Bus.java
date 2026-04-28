@@ -11,6 +11,7 @@ public class Bus {
     public Bus(String patente, int nroAsientos) {
         this.patente = patente;
         this.nroAsientos = nroAsientos;
+        this.viajes = new ArrayList<>();
     }
 
     public String getPatente() {
@@ -37,7 +38,8 @@ public class Bus {
         return nroAsientos;
     }
 
-    public void addViaje(Viaje viaje) {viajes.add(viaje);
+    public void addViaje(Viaje viaje) {
+        viajes.add(viaje);
     }
 
 }

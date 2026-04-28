@@ -83,7 +83,7 @@ public class Main {
         IdPersona id;
 
         if (tipo == 1) {
-            System.out.print("                  R.U.T : ");
+            System.out.print("     R.U.T [11222333-9] : ");
             String rut = sc.nextLine();
 
             id = Rut.of(rut);
@@ -167,22 +167,29 @@ public class Main {
     private void createViaje() {
         System.out.println("...:::: Creacion de un nuevo Viaje ::::....");
         System.out.println();
-        System.out.println("    Fecha [dd/mm/aaaa] : ");
-        String fecha = sc.next();
-        System.out.println("          Hora [hh:mm] : ");
-        String hora = sc.next();
-        System.out.println("                Precio : ");
+        System.out.print("    Fecha [dd/mm/aaaa] : ");
+        String fechaus = sc.next();
+
+        LocalDate fecha = LocalDate.parse(fechaus, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+        System.out.print("          Hora [hh:mm] : ");
+        String horaStr = sc.next();
+
+        LocalTime hora = LocalTime.parse(horaStr);
+
+        System.out.print("                Precio : ");
         int precio = sc.nextInt();
-        System.out.println("           Patente Bus : ");
+
+        System.out.print("           Patente Bus : ");
         String patente = sc.next();
         System.out.println();
 
         boolean viajeCreado = sistema.createViaje(fecha, hora, precio, patente);
 
         if (viajeCreado) {
-            System.out.println(" Viaje guardado exitosamente ");
+            System.out.println(" ...::: Viaje guardado exitosamente :::...");
         } else {
-            System.out.println(" Lamentablemente no es posible crear si viaje. Verifique que la patente del bus coinsida con alguna ya existente ");
+            System.out.println("..::: No fue posible crear el viaje :::..");
         }
 
     }
@@ -194,23 +201,23 @@ public class Main {
     private void listPasajerosViaje() {
         System.out.println("\n...:::: Listado de pasajeros de un viaje ::::....\n");
 
-        System.out.print("Fecha del viaje [dd/mm/yyyy]: ");
+        System.out.print("Fecha del viaje [dd/mm/yyyy] : ");
         String fechaus = sc.nextLine();
 
-       LocalDate fecha = LocalDate.parse(fechaus, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        LocalDate fecha = LocalDate.parse(fechaus, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
-        System.out.print("Hora del viaje [hh:mm]: ");
+        System.out.print("      Hora del viaje [hh:mm] : ");
         String horaStr = sc.nextLine();
         LocalTime hora = LocalTime.parse(horaStr);
 
-        System.out.print("Patente bus: ");
+        System.out.print("                 Patente bus : ");
         String patente = sc.nextLine();
         System.out.println(" ");
 
         String[][] pasajeros = sistema.listPasajeros(fecha, hora, patente);
 
         if (pasajeros.length == 0) {
-            System.out.println("No existe un viaje con los datos indicados. \n");
+            System.out.println(":::: No existe un viaje con los datos indicados \n");
             return;
         }
 
@@ -239,7 +246,7 @@ public class Main {
         System.out.println("\n...:::: Listado de ventas ::::....\n");
 
         if (ventas.length == 0) {
-            System.out.println("No hay ventas registradas.\n");
+            System.out.println(":::: No hay ventas registradas \n");
             return;
 
         }
