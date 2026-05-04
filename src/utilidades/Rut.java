@@ -1,3 +1,5 @@
+package utilidades;
+
 public class Rut implements IdPersona{
 
     private int numero;
@@ -22,7 +24,7 @@ public class Rut implements IdPersona{
     public String toString() {
 
         String numerof = String.format("%,d", numero).replace(",", ".");
-        return "Rut:" + numero + "-" + dv;
+        return "utilidades.Rut:" + numero + "-" + dv;
     }
 
     @Override
