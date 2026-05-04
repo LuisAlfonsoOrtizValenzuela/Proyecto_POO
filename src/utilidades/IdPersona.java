@@ -1,3 +1,5 @@
+package utilidades;
+
 public  interface IdPersona {
 
 
