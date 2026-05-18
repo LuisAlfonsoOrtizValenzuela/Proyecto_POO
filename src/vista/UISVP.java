@@ -1,7 +1,9 @@
 package vista;
 
 import controlador.*;
+import excepciones.SistemaVentaPasajesException;
 import utilidades.*;
+import modelo.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -10,8 +12,10 @@ import java.util.Scanner;
 
 public class UISVP {
     private static UISVP instance;
-    private Scanner sc = new Scanner(System.in);
-    private SistemaVentaPasajes sistema = new SistemaVentaPasajes();
+    SistemaVentaPasajes sistema = SistemaVentaPasajes.getInstance();
+    ControladorEmpresas controlador = ControladorEmpresas.getInstance();
+
+    private final Scanner sc = new Scanner(System.in);
 
     private UISVP() {
     }
@@ -22,6 +26,8 @@ public class UISVP {
         }
         return instance;
     }
+
+
 
     public void menu() {
         int opcion;
@@ -107,7 +113,28 @@ public class UISVP {
     }
 
     private void createEmpresa() {
+        try {
+            System.out.println("  ...:::: Creando una nueva Empresa ::::....");
+            System.out.println();
+            System.out.print("     R.U.T [11222333-9] : ");
 
+            String rutEmpresa = sc.nextLine();
+            Rut rut = Rut.of(rutEmpresa);
+
+            System.out.print("                 Nombre : ");
+            String nombre = sc.nextLine();
+
+            System.out.print("                    url : ");
+            String url = sc.nextLine();
+
+            controlador.createEmpresa(rut, nombre, url);
+
+            System.out.println();
+            System.out.println(" ...:::: Empresa guardada exitosamente ::::.... ");
+        } catch (SistemaVentaPasajesException e) {
+            System.out.println();
+            System.out.println(e.getMessage());
+        }
     }
 
     private void contrataTripulante() {
@@ -184,29 +211,36 @@ public class UISVP {
     }
 
     private void createBus() {
-        System.out.println("...:::: Creacion de un nuevo BUS ::::....");
-        System.out.println();
-        System.out.print("              Patente : ");
-        String patente = sc.next();
+        try {
+            System.out.println("      ...:::: Creando un nuevo Bus ::::....");
+            System.out.println();
+            System.out.print("                  Patente : ");
+            String patente = sc.next();
 
-        System.out.print("                Marca : ");
-        String marca = sc.next();
+            System.out.print("                    Marca : ");
+            String marca = sc.next();
 
-        System.out.print("               Modelo : ");
-        String modelo = sc.next();
+            System.out.print("                   Modelo : ");
+            String modelo = sc.next();
 
-        System.out.print("   Numero de asientos : ");
-        int nroAsientos = sc.nextInt();
-        sc.nextLine();
+            System.out.print("       Numero de asientos : ");
+            int nroAsientos = sc.nextInt();
+            sc.nextLine();
 
-        boolean busCreado = sistema.createBus(patente, marca, modelo, nroAsientos);
+            System.out.println(":::: Datos de la empresa");
+            System.out.print("       R.U.T [11222333-9] : ");
 
-        if (busCreado) {
-            System.out.println("...:::: Bus guardado exitosamente ::::....");
-        } else {
-            System.out.println("..:: Ya existe un bus con esa patente ::..");
+            String rutEmpresa = sc.nextLine();
+            Rut rutEmp = Rut.of(rutEmpresa);
+
+            controlador.createBus(patente, marca, modelo, nroAsientos, rutEmp);
+
+            System.out.println();
+            System.out.println("    ...:::: Bus guardado exitosamente ::::....");
+        } catch (SistemaVentaPasajesException e) {
+            System.out.println();
+            System.out.println(e.getMessage());
         }
-
     }
 
     private void createViaje() {
@@ -428,7 +462,7 @@ public class UISVP {
         for (String[] v : ventas) {
 
             System.out.println("|-------------+-----------+-------+---------------+---------+--------------+-------------|");
-            System.out.printf("| %-11s | %-9s | %-8s | %-13s | %-7s | %-12s | $%-8s|\n",
+            System.out.printf("|  %-11s  | %-9s | %-8s | %-13s | %-7s | %-12s | $%-8s|\n",
                     v[0],
                     v[1],
                     v[2],
@@ -499,7 +533,31 @@ public class UISVP {
     }
 
     private void listEmpresas() {
+        System.out.println("       ...:::: Listado de empresas ::::....");
+        System.out.println();
 
+        String[][] empresas = controlador.listEmpresas();
+
+        if (empresas.length == 0) {
+            System.out.println(":::: No se han registrado empresas \n");
+            return;
+        }
+
+        System.out.println("*--------------*--------------------------------*--------------------------------*------------------*------------*-------------*");
+        System.out.println("| RUT EMPRESA  | NOMBRE                         | URL                            | NRO. TRIPULANTES | NRO. BUSES | NRO. VENTAS |");
+
+        for (String[] e : empresas) {
+            System.out.println("*--------------*--------------------------------*--------------------------------*------------------*------------*-------------*");
+            System.out.printf("| %-12s | %-30s | %-30s | %-16s | %-10s | %-11s |\n",
+                    e[0],
+                    e[1],
+                    e[2],
+                    e[3],
+                    e[4],
+                    e[5]
+            );
+        }
+        System.out.println("*--------------*--------------------------------*--------------------------------*------------------*------------*-------------*");
     }
 
     private void listLlegadasSalidasTerminal() {

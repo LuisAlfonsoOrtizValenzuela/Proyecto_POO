@@ -1,6 +1,7 @@
 package modelo;
 
 import utilidades.*;
+import excepciones.SistemaVentaPasajesException;
 
 import java.util.ArrayList;
 
@@ -12,6 +13,7 @@ public class Empresa {
     private ArrayList<Bus> buses;
     private ArrayList<Conductor> conductores;
     private ArrayList<Auxiliar> auxiliares;
+    private ArrayList<Tripulante> tripulantes;
     private ArrayList<Venta> ventas;
 
     public Empresa(Rut rut, String nombre) {
@@ -20,6 +22,7 @@ public class Empresa {
         buses = new ArrayList<>();
         auxiliares = new ArrayList<>();
         conductores = new ArrayList<>();
+        tripulantes = new ArrayList<>();
         ventas = new ArrayList<>();
     }
 
@@ -40,16 +43,16 @@ public class Empresa {
     }
 
     public void addBus(Bus bus) {
+        for (Bus b : buses) {
+            if (b.getPatente().equals(bus.getPatente())) {
+                throw new SistemaVentaPasajesException("::: Ya existe un Bus con la patente indicada");
+            }
+        }
         buses.add(bus);
     }
 
     public Bus[] getBuses() {
-        Bus[] busLista = new Bus[buses.size()];
-
-        for (int i = 0; i < buses.size(); i++) {
-            busLista[i] = buses.get(i);
-        }
-        return busLista;
+        return buses.toArray(new Bus[0]);
     }
 
     public boolean addConductor(IdPersona id, Nombre nom, String telefono, Direccion dir) {
@@ -65,16 +68,10 @@ public class Empresa {
     }
 
     public Tripulante[] getTripulantes() {
-        Tripulante[] tripulantesLista = new Tripulante[auxiliares.size() + conductores.size()];
-
-        // Falta terminar
-
-        return tripulantesLista;
+        return tripulantes.toArray(new Tripulante[0]);
     }
 
     public Venta[] getVentas() {
-        Venta[] ventasLista = new Venta[0]; // arreglar
-
-        return ventasLista; // arreglar
+        return ventas.toArray(new Venta[0]);
     }
 }

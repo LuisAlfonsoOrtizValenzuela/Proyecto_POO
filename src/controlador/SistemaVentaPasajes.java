@@ -7,6 +7,7 @@ import java.util.*;
 import java.time.LocalDate;
 
 public class SistemaVentaPasajes {
+    private static SistemaVentaPasajes instance;
 
     private ArrayList<Cliente> clientes;
     private ArrayList<Pasajero> pasajeros;
@@ -14,15 +15,22 @@ public class SistemaVentaPasajes {
     private ArrayList<Viaje> viajes;
     private ArrayList<Venta> ventas;
 
-    public SistemaVentaPasajes() {
-
+    private SistemaVentaPasajes() {
         clientes = new ArrayList<>();
         pasajeros = new ArrayList<>();
         buses = new ArrayList<>();
         viajes = new ArrayList<>();
         ventas = new ArrayList<>();
-
     }
+
+    public static SistemaVentaPasajes getInstance() {
+        if (instance == null) {
+            instance = new SistemaVentaPasajes();
+        }
+        return instance;
+    }
+
+
 
     public boolean createCliente(IdPersona id, Nombre nom, String fono, String email){
 
@@ -47,22 +55,6 @@ public class SistemaVentaPasajes {
         Pasajero nuevo = new Pasajero(nom, id, fono, nomContacto, fonoContacto);
         pasajeros.add(nuevo);
         return true;
-    }
-
-
-
-    public boolean createBus(String patente, String marca, String modelo, int nroAsientos){
-
-        for (Bus b : buses) {
-            if (b.getPatente().equals(patente)) return false;
-        }
-
-        Bus nuevo = new Bus(patente, nroAsientos);
-        nuevo.setMarca(marca);
-        nuevo.setModelo(modelo);
-        buses.add(nuevo);
-        return true;
-
     }
 
     public boolean createViaje(LocalDate fecha, LocalTime hora, int precio, String patBus) {
