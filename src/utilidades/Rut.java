@@ -24,7 +24,7 @@ public class Rut implements IdPersona{
     public String toString() {
 
         String numerof = String.format("%,d", numero).replace(",", ".");
-        return "utilidades.Rut:" + numero + "-" + dv;
+        return numero + "-" + dv;
     }
 
     @Override
