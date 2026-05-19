@@ -44,10 +44,11 @@ public class Empresa {
 
     public void addBus(Bus bus) {
         for (Bus b : buses) {
-            if (b.getPatente().equals(bus.getPatente())) {
+            if (b.getPatente().equalsIgnoreCase(bus.getPatente())) {
                 throw new SistemaVentaPasajesException("::: Ya existe un Bus con la patente indicada");
             }
         }
+
         buses.add(bus);
     }
 
@@ -56,13 +57,41 @@ public class Empresa {
     }
 
     public boolean addConductor(IdPersona id, Nombre nom, String telefono, Direccion dir) {
+        for (Conductor c : conductores) {
+            if (c.getIdPersona().equals(id)) {
+                return false;
+            }
+        }
+
+        for (Auxiliar a : auxiliares) {
+            if (a.getIdPersona().equals(id)) {
+                return false;
+            }
+        }
+
         Conductor conductor = new Conductor(id, nom, null, dir);
+
+        tripulantes.add(conductor);
 
         return conductores.add(conductor);
     }
 
     public boolean addAuxiliar(IdPersona id, Nombre nom, String telefono, Direccion dir) {
+        for (Conductor c : conductores) {
+            if (c.getIdPersona().equals(id)) {
+                return false;
+            }
+        }
+
+        for (Auxiliar a : auxiliares) {
+            if (a.getIdPersona().equals(id)) {
+                return false;
+            }
+        }
+
         Auxiliar auxiliar = new Auxiliar(id, nom, null, dir);
+
+        tripulantes.add(auxiliar);
 
         return auxiliares.add(auxiliar);
     }

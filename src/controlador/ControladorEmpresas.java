@@ -47,18 +47,18 @@ public class ControladorEmpresas {
         Optional<Bus> buscarBus = findBus(patente);
 
         if (buscarBus.isPresent()) {
-            throw new SistemaVentaPasajesException(":::: Ya existe Bus con la patente indicada");
+            throw new SistemaVentaPasajesException(":::: Ya existe un Bus con la patente indicada");
         }
 
         Optional<Empresa> buscarEmpresa = findEmpresa(rutEmp);
 
         if (buscarEmpresa.isEmpty()) {
-            throw new SistemaVentaPasajesException(":::: No existe empresa con el rut indicado");
+            throw new SistemaVentaPasajesException(":::: No existe una Empresa con el rut indicado");
         }
 
         Empresa empresa = buscarEmpresa.get();
 
-        Bus nuevo = new Bus(patente, nroAsientos);
+        Bus nuevo = new Bus(patente.trim(), nroAsientos);
         nuevo.setMarca(marca);
         nuevo.setModelo(modelo);
 
@@ -67,7 +67,20 @@ public class ControladorEmpresas {
     }
 
     public void createTerminal(String nombre, Direccion direccion) {
+        Optional<Terminal> buscarTerminal = findTerminal(nombre);
+        Optional<Terminal> buscarTerminalPorComuna = findTerminalPorComuna(direccion.getComuna());
 
+        if (buscarTerminal.isPresent()) {
+            throw new SistemaVentaPasajesException(":::: Ya existe un Terminal con el nombre indicado");
+        }
+
+        if (buscarTerminalPorComuna.isPresent()) {
+            throw new SistemaVentaPasajesException(":::: Ya existe un Terminal en la comuna indicada");
+        }
+
+        Terminal nuevo = new Terminal(nombre, direccion);
+
+        terminales.add(nuevo);
     }
 
     public void hireConductorForEmpresa(String rutEmp, IdPersona id, Nombre nom, Direccion dir) {
@@ -110,11 +123,58 @@ public class ControladorEmpresas {
         return Optional.empty();
     }
 
+    protected Optional<Terminal> findTerminal(String nombre) {
+        for (Terminal t : terminales) {
+            if (t.getNombre().equalsIgnoreCase(nombre)) {
+
+                return Optional.of(t);
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    protected Optional<Terminal> findTerminalPorComuna(String comuna) {
+        for (Terminal t : terminales) {
+            if (t.getDireccion().getComuna().equalsIgnoreCase(comuna)) {
+                return Optional.of(t);
+            }
+        }
+
+        return Optional.empty();
+    }
+
     protected Optional<Bus> findBus(String patente) {
         for (Empresa e : empresas) {
             for (Bus b : e.getBuses()) {
-                if (b.getPatente().equals(patente)) {
+                if (b.getPatente().trim().equalsIgnoreCase(patente.trim())) {
                     return Optional.of(b);
+                }
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    protected Optional<Auxiliar> findAuxiliar(IdPersona idPersona) {
+        for (Empresa e : empresas) {
+            for (Tripulante t : e.getTripulantes()) {
+                if (t instanceof Auxiliar && t.getIdPersona().equals(idPersona)) {
+
+                    return Optional.of((Auxiliar) t);
+                }
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    protected Optional<Conductor> findConductor(IdPersona idPersona) {
+        for (Empresa e : empresas) {
+            for (Tripulante t : e.getTripulantes()) {
+                if (t instanceof Conductor && t.getIdPersona().equals(idPersona)) {
+
+                    return Optional.of((Conductor) t);
                 }
             }
         }
