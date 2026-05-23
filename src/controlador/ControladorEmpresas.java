@@ -4,6 +4,7 @@ import utilidades.*;
 import excepciones.*;
 import modelo.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -83,11 +84,36 @@ public class ControladorEmpresas {
         terminales.add(nuevo);
     }
 
-    public void hireConductorForEmpresa(String rutEmp, IdPersona id, Nombre nom, Direccion dir) {
+    public void hireConductorForEmpresa(String rut, IdPersona id, Nombre nom, Direccion dir) {
 
+        Optional<Empresa> buscarEmpresa = findEmpresa(Rut.of(rut));
+
+        if (buscarEmpresa.isEmpty()) {
+            throw new SistemaVentaPasajesException(":::: No existe empresa con el rut indicado");
+        }
+
+        Empresa empresa = buscarEmpresa.get();
+        boolean contratado = empresa.addConductor(id, nom, null, dir);
+
+        if (!contratado) {
+            throw new SistemaVentaPasajesException(":::: Ya esta contratado un auxiliar/conductor con el id dado en la empresa señalada");
+        }
     }
 
-    public void hireAuxiliarForEmpresa(String rutEmp, IdPersona id, Nombre nom, Direccion dir) {
+    public void hireAuxiliarForEmpresa(String rut, IdPersona id, Nombre nom, Direccion dir) {
+
+        Optional<Empresa> buscarEmpresa = findEmpresa(Rut.of(rut));
+
+        if (buscarEmpresa.isEmpty()) {
+            throw new SistemaVentaPasajesException(":::: No existe empresa con el rut indicado");
+        }
+
+        Empresa empresa = buscarEmpresa.get();
+        boolean contratado = empresa.addAuxiliar(id, nom, null, dir);
+
+        if (!contratado) {
+            throw new SistemaVentaPasajesException(":::: Ya esta contratado auxiliar/conductor con el id dado en la empresa señalada");
+        }
 
     }
 
@@ -107,6 +133,91 @@ public class ControladorEmpresas {
         }
         return lista.toArray(new String[0][0]);
     }
+
+    public String[][] listLlegadasSalidasTerminal(String nombre, LocalDate fecha) {
+        Optional<Terminal> buscarTerminal = findTerminal(nombre);
+
+        if (buscarTerminal.isEmpty()) {
+            throw new SistemaVentaPasajesException(":::: No existe un terminal con el nombre dado");
+        }
+        Terminal terminal = buscarTerminal.get();
+        ArrayList<String[]> lista = new ArrayList<>();
+
+        //veri
+
+        for (Viaje v : terminal.getSalidas()) {
+            if (v.getFecha().equals(fecha)) {
+
+                String nombreEmpresa = "";
+                for (Empresa e : empresas) {
+                    for (Bus b : e.getBuses()) {
+                        if (b.getPatente().equals(v.getBus().getPatente())) {
+                            nombreEmpresa = e.getNombre();
+                            break;
+                        }
+                    }
+                }
+
+                String[] row = {
+                        "Salida",
+                        v.getHora().toString(),
+                        v.getBus().getPatente(),
+                        nombreEmpresa,
+                        String.valueOf(v.getBus().getNroAsientos() - v.getNroAsientosDisponibles())
+                };
+                lista.add(row);
+            }
+        }
+
+        for (Viaje v : terminal.getLlegadas()) {
+            if (v.getFecha().equals(fecha)) {
+                String nombreEmpresa = "";
+                for (Empresa e : empresas) {
+                    for (Bus b : e.getBuses()) {
+                        if (b.getPatente().equals(v.getBus().getPatente())) {
+                            nombreEmpresa = e.getNombre();
+                            break;
+                        }
+                    }
+                }
+                String[] row = {
+                        "Llegada",
+                        v.getFechaHoraTermino().toLocalTime().toString(),
+                        v.getBus().getPatente(),
+                        nombreEmpresa,
+                        String.valueOf(v.getNroAsientosDisponibles())
+                };
+                lista.add(row);
+            }
+
+
+        }
+        return lista.toArray(new String[0][0]);
+    }
+
+    public String[][] listVentasEmpresa(Rut rut) {
+        Optional<Empresa> buscarEmpresa = findEmpresa(rut);
+
+        if (buscarEmpresa.isEmpty()) {
+            throw new SistemaVentaPasajesException(":::: No existe una empresa con el rut indicado");
+        }
+
+        Empresa empresa = buscarEmpresa.get();
+        ArrayList<String[]> lista = new ArrayList<>();
+
+        for (Venta v : empresa.getVentas()) {
+            String[] row = {
+                    v.getFecha().toString(),
+                    v.getTipo().toString().toLowerCase(),
+                    String.valueOf(v.getMonto()),
+                    "Pendiente"
+            };
+            lista.add(row);
+        }
+
+        return lista.toArray(new String[0][0]);
+    }
+
 
 
 
