@@ -3,13 +3,16 @@ package controlador;
 import excepciones.SistemaVentaPasajesException;
 import modelo.*;
 import utilidades.*;
+
+import java.text.Format;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.time.LocalDate;
 
 public class SistemaVentaPasajes {
     private static SistemaVentaPasajes instance;
-    private ControladorEmpresas controlador;
+    private final ControladorEmpresas controlador;
 
     private final ArrayList<Cliente> clientes;
     private final ArrayList<Pasajero> pasajeros;
@@ -60,10 +63,10 @@ public class SistemaVentaPasajes {
     public void createViaje(LocalDate fecha, LocalTime hora, int precio, int duracion, String patBus, IdPersona[] idTripulantes, String[] nomComunas) throws SistemaVentaPasajesException {
         Optional<Bus> buscarBus = controlador.findBus(patBus);
         Optional<Viaje> buscarViaje = findViaje(fecha, hora, patBus);
-        Optional<Conductor> buscarConductor = controlador.findConductor(idTripulantes[0]);
-        Optional<Auxiliar> buscarAuxiliar = controlador.findAuxiliar(idTripulantes[1]);
-        Optional<Terminal> buscarTerminalSalida = controlador.findTerminal(nomComunas[0]);
-        Optional<Terminal> buscarTerminalLlegada = controlador.findTerminal(nomComunas[1]);
+        Optional<Conductor> buscarConductor = controlador.findConductor(idTripulantes[1]);
+        Optional<Auxiliar> buscarAuxiliar = controlador.findAuxiliar(idTripulantes[0]);
+        Optional<Terminal> buscarTerminalSalida = controlador.findTerminalPorComuna(nomComunas[0]);
+        Optional<Terminal> buscarTerminalLlegada = controlador.findTerminalPorComuna(nomComunas[1]);
 
 
         if (buscarBus.isEmpty()) {
@@ -92,9 +95,23 @@ public class SistemaVentaPasajes {
 
         Viaje nuevo = new Viaje(fecha, hora, precio, duracion, buscarBus.get(), buscarAuxiliar.get(), buscarConductor.get(), buscarTerminalSalida.get(), buscarTerminalLlegada.get());
 
+        if (idTripulantes.length == 3) {
+            Optional<Conductor> buscarSegundoConductor = controlador.findConductor(idTripulantes[2]);
+
+            if (buscarSegundoConductor.isEmpty()) {
+
+                throw new SistemaVentaPasajesException(":::: No se ha encontrado un segundo Conductor");
+            }
+
+            nuevo.addConductor(buscarSegundoConductor.get());
+        }
+
         viajes.add(nuevo);
 
         buscarBus.get().addViaje(nuevo);
+
+        buscarTerminalSalida.get().addSalida(nuevo);
+        buscarTerminalLlegada.get().addLlegada(nuevo);
     }
 
     public void iniciaVenta(String idDoc, TipoDocumento tipo, Date fechaViaje, String comSalida, String comLlegada, IdPersona idCliente, int nroPasajes) throws SistemaVentaPasajesException {
@@ -116,14 +133,16 @@ public class SistemaVentaPasajes {
         ventas.add(v);
     }
 
-    public String[][] getHorariosDisponibles(LocalDate fechaViaje) {
-
+    public String[][] getHorariosDisponibles(LocalDate fechaViaje, String comunaSalida, String comunaLlegada, int nroPasajes) {
         ArrayList<String[]> horariodis = new ArrayList<>();
 
         for (Viaje v : viajes) {
-            if (v.getFecha().equals(fechaViaje)) {
+            if (v.getFecha().equals(fechaViaje) &&
+                    v.getTerminalSalida().getDireccion().getComuna().equalsIgnoreCase(comunaSalida) &&
+                    v.getTerminalLlegada().getDireccion().getComuna().equalsIgnoreCase(comunaLlegada) &&
+                    v.getNroAsientosDisponibles() >= nroPasajes) {
                 String[] row = {
-                        v.getBus().getPatente(),
+                        v.getBus().getPatente().toUpperCase(),
                         v.getHora().toString(),
                         String.valueOf(v.getPrecio()),
                         String.valueOf(v.getNroAsientosDisponibles())
@@ -171,7 +190,7 @@ public class SistemaVentaPasajes {
         Optional<Pasajero> buscarPasajero = findPasajero(idPasajero);
 
         if (buscarVenta.isEmpty()) {
-            throw new SistemaVentaPasajesException(":::: No existe una Venta con el id  tipo de documentos indicados");
+            throw new SistemaVentaPasajesException(":::: No existe una Venta con el id y Tipo de documentos indicados");
         }
 
         if (buscarViaje.isEmpty()) {
@@ -185,11 +204,11 @@ public class SistemaVentaPasajes {
         Viaje viaje = buscarViaje.get();
 
         if (!viaje.asientoDisponible(asiento)) {
-            throw new SistemaVentaPasajesException(":::: El asiento indicado ya esta ocupado");
+            throw new SistemaVentaPasajesException(":::: El Asiento indicado ya esta ocupado");
         }
 
         if (asiento < 1 || asiento > viaje.getBus().getNroAsientos()) {
-            throw new SistemaVentaPasajesException(":::: El numero del asiento no es valido");
+            throw new SistemaVentaPasajesException(":::: El numero del Asiento no es valido");
         }
 
         Pasajero pasajero = buscarPasajero.get();
@@ -197,6 +216,14 @@ public class SistemaVentaPasajes {
         Venta venta = buscarVenta.get();
 
         Pasaje pasaje = new Pasaje(asiento, viaje, pasajero, venta);
+    }
+
+    public void pagaVenta(String idDocumento, TipoDocumento tipo) {
+
+    }
+
+    public void pagaVenta(String idDocumento, TipoDocumento tipo, long nroTarjeta) {
+
     }
 
     public String[][] listVentas() {
@@ -217,18 +244,21 @@ public class SistemaVentaPasajes {
         return lista.toArray(new String[0][0]);
     }
 
-    // no se bien si se pueda usar el String row
     public String[][] listViajes() {
 
         ArrayList<String[]> lista = new ArrayList<>();
 
         for (Viaje v : viajes) {
             String[] row = {
-                    v.getFecha().toString(),
+                    v.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
                     v.getHora().toString(),
+                    v.getFechaHoraTermino().format(DateTimeFormatter.ofPattern("HH:mm")),
                     String.valueOf(v.getPrecio()),
                     String.valueOf(v.getNroAsientosDisponibles()),
-                    v.getBus().getPatente()
+                    v.getBus().getPatente().toUpperCase(),
+                    v.getTerminalSalida().getDireccion().getComuna(),
+                    v.getTerminalLlegada().getDireccion().getComuna()
+
             };
             lista.add(row);
         }
@@ -312,4 +342,5 @@ public class SistemaVentaPasajes {
     public String[][] listEmpresas() {
         return controlador.listEmpresas();
     }
+
 }

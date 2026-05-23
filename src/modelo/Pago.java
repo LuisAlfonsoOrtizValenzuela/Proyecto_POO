@@ -1,5 +1,7 @@
+package modelo;
+
 public abstract class Pago {
-    protected int monto;
+    private int monto;
 
     public Pago(int monto) {
         this.monto = monto;
@@ -8,7 +10,4 @@ public abstract class Pago {
     public int getMonto() {
         return monto;
     }
-
-
-    public abstract String getTipoPago();
 }

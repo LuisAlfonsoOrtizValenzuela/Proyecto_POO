@@ -6,5 +6,4 @@ public class Main {
         UISVP main = UISVP.getInstance();
         main.menu();
     }
-
 }

@@ -37,10 +37,6 @@ public class Venta {
         return cliente;
     }
 
-    public int getMontoPagado() {return (pago != null) ? pago.getMonto() : 0;}
-
-    public String getTipoPago() {return (pago != null) ? pago.getTipoPago() : null;}
-
     public void createPasaje(Pasajero pasajero, Viaje viaje, int numeroAsiento) {
         Pasaje p = new Pasaje(numeroAsiento, viaje, pasajero, this);
         pasajes.add(p);

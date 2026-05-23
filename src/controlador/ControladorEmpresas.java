@@ -85,18 +85,17 @@ public class ControladorEmpresas {
     }
 
     public void hireConductorForEmpresa(String rut, IdPersona id, Nombre nom, Direccion dir) {
-
         Optional<Empresa> buscarEmpresa = findEmpresa(Rut.of(rut));
 
         if (buscarEmpresa.isEmpty()) {
-            throw new SistemaVentaPasajesException(":::: No existe empresa con el rut indicado");
+            throw new SistemaVentaPasajesException(":::: No existe una Empresa con el rut indicado");
         }
 
         Empresa empresa = buscarEmpresa.get();
         boolean contratado = empresa.addConductor(id, nom, null, dir);
 
         if (!contratado) {
-            throw new SistemaVentaPasajesException(":::: Ya esta contratado un auxiliar/conductor con el id dado en la empresa señalada");
+            throw new SistemaVentaPasajesException(":::: Ya esta contratado un Auxiliar/Conductor con el id dado en la empresa señalada");
         }
     }
 
@@ -105,14 +104,14 @@ public class ControladorEmpresas {
         Optional<Empresa> buscarEmpresa = findEmpresa(Rut.of(rut));
 
         if (buscarEmpresa.isEmpty()) {
-            throw new SistemaVentaPasajesException(":::: No existe empresa con el rut indicado");
+            throw new SistemaVentaPasajesException(":::: No existe una Empresa con el rut indicado");
         }
 
         Empresa empresa = buscarEmpresa.get();
         boolean contratado = empresa.addAuxiliar(id, nom, null, dir);
 
         if (!contratado) {
-            throw new SistemaVentaPasajesException(":::: Ya esta contratado auxiliar/conductor con el id dado en la empresa señalada");
+            throw new SistemaVentaPasajesException(":::: Ya esta contratado Auxiliar/Conductor con el id dado en la empresa señalada");
         }
 
     }
@@ -138,7 +137,8 @@ public class ControladorEmpresas {
         Optional<Terminal> buscarTerminal = findTerminal(nombre);
 
         if (buscarTerminal.isEmpty()) {
-            throw new SistemaVentaPasajesException(":::: No existe un terminal con el nombre dado");
+
+            throw new SistemaVentaPasajesException(":::: No existe un Terminal con el nombre dado");
         }
         Terminal terminal = buscarTerminal.get();
         ArrayList<String[]> lista = new ArrayList<>();
@@ -185,7 +185,7 @@ public class ControladorEmpresas {
                         v.getFechaHoraTermino().toLocalTime().toString(),
                         v.getBus().getPatente(),
                         nombreEmpresa,
-                        String.valueOf(v.getNroAsientosDisponibles())
+                        String.valueOf(v.getBus().getNroAsientos() - v.getNroAsientosDisponibles())
                 };
                 lista.add(row);
             }
@@ -199,7 +199,7 @@ public class ControladorEmpresas {
         Optional<Empresa> buscarEmpresa = findEmpresa(rut);
 
         if (buscarEmpresa.isEmpty()) {
-            throw new SistemaVentaPasajesException(":::: No existe una empresa con el rut indicado");
+            throw new SistemaVentaPasajesException(":::: No existe una Empresa con el rut indicado");
         }
 
         Empresa empresa = buscarEmpresa.get();

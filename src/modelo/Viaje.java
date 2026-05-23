@@ -73,7 +73,7 @@ public class Viaje {
 
             for (Pasaje pasaje : pasajes) {
                 if (pasaje.getAsiento() == (i + 1)) {
-                    lista[i][1] = "Ocupado";
+                    lista[i][1] = "* ";
                     break;
                 }
             }
