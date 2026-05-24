@@ -114,7 +114,7 @@ public class SistemaVentaPasajes {
         buscarTerminalLlegada.get().addLlegada(nuevo);
     }
 
-    public void iniciaVenta(String idDoc, TipoDocumento tipo, Date fechaViaje, String comSalida, String comLlegada, IdPersona idCliente, int nroPasajes) throws SistemaVentaPasajesException {
+    public void iniciaVenta(String idDoc, TipoDocumento tipo, LocalDate fechaViaje, String comSalida, String comLlegada, IdPersona idCliente, int nroPasajes) throws SistemaVentaPasajesException {
         Optional<Venta> buscarVenta = findVenta(idDoc, tipo);
         Optional<Cliente> buscarCliente = findCliente(idCliente);
 
@@ -211,19 +211,35 @@ public class SistemaVentaPasajes {
             throw new SistemaVentaPasajesException(":::: El numero del Asiento no es valido");
         }
 
-        Pasajero pasajero = buscarPasajero.get();
-
         Venta venta = buscarVenta.get();
 
-        Pasaje pasaje = new Pasaje(asiento, viaje, pasajero, venta);
+        venta.createPasaje(asiento, viaje, buscarPasajero.get());
     }
 
     public void pagaVenta(String idDocumento, TipoDocumento tipo) {
+        Optional<Venta> buscarVenta = findVenta(idDocumento, tipo);
 
+        if (buscarVenta.isEmpty()) {
+            throw new SistemaVentaPasajesException(":::: No existe una Venta con el id y tipo de documento indicados");
+        }
+
+        boolean pagado = buscarVenta.get().pagaMonto();
+
+        if (!pagado) {
+            throw new SistemaVentaPasajesException(":::: La Venta ya fue pagada");
+        }
+
+        buscarVenta.get().pagaMonto();
     }
 
     public void pagaVenta(String idDocumento, TipoDocumento tipo, long nroTarjeta) {
+        Optional<Venta> buscarVenta = findVenta(idDocumento, tipo);
 
+        if (buscarVenta.isEmpty()) {
+            throw new SistemaVentaPasajesException(":::: No existe una Venta con el id y tipo de documento indicados");
+        }
+
+        buscarVenta.get().pagaMonto(nroTarjeta);
     }
 
     public String[][] listVentas() {
@@ -233,7 +249,7 @@ public class SistemaVentaPasajes {
             String[] row = {
                     v.getIdDocumento(),
                     v.getTipo().toString(),
-                    v.getFecha().toString(),
+                    v.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
                     v.getCliente().getIdPersona().toString(),
                     v.getCliente().getNombreCompleto().toString(),
                     String.valueOf(v.getPasajes().length),
@@ -269,12 +285,10 @@ public class SistemaVentaPasajes {
         Optional<Viaje> buscarViaje = findViaje(fecha, hora, patBus);
 
         if (buscarViaje.isEmpty()) {
-            return new String[0][0];
+            throw new SistemaVentaPasajesException(":::: No existe un Viaje con la fecha, hora  patente indicados");
         }
 
-        Viaje viaje = buscarViaje.get();
-
-        return viaje.getListaPasajeros();
+        return buscarViaje.get().getListaPasajeros();
     }
 
 

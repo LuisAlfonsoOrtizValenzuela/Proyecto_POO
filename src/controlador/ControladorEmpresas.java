@@ -5,6 +5,7 @@ import excepciones.*;
 import modelo.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -206,11 +207,23 @@ public class ControladorEmpresas {
         ArrayList<String[]> lista = new ArrayList<>();
 
         for (Venta v : empresa.getVentas()) {
+
+            String tipoPago;
+            String montoPagado;
+
+            if (v.getTipoPago() == null) {
+                tipoPago = "PENDIENTE";
+                montoPagado = "0";
+            } else {
+                tipoPago = v.getTipoPago();
+                montoPagado = String.valueOf(v.getMontoPagado());
+            }
+
             String[] row = {
-                    v.getFecha().toString(),
-                    v.getTipo().toString().toLowerCase(),
-                    String.valueOf(v.getMonto()),
-                    "Pendiente"
+                    v.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                    v.getTipo().toString(),
+                    montoPagado,
+                    tipoPago
             };
             lista.add(row);
         }

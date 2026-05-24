@@ -37,9 +37,10 @@ public class Venta {
         return cliente;
     }
 
-    public void createPasaje(Pasajero pasajero, Viaje viaje, int numeroAsiento) {
-        Pasaje p = new Pasaje(numeroAsiento, viaje, pasajero, this);
-        pasajes.add(p);
+    public void createPasaje(int asiento, Viaje viaje, Pasajero pasajero) {
+        Pasaje pasaje = new Pasaje(asiento, viaje, pasajero, this);
+
+        pasajes.add(pasaje);
     }
 
     public Pasaje[] getPasajes() {
@@ -56,8 +57,11 @@ public class Venta {
         }
         return total;
 
+    }
 
-
+    public int getMontoPagado() {
+        if (pago == null) return 0;
+        return pago.getMonto();
     }
 
     public boolean pagaMonto() {
@@ -71,5 +75,17 @@ public class Venta {
         return true;
     }
 
+    public String getTipoPago() {
+        if (pago == null) return null;
 
+        if (pago instanceof PagoEfectivo) {
+            return "EFECTIVO";
+        }
+
+        if (pago instanceof PagoTarjeta) {
+            return "TARJETA";
+        }
+
+        return "DESCONOCIDO";
+    }
 }

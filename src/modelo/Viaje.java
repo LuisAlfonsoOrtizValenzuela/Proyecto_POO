@@ -86,20 +86,34 @@ public class Viaje {
     }
 
     public String[][] getListaPasajeros(){
-        int size=pasajes.size();
-        String[][] lista=new String[size][4];
-        for(int i=0;i<size;i++){
-            IdPersona id=pasajes.get(i).getVenta().getCliente().getIdPersona();
-            lista[i][0]=id.toString();
-            lista[i][1]=pasajes.get(i).getPasajero().getNomContacto().getNombre();
-            lista[i][2]=pasajes.get(i).getPasajero().getNomContacto().toString();
-            lista[i][3]=pasajes.get(i).getPasajero().getFonoContacto();
+
+        String[][] lista = new String[pasajes.size()][5];
+
+        for (int i = 0; i < pasajes.size(); i++) {
+            Pasaje pasaje = pasajes.get(i);
+            Pasajero pasajero = pasaje.getPasajero();
+
+            lista[i][0] = String.valueOf(pasaje.getAsiento());
+            lista[i][1] = pasajero.getIdPersona().toString();
+            lista[i][2] = pasajero.getNombreCompleto().toString();
+            lista[i][3] = pasajero.getNomContacto().toString();
+            lista[i][4] = pasajero.getFonoContacto();
         }
+
         return lista;
     }
 
-    public boolean existeDisponibilidad(){
-        return (pasajes.size() < bus.getNroAsientos());
+    public boolean existeDisponibilidad(int asiento){
+        if (asiento < 1 || asiento > bus.getNroAsientos()) {
+            return false;
+        }
+        for (Pasaje p : pasajes) {
+            if (p.getAsiento() == asiento) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public int getNroAsientosDisponibles(){

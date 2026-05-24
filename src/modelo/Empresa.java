@@ -101,6 +101,18 @@ public class Empresa {
     }
 
     public Venta[] getVentas() {
-        return ventas.toArray(new Venta[0]);
+        ArrayList<Venta> lista = new ArrayList<>();
+
+        for (Bus bus : buses) {
+            for (Viaje viaje : bus.getViajes()) {
+                for (Venta venta : viaje.getVentas()) {
+                    if (!lista.contains(venta)) {
+                        lista.add(venta);
+                    }
+                }
+            }
+        }
+
+        return lista.toArray(new Venta[0]);
     }
 }
