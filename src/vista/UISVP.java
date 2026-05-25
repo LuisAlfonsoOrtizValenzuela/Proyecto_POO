@@ -163,10 +163,16 @@ public class UISVP {
             System.out.print("Auxiliar[1] o Conductor[2] : ");
             int tipoTripulante = sc.nextInt();
             sc.nextLine();
+            if (tipoTripulante < 1 || tipoTripulante > 2) {
+                throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+            }
 
             System.out.print("     Rut[1] o Pasaporte[2] : ");
             int ruop = sc.nextInt();
             sc.nextLine();
+            if (ruop < 1 || ruop > 2) {
+                throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+            }
 
             IdPersona id;
 
@@ -186,6 +192,9 @@ public class UISVP {
             System.out.print("        Sr. [1] o Sra. [2] : ");
             int tipo = sc.nextInt();
             sc.nextLine();
+            if (tipo < 1 || tipo > 2) {
+                throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+            }
 
             Tratamiento tratamiento;
 
@@ -272,6 +281,9 @@ public class UISVP {
             System.out.print("    Rut[1] o Pasaporte[2] : ");
             int tipo = sc.nextInt();
             sc.nextLine();
+            if (tipo < 1 || tipo > 2) {
+                throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+            }
 
             IdPersona id;
 
@@ -292,6 +304,9 @@ public class UISVP {
             System.out.print("       Sr. [1] o Sra. [2] : ");
             int trat = sc.nextInt();
             Tratamiento tratamiento;
+            if (trat < 1 || trat > 2) {
+                throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+            }
 
             if (trat == 1) {
                 tratamiento = Tratamiento.SR;
@@ -408,6 +423,9 @@ public class UISVP {
             System.out.print("   Rut[1] o Pasaporte[2] : ");
             int tipo = sc.nextInt();
             sc.nextLine();
+            if (tipo < 1 || tipo > 2) {
+                throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+            }
 
             IdPersona idAux;
 
@@ -437,6 +455,9 @@ public class UISVP {
                 System.out.print("   Rut[1] o Pasaporte[2] : ");
                 tipo = sc.nextInt();
                 sc.nextLine();
+                if (tipo < 1 || tipo > 2) {
+                    throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+                }
 
                 IdPersona idCond;
 
@@ -487,6 +508,9 @@ public class UISVP {
             System.out.print(" Tipo de Documento [1] Boleta [2] Factura : ");
             int tipo = sc.nextInt();
             sc.nextLine();
+            if (tipo < 1 || tipo > 2) {
+                throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+            }
 
             TipoDocumento tipoDoc;
 
@@ -513,6 +537,9 @@ public class UISVP {
             System.out.print("      Rut[1] o Pasaporte[2] : ");
             int tipoId = sc.nextInt();
             sc.nextLine();
+            if (tipoId < 1 || tipoId > 2) {
+                throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+            }
 
             IdPersona id;
 
@@ -652,6 +679,9 @@ public class UISVP {
                 System.out.print("      Rut[1] o Pasaporte[2] : ");
                 tipo = sc.nextInt();
                 sc.nextLine();
+                if (tipo < 1 || tipo > 2) {
+                    throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+                }
 
                 IdPersona idPasajero;
 
@@ -679,6 +709,9 @@ public class UISVP {
                     System.out.print("       Sr. [1] o Sra. [2] : ");
                     int trat = sc.nextInt();
                     sc.nextLine();
+                    if (trat < 1 || trat > 2) {
+                        throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+                    }
                     Tratamiento tratamiento;
 
                     if (trat == 1) {
@@ -701,6 +734,9 @@ public class UISVP {
                     System.out.print("       Sr. [1] o Sra. [2] : ");
                     int tratContacto = sc.nextInt();
                     sc.nextLine();
+                    if (tratContacto < 1 || tratContacto > 2) {
+                        throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+                    }
                     Tratamiento tratamientoCont;
 
                     if (tratContacto == 1) {
@@ -752,6 +788,9 @@ public class UISVP {
             System.out.print(" Efectivo [1] o Tarjeta [2] : ");
             int tipoPago = sc.nextInt();
             sc.nextLine();
+            if (tipoPago < 1 || tipoPago > 2) {
+                throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+            }
 
             if (tipoPago == 1) {
                 sistema.pagaVenta(documento, tipoDoc);
