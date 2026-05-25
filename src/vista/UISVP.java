@@ -602,52 +602,35 @@ public class UISVP {
             LocalTime hora = LocalTime.parse(horario[selec - 1][1]);
 
             System.out.println();
-            System.out.println(":::: Asientos disponibles para el Viaje seleccionado");
-            System.out.println("*----*----*----*----*----*");
-            contador = 0;
-            String[][] listaAsientos = sistema.listAsientosDeViaje(fecha, hora, patente);
 
-            for (String[] l : listaAsientos) {
-                String digito;
+            System.out.println();
+            System.out.println(":::: Asientos disponibles para el viaje seleccionado");
+            System.out.println("*---*---*---*---*---*");
 
-                if (l[1].equalsIgnoreCase("disponible")) {
-                    digito = l[0];
-                } else {
-                    digito = "*";
-                }
+            String[][] asientos = sistema.listAsientosDeViaje(fecha, hora, patente);
+            int totalAsientos = asientos.length;
+            int filas = (totalAsientos + 3) / 4;
 
-                if (contador % 4 == 0) {
-                    System.out.print("| ");
-                }
+            for (int i = 0; i < filas; i++) {
+                int a1 = i * 4 + 1;
+                int a2 = i * 4 + 2;
+                int a4 = i * 4 + 4;
+                int a3 = i * 4 + 3;
 
-                System.out.printf("| %-2s ", digito);
+                String s1 = (a1 <= totalAsientos && asientos[a1-1][1].equals("disponible")) ? String.valueOf(a1) : "*";
+                String s2 = (a2 <= totalAsientos && asientos[a2-1][1].equals("disponible")) ? String.valueOf(a2) : "*";
+                String s4 = (a4 <= totalAsientos && asientos[a4-1][1].equals("disponible")) ? String.valueOf(a4) : "*";
+                String s3 = (a3 <= totalAsientos && asientos[a3-1][1].equals("disponible")) ? String.valueOf(a3) : "*";
 
-                contador++;
+                System.out.printf("| %2s | %2s |   | %2s | %2s |\n", s1, s2, s4, s3);
 
-                if (contador % 2 == 0 && contador % 4 != 0) {
-                    System.out.print("   |");
-                }
-
-                if (contador % 4 == 0) {
-                    System.out.println();
+                if (i < filas - 1) {
                     System.out.println("|----+----+----+----+----|");
                 }
             }
-            int faltan = 4 - (contador % 4);
-
-            if (contador % 4 != 0) {
-                if (contador % 2 == 0) {
-                    System.out.print("   | ");
-                }
-
-                for (int i = 0; i < faltan; i++) {
-                    System.out.print("   | ");
-                }
-
-                System.out.println();
-            }
-
             System.out.println("*----*----*----*----*----*");
+
+
             System.out.print(":::: Seleccione sus Asientos [Separar por ,] : ");
             String elegidos = sc.nextLine();
             String[] partido = elegidos.split(",");

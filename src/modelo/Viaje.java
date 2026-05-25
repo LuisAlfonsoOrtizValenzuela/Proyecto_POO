@@ -69,11 +69,11 @@ public class Viaje {
 
         for (int i = 0; i < length; i++) {
             lista[i][0] = String.valueOf((i + 1));
-            lista[i][1] = "Disponible";
+            lista[i][1] = "disponible";
 
             for (Pasaje pasaje : pasajes) {
                 if (pasaje.getAsiento() == (i + 1)) {
-                    lista[i][1] = "* ";
+                    lista[i][1] = "*";
                     break;
                 }
             }
@@ -103,12 +103,12 @@ public class Viaje {
         return lista;
     }
 
-    public boolean existeDisponibilidad(int asiento){
-        if (asiento < 1 || asiento > bus.getNroAsientos()) {
+    public boolean existeDisponibilidad(int nroAsientos){
+        if (nroAsientos < 1 || nroAsientos > bus.getNroAsientos()) {
             return false;
         }
         for (Pasaje p : pasajes) {
-            if (p.getAsiento() == asiento) {
+            if (p.getAsiento() == nroAsientos) {
                 return false;
             }
         }
