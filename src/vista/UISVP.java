@@ -563,7 +563,6 @@ public class UISVP {
             int cantidad = sc.nextInt();
             sc.nextLine();
 
-            sistema.iniciaVenta(documento, tipoDoc, fecha, salida, llegada, id, cantidad);
 
             String[][] horario = sistema.getHorariosDisponibles(fecha, salida, llegada, cantidad);
 
@@ -572,6 +571,7 @@ public class UISVP {
                 System.out.println(":::: No existen Viajes disponibles \n");
                 return;
             }
+
 
             System.out.println();
             System.out.println(":::: Listado de Horarios disponibles");
@@ -605,7 +605,7 @@ public class UISVP {
 
             System.out.println();
             System.out.println(":::: Asientos disponibles para el viaje seleccionado");
-            System.out.println("*---*---*---*---*---*");
+            System.out.println("*----*----*---*----*----*");
 
             String[][] asientos = sistema.listAsientosDeViaje(fecha, hora, patente);
             int totalAsientos = asientos.length;
@@ -625,10 +625,10 @@ public class UISVP {
                 System.out.printf("| %2s | %2s |   | %2s | %2s |\n", s1, s2, s4, s3);
 
                 if (i < filas - 1) {
-                    System.out.println("|----+----+----+----+----|");
+                    System.out.println("|----+----+---+----+----|");
                 }
             }
-            System.out.println("*----*----*----*----*----*");
+            System.out.println("*----*----*---*----*----*");
 
 
             System.out.print(":::: Seleccione sus Asientos [Separar por ,] : ");
@@ -654,6 +654,9 @@ public class UISVP {
 
                 asientosElegidos[i] = Integer.parseInt(partido[i].trim());
             }
+
+            sistema.iniciaVenta(documento, tipoDoc, fecha, salida, llegada, id, cantidad);
+
 
             for (int i = 0; i < cantidad; i++) {
                 System.out.println();
@@ -760,6 +763,8 @@ public class UISVP {
                 System.out.println();
                 System.out.println(":::: Pasaje agregado exitosamente");
             }
+
+
             int precio = Integer.parseInt(horario[selec -1][2]);
 
             int total = precio * cantidad;
