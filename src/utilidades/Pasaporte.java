@@ -1,5 +1,5 @@
 package utilidades;
-
+import excepciones.SistemaVentaPasajesException;
 import java.util.Objects;
 
 public class Pasaporte implements IdPersona{
@@ -31,28 +31,25 @@ public class Pasaporte implements IdPersona{
         Pasaporte pasaporte = (Pasaporte) objecto;
         return Objects.equals(numero, pasaporte.numero) && Objects.equals(nacionalidad, pasaporte.nacionalidad);
     }
-    public static Pasaporte of(String pasaporte,String nacionalidad) {
+    public static Pasaporte of(String numero, String nacionalidad) throws SistemaVentaPasajesException {
+        if (numero == null || numero.trim().isEmpty()) {
+            throw new SistemaVentaPasajesException("ERROR: El número de pasaporte no puede estar vacío");
+        }
 
-        int posicionEspacio = -1;
-        for (int i = 0; i < pasaporte.length(); i++) {
-            if (pasaporte.charAt(i) == ' ') {
-                posicionEspacio = i;
-                break;
-            }
+        if (nacionalidad == null || nacionalidad.trim().isEmpty()) {
+            throw new SistemaVentaPasajesException("ERROR: La nacionalidad no puede estar vacía");
         }
-        if (posicionEspacio == -1) {
-            return null;
+
+        numero = numero.trim();
+        nacionalidad = nacionalidad.trim();
+        if (numero.length() < 6) {
+            throw new SistemaVentaPasajesException("ERROR: El número de pasaporte debe tener al menos 6 caracteres");
         }
-        String numero = "";
-        for (int i = 0; i < posicionEspacio; i++) {
-            numero = numero + pasaporte.charAt(i);
+        if (!nacionalidad.matches("[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\\s]+")) {
+            throw new SistemaVentaPasajesException("ERROR: La nacionalidad solo debe contener letras");
         }
-        nacionalidad = "";
-        for (int i = posicionEspacio + 1; i < pasaporte.length(); i++) {
-            nacionalidad = nacionalidad + pasaporte.charAt(i);
-        }
-        if (numero.length() == 0 || nacionalidad.length() == 0) {
-            return null;
+        if (!numero.matches("[a-zA-Z0-9]+")) {
+            throw new SistemaVentaPasajesException("ERROR: El número de pasaporte solo puede contener letras y números, sin espacios");
         }
         return new Pasaporte(numero, nacionalidad);
     }

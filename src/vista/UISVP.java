@@ -32,7 +32,7 @@ public class UISVP {
 
 
     public void menu() {
-        int opcion;
+        int opcion = 0;
 
         do {
             System.out.println("=========================================");
@@ -55,11 +55,11 @@ public class UISVP {
             System.out.println();
             System.out.println("-----------------------------------------");
             System.out.print("...::: Ingrese su opción: ");
-
+            try {
             opcion = sc.nextInt();
             sc.nextLine();
 
-            try {
+
                 while (opcion < 1 || opcion > 14) {
                     System.out.println("- LA OPCIÓN INGRESADA NO ES VALIDA...");
                     System.out.print("...::: Ingrese su opción: ");
@@ -114,6 +114,8 @@ public class UISVP {
             } catch (InputMismatchException e) {
                 System.out.println();
                 System.out.println(":::: Opcion ingresada no valida");
+                sc.nextLine();
+
             }
 
         } while (opcion != 14);
