@@ -3,14 +3,15 @@ package controlador;
 import utilidades.*;
 import excepciones.*;
 import modelo.*;
-
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Optional;
 
 
-public class ControladorEmpresas {
+public class ControladorEmpresas implements Serializable {
+    private static final long serialVersionUID = 1L;
     private static ControladorEmpresas instance;
 
     private final ArrayList<Empresa> empresas;
@@ -149,23 +150,7 @@ public class ControladorEmpresas {
         for (Viaje v : terminal.getSalidas()) {
             if (v.getFecha().equals(fecha)) {
 
-                String nombreEmpresa = "";
-                for (Empresa e : empresas) {
-                    for (Bus b : e.getBuses()) {
-                        if (b.getPatente().equals(v.getBus().getPatente())) {
-                            nombreEmpresa = e.getNombre();
-                            break;
-                        }
-                    }
-                }
-
-                String[] row = {
-                        "Salida",
-                        v.getHora().toString(),
-                        v.getBus().getPatente(),
-                        nombreEmpresa,
-                        String.valueOf(v.getBus().getNroAsientos() - v.getNroAsientosDisponibles())
-                };
+                String[] row = getStrings(v);
                 lista.add(row);
             }
         }
@@ -194,6 +179,27 @@ public class ControladorEmpresas {
 
         }
         return lista.toArray(new String[0][0]);
+    }
+
+    private String[] getStrings(Viaje v) {
+        String nombreEmpresa = "";
+        for (Empresa e : empresas) {
+            for (Bus b : e.getBuses()) {
+                if (b.getPatente().equals(v.getBus().getPatente())) {
+                    nombreEmpresa = e.getNombre();
+                    break;
+                }
+            }
+        }
+
+        String[] row = {
+                "Salida",
+                v.getHora().toString(),
+                v.getBus().getPatente(),
+                nombreEmpresa,
+                String.valueOf(v.getBus().getNroAsientos() - v.getNroAsientosDisponibles())
+        };
+        return row;
     }
 
     public String[][] listVentasEmpresa(Rut rut) {
@@ -305,4 +311,52 @@ public class ControladorEmpresas {
 
         return Optional.empty();
     }
+
+    public void setInstanciaPersistente(ControladorEmpresas c) {
+        this.empresas.clear();
+        this.empresas.addAll(c.empresas);
+        this.buses.clear();
+        this.buses.addAll(c.buses);
+        this.terminales.clear();
+        this.terminales.addAll(c.terminales);
+    }
+
+    public void setDatosIniciales(Object[] objetos) throws SistemaVentaPasajesException {
+
+        this.empresas.clear();
+        this.buses.clear();
+        this.terminales.clear();
+
+
+        for (Object obj : objetos) {
+            if (obj instanceof Empresa emp) {
+                Optional<Empresa> existente = findEmpresa(emp.getRut());
+                if (existente.isEmpty()) {
+                    empresas.add(emp);
+                }
+            } else if (obj instanceof Terminal term) {
+                Optional<Terminal> existente = findTerminal(term.getNombre());
+                if (existente.isEmpty()) {
+                    terminales.add(term);
+                }
+            } else if (obj instanceof Bus bus) {
+                buses.add(bus);
+            }
+        }
+
+
+        for (Object obj : objetos) {
+            if (obj instanceof Viaje viaje) {
+
+                Bus bus = viaje.getBus();
+                if (bus != null && !buses.contains(bus)) {
+                    buses.add(bus);
+                }
+            }
+        }
+    }
+
+
+
+
 }

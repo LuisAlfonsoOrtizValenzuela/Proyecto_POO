@@ -2,11 +2,11 @@ package modelo;
 
 import utilidades.IdPersona;
 import utilidades.Nombre;
-
-public class Pasajero extends Persona {
+import java.io.Serializable;
+public class Pasajero extends Persona implements Serializable{
     private Nombre nomContacto;
     private String fonoContacto;
-
+    private static final long serialVersionUID = 1L;
     public Pasajero(Nombre nombreCompleto, IdPersona idPersona, String telefono, Nombre nomContacto, String fonoContacto) {
         super(nombreCompleto, idPersona, telefono);
         this.nomContacto = nomContacto;

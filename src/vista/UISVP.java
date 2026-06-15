@@ -51,7 +51,11 @@ public class UISVP {
             System.out.println(" 11. Listar empresas");
             System.out.println(" 12. Listar llegadas/salidas de terminal");
             System.out.println(" 13. Listar ventas de empresa");
-            System.out.println(" 14. Salir");
+            System.out.println(" 14. Generar pasajes venta");
+            System.out.println(" 15. Leer datos iniciales");
+            System.out.println(" 16. Guardar datos del sistema");
+            System.out.println(" 17. Leer datos del sistema");
+            System.out.println(" 18. Salir");
             System.out.println();
             System.out.println("-----------------------------------------");
             System.out.print("...::: Ingrese su opción: ");
@@ -60,7 +64,7 @@ public class UISVP {
             sc.nextLine();
 
 
-                while (opcion < 1 || opcion > 14) {
+                while (opcion < 1 || opcion > 18) {
                     System.out.println("- LA OPCIÓN INGRESADA NO ES VALIDA...");
                     System.out.print("...::: Ingrese su opción: ");
                     opcion = sc.nextInt();
@@ -108,6 +112,18 @@ public class UISVP {
                         VentasEmpresa();
                         break;
                     case 14:
+                        generatePasajesVenta();
+                        break;
+                    case 15:
+                        readDatosIniciales();
+                        break;
+                    case 16:
+                        saveDatosSistema();
+                        break;
+                    case 17:
+                        readDatosSistema();
+                        break;
+                    case 18:
                         System.out.println(":::: Cerrando el menu... ¡Hasta pronto!");
                         break;
                 }
@@ -118,7 +134,7 @@ public class UISVP {
 
             }
 
-        } while (opcion != 14);
+        } while (opcion != 18);
 
     }
 
@@ -1045,4 +1061,64 @@ public class UISVP {
             System.out.println(e.getMessage());
         }
     }
+    private void generatePasajesVenta() {
+        try {
+            System.out.println("   ...::: Generar Pasajes de Venta ::::....");
+            System.out.println();
+            System.out.print("               ID Documento : ");
+            String idDoc = sc.nextLine();
+            System.out.print(" Tipo de Documento [1] Boleta [2] Factura : ");
+            int tipo = sc.nextInt();
+            sc.nextLine();
+
+            TipoDocumento tipoDoc = tipo == 1 ? TipoDocumento.BOLETA : TipoDocumento.FACTURA;
+
+            sistema.generatePasajesVenta(idDoc, tipoDoc);
+            System.out.println();
+            System.out.println(" ...::: Pasajes generados exitosamente ::::....");
+        } catch (SistemaVentaPasajesException e) {
+            System.out.println();
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void readDatosIniciales() {
+        try {
+            System.out.println("   ...::: Leyendo Datos Iniciales ::::....");
+            System.out.println();
+            sistema.readDatosIniciales();
+            System.out.println();
+            System.out.println(" ...::: Datos iniciales cargados exitosamente ::::....");
+        } catch (SistemaVentaPasajesException e) {
+            System.out.println();
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void saveDatosSistema() {
+        try {
+            System.out.println("   ...::: Guardando Datos del Sistema ::::....");
+            System.out.println();
+            sistema.saveDatosSistema();
+            System.out.println();
+            System.out.println(" ...::: Datos guardados exitosamente ::::....");
+        } catch (SistemaVentaPasajesException e) {
+            System.out.println();
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void readDatosSistema() {
+        try {
+            System.out.println("   ...::: Leyendo Datos del Sistema ::::....");
+            System.out.println();
+            sistema.readDatosSistema();
+            System.out.println();
+            System.out.println(" ...::: Datos cargados exitosamente ::::....");
+        } catch (SistemaVentaPasajesException e) {
+            System.out.println();
+            System.out.println(e.getMessage());
+        }
+    }
+
 }

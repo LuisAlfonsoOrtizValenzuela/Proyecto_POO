@@ -3,13 +3,13 @@ package modelo;
 import utilidades.Direccion;
 import utilidades.IdPersona;
 import utilidades.Nombre;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Conductor extends Tripulante {
+public class Conductor extends Tripulante implements Serializable{
 
     private ArrayList<Viaje> viajes;
-
+    private static final long serialVersionUID = 1L;
     public Conductor(IdPersona idPersona, Nombre nom, String telefono, Direccion direccion) {
         super(idPersona, nom, telefono, direccion);
         viajes = new ArrayList<>();

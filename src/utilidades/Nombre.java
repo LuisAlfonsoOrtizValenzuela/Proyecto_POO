@@ -1,8 +1,9 @@
 package utilidades;
-
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Nombre {
+public class Nombre implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Tratamiento tratamiento;
     private String nombre;
     private String apellido_paterno;

@@ -3,11 +3,12 @@ package modelo;
 import utilidades.Direccion;
 import utilidades.IdPersona;
 import utilidades.Nombre;
+import java.io.Serializable;
 
 import java.util.ArrayList;
 
-public class Auxiliar extends Tripulante {
-
+public class Auxiliar extends Tripulante implements Serializable {
+    private static final long serialVersionUID = 1L;
     private ArrayList<Viaje> viajes;
 
     public Auxiliar(IdPersona idPersona, Nombre nom, String telefono, Direccion direccion) {

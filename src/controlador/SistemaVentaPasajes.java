@@ -1,16 +1,16 @@
 package controlador;
-
+import persistencia.IOSVP;
 import excepciones.SistemaVentaPasajesException;
 import modelo.*;
 import utilidades.*;
-
-import java.text.Format;
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.time.LocalDate;
 
-public class SistemaVentaPasajes {
+public class SistemaVentaPasajes implements Serializable{
+private static final long serialVersionUID = 1L;
     private static SistemaVentaPasajes instance;
     private final ControladorEmpresas controlador;
 
@@ -290,9 +290,63 @@ public class SistemaVentaPasajes {
 
         return buscarViaje.get().getListaPasajeros();
     }
+    public void readDatosIniciales() throws SistemaVentaPasajesException {
+        IOSVP iosvp = new IOSVP();
+        Object[] objetos = iosvp.readDatosIniciales();
 
 
+        clientes.clear();
+        pasajeros.clear();
+        viajes.clear();
+        ventas.clear();
 
+
+        controlador.setDatosIniciales(objetos);
+
+
+        for (Object obj : objetos) {
+            if (obj instanceof Cliente cliente) {
+                if (findCliente(cliente.getIdPersona()).isEmpty()) {
+                    clientes.add(cliente);
+                }
+            } else if (obj instanceof Pasajero pasajero) {
+                if (findPasajero(pasajero.getIdPersona()).isEmpty()) {
+                    pasajeros.add(pasajero);
+                }
+            } else if (obj instanceof Viaje viaje) {
+
+                Optional<Viaje> existente = findViaje(viaje.getFecha(), viaje.getHora(), viaje.getBus().getPatente());
+                if (existente.isEmpty()) {
+                    viajes.add(viaje);
+                }
+            }
+        }
+
+    }
+    public void saveDatosSistema() throws SistemaVentaPasajesException {
+        IOSVP iosvp = new IOSVP();
+        iosvp.saveControladores(this, controlador);
+    }
+    public void readDatosSistema() throws SistemaVentaPasajesException {
+        IOSVP iosvp = new IOSVP();
+        Object[] objetos = iosvp.readControladores();
+
+        if (objetos.length >= 2) {
+            SistemaVentaPasajes sistemaPersistido = (SistemaVentaPasajes) objetos[0];
+            ControladorEmpresas controladorPersistido = (ControladorEmpresas) objetos[1];
+
+            this.clientes.clear();
+            this.clientes.addAll(sistemaPersistido.clientes);
+            this.pasajeros.clear();
+            this.pasajeros.addAll(sistemaPersistido.pasajeros);
+            this.viajes.clear();
+            this.viajes.addAll(sistemaPersistido.viajes);
+            this.ventas.clear();
+            this.ventas.addAll(sistemaPersistido.ventas);
+
+            controlador.setInstanciaPersistente(controladorPersistido);
+        }
+    }
 
 
     // BUSCADORES
@@ -357,4 +411,13 @@ public class SistemaVentaPasajes {
         return controlador.listEmpresas();
     }
 
+    public void generatePasajesVenta(String idDocumento, TipoDocumento tipo) throws SistemaVentaPasajesException {
+        Optional<Venta> ventaOpt = findVenta(idDocumento, tipo);
+        if (ventaOpt.isEmpty()) {
+            throw new SistemaVentaPasajesException("No existe una venta con el id y tipo de documento indicados");
+        }
+        Venta venta = ventaOpt.get();
+        venta.generatePasajesVenta();
+    }
 }
+

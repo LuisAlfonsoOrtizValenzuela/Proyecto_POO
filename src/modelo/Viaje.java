@@ -6,8 +6,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Viaje {
+public class Viaje implements Serializable {
     private LocalDate fecha;
     private LocalTime hora;
     private int precio;
@@ -17,7 +18,7 @@ public class Viaje {
     private Terminal llegada;
     private final ArrayList<Pasaje> pasajes = new ArrayList<>();
     private final ArrayList<Tripulante> tripulantes;
-
+    private static final long serialVersionUID = 1L;
     public Viaje(LocalDate fecha, LocalTime hora, int precio, int dur, Bus bus, Auxiliar aux, Conductor cond, Terminal sale, Terminal llega) {
         this.fecha = fecha;
         this.hora = hora;

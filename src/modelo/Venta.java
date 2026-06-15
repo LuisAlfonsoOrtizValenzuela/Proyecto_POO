@@ -1,10 +1,12 @@
 package modelo;
 
+import excepciones.SistemaVentaPasajesException;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 
-public class Venta {
-
+public class Venta implements Serializable{
+    private static final long serialVersionUID = 1L;
     private String idDocumento;
     private TipoDocumento tipo;
     private LocalDate fecha;
@@ -87,5 +89,16 @@ public class Venta {
         }
 
         return "DESCONOCIDO";
+    }
+    public void generatePasajesVenta() throws SistemaVentaPasajesException {
+        persistencia.IOSVP iosvp = new persistencia.IOSVP();
+        String[] pasajesTexto = new String[pasajes.size()];
+
+        for (int i = 0; i < pasajes.size(); i++) {
+            pasajesTexto[i] = pasajes.get(i).toString();
+        }
+
+        String nombreArchivo = idDocumento + tipo.toString().toLowerCase() + ".txt";
+        iosvp.savePasajesDeVenta(pasajesTexto, nombreArchivo);
     }
 }

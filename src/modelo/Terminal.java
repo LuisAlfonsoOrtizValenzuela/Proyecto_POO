@@ -1,15 +1,15 @@
 package modelo;
 
 import utilidades.Direccion;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Terminal {
+public class Terminal implements Serializable {
     private String nombre;
     private Direccion direccion;
     private ArrayList<Viaje> llegadas;
     private ArrayList<Viaje> salidas;
-
+    private static final long serialVersionUID = 1L;
     public Terminal(String nombre, Direccion direccion) {
         this.nombre = nombre;
         this.direccion = direccion;

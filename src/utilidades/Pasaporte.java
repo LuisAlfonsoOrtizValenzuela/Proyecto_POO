@@ -1,9 +1,9 @@
 package utilidades;
 import excepciones.SistemaVentaPasajesException;
 import java.util.Objects;
-
-public class Pasaporte implements IdPersona{
-
+import java.io.Serializable;
+public class Pasaporte implements IdPersona, Serializable{
+    private static final long serialVersionUID = 1L;
     private String numero;
     private String nacionalidad;
     private Pasaporte (String num, String nacionalidad){

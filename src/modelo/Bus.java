@@ -1,14 +1,14 @@
 package modelo;
 
 import java.util.ArrayList;
-
-public class Bus {
+import java.io.Serializable;
+public class Bus implements Serializable{
     private String patente;
     private String marca;
     private String modelo;
     private int nroAsientos;
     private ArrayList<Viaje> viajes;
-
+    private static final long serialVersionUID = 1L;
 
     public Bus(String patente, int nroAsientos) {
         this.patente = patente;
@@ -47,4 +47,6 @@ public class Bus {
     public Viaje[] getViajes() {
         return viajes.toArray(new Viaje[0]);
     }
+
+
 }

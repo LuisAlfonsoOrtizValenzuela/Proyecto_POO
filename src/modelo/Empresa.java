@@ -1,13 +1,14 @@
 package modelo;
-
+import java.io.Serializable;
 import utilidades.*;
 import excepciones.SistemaVentaPasajesException;
 
 import java.util.ArrayList;
 
-public class Empresa {
+public class Empresa implements Serializable{
+    private static final long serialVersionUID = 1L;
     private Rut rut;
-    private String nombre;
+    private  String nombre;
     private String url;
 
     private ArrayList<Bus> buses;
@@ -30,7 +31,7 @@ public class Empresa {
         return rut;
     }
 
-    public String getNombre() {
+    public  String getNombre() {
         return nombre;
     }
 

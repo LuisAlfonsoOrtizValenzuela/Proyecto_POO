@@ -3,10 +3,10 @@ package modelo;
 import utilidades.Direccion;
 import utilidades.IdPersona;
 import utilidades.Nombre;
-
-public abstract class Tripulante extends Persona {
+import java.io.Serializable;
+public abstract class Tripulante extends Persona implements Serializable {
     private Direccion direccion;
-
+    private static final long serialVersionUID = 1L;
     public Tripulante(IdPersona idPersona, Nombre nom, String telefono, Direccion direccion) {
         super(nom, idPersona, telefono);
         this.direccion = direccion;

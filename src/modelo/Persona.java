@@ -2,14 +2,14 @@ package modelo;
 
 import utilidades.IdPersona;
 import utilidades.Nombre;
-
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Persona {
+public class Persona implements Serializable {
     private IdPersona idPersona;
     private Nombre nombreCompleto;
     private String telefono;
-
+    private static final long serialVersionUID = 1L;
     public Persona(Nombre nombreCompleto, IdPersona idPersona, String telefono){
         this.nombreCompleto=nombreCompleto;
         this.idPersona=idPersona;
