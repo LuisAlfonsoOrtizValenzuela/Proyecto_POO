@@ -36,7 +36,7 @@ public class UISVP {
 
         do {
             System.out.println("=========================================");
-            System.out.println("      ...::: Menú principal :::...");
+            System.out.println("      ...::: Menu principal :::...");
             System.out.println();
             System.out.println("  1. Crear empresa");
             System.out.println("  2. Contratar tripulante");
@@ -179,14 +179,30 @@ public class UISVP {
             System.out.println(":::: Datos del Tripulante");
             System.out.println();
             System.out.print("Auxiliar[1] o Conductor[2] : ");
-            int tipoTripulante = sc.nextInt();
+            int tipoTripulante;
+            try {
+                tipoTripulante = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println();
+                System.out.println(":::: Debe ingresar un numero");
+                sc.nextLine();
+                return;
+            }
             sc.nextLine();
             if (tipoTripulante < 1 || tipoTripulante > 2) {
                 throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
             }
 
             System.out.print("     Rut[1] o Pasaporte[2] : ");
-            int ruop = sc.nextInt();
+            int ruop;
+            try {
+                ruop = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println();
+                System.out.println(":::: Debe ingresar un numero");
+                sc.nextLine();
+                return;
+            }
             sc.nextLine();
             if (ruop < 1 || ruop > 2) {
                 throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
@@ -208,7 +224,15 @@ public class UISVP {
             }
 
             System.out.print("        Sr. [1] o Sra. [2] : ");
-            int tipo = sc.nextInt();
+            int tipo;
+            try {
+                tipo = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println();
+                System.out.println(":::: Debe ingresar un numero");
+                sc.nextLine();
+                return;
+            }
             sc.nextLine();
             if (tipo < 1 || tipo > 2) {
                 throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
@@ -274,7 +298,15 @@ public class UISVP {
             String calle = sc.nextLine();
 
             System.out.print("              Numero : ");
-            int numero = sc.nextInt();
+            int numero;
+            try {
+                numero = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println();
+                System.out.println(":::: Debe ingresar un numero");
+                sc.nextLine();
+                return;
+            }
             sc.nextLine();
 
             System.out.print("              Comuna : ");
@@ -297,7 +329,15 @@ public class UISVP {
             System.out.println("   ...:::: Creando un nuevo Cliente ::::....");
             System.out.println();
             System.out.print("    Rut[1] o Pasaporte[2] : ");
-            int tipo = sc.nextInt();
+            int tipo;
+            try {
+                tipo = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println();
+                System.out.println(":::: Debe ingresar un numero");
+                sc.nextLine();
+                return;
+            }
             sc.nextLine();
             if (tipo < 1 || tipo > 2) {
                 throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
@@ -320,7 +360,16 @@ public class UISVP {
             }
 
             System.out.print("       Sr. [1] o Sra. [2] : ");
-            int trat = sc.nextInt();
+            int trat;
+            try {
+                trat = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println();
+                System.out.println(":::: Debe ingresar un numero");
+                sc.nextLine();
+                return;
+            }
+            sc.nextLine();
             Tratamiento tratamiento;
             if (trat < 1 || trat > 2) {
                 throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
@@ -379,7 +428,15 @@ public class UISVP {
             String modelo = sc.nextLine();
 
             System.out.print("       Numero de asientos : ");
-            int nroAsientos = sc.nextInt();
+            int nroAsientos;
+            try {
+                nroAsientos = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println();
+                System.out.println(":::: Debe ingresar un numero");
+                sc.nextLine();
+                return;
+            }
             sc.nextLine();
 
             System.out.println(":::: Datos de la empresa");
@@ -669,8 +726,11 @@ public class UISVP {
             int[] asientosElegidos = new int[cantidad];
 
             for (int i = 0; i < partido.length; i++) {
-
-                asientosElegidos[i] = Integer.parseInt(partido[i].trim());
+                try {
+                    asientosElegidos[i] = Integer.parseInt(partido[i].trim());
+                } catch (NumberFormatException e) {
+                    throw new SistemaVentaPasajesException(":::: Los asientos deben ser numeros validos");
+                }
             }
 
             sistema.iniciaVenta(documento, tipoDoc, fecha, salida, llegada, id, cantidad);
@@ -782,8 +842,12 @@ public class UISVP {
                 System.out.println(":::: Pasaje agregado exitosamente");
             }
 
-
-            int precio = Integer.parseInt(horario[selec -1][2]);
+            int precio;
+            try {
+                precio = Integer.parseInt(horario[selec -1][2]);
+            } catch (NumberFormatException e) {
+                throw new SistemaVentaPasajesException(":::: Error al procesar el precio del viaje");
+            }
 
             int total = precio * cantidad;
             System.out.println();
@@ -802,7 +866,16 @@ public class UISVP {
                 sistema.pagaVenta(documento, tipoDoc);
             } else {
                 System.out.print("          Numero de Tarjeta : ");
-                long numTarjeta = sc.nextLong();
+                long numTarjeta;
+                try {
+                    numTarjeta = sc.nextLong();
+                } catch (InputMismatchException e) {
+                    System.out.println();
+                    System.out.println(":::: Numero de tarjeta invalido");
+                    sc.nextLine();
+                    return;
+                }
+                sc.nextLine();
 
                 sistema.pagaVenta(documento, tipoDoc, numTarjeta);
             }
@@ -1005,7 +1078,7 @@ public class UISVP {
             System.out.println("| LLEGADA/SALIDA | HORA  | PATENTE BUS | NOMBRE EMPRESA                 | NRO. PASAJEROS |");
 
             for (String[] r : resultados) {
-                System.out.println("*----------------+-------+-------------+--------------------------------+----------------*");
+                System.out.println("|----------------+-------+-------------+--------------------------------+----------------|");
                 System.out.printf("| %-14s | %-5s | %-11s | %-30s | %-14s |\n",
                         r[0].toUpperCase(),
                         r[1],

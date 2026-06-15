@@ -9,9 +9,18 @@ public class Direccion implements Serializable{
     private String comuna;
 
     public Direccion(String calle, int numero, String comuna) {
-        this.calle = calle;
+        if (calle == null || calle.trim().isEmpty()) {
+            throw new IllegalArgumentException("ERROR: La calle no puede estar vacia");
+        }
+        if (numero <= 0) {
+            throw new IllegalArgumentException("ERROR: El numero debe ser mayor a 0");
+        }
+        if (comuna == null || comuna.trim().isEmpty()) {
+            throw new IllegalArgumentException("ERROR: La comuna no puede estar vacia");
+        }
+        this.calle = calle.trim();
         this.numero = numero;
-        this.comuna = comuna;
+        this.comuna = comuna.trim();
     }
 
     public String getCalle() {

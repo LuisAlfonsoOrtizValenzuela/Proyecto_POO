@@ -61,7 +61,6 @@ public class IOSVP {
                 }
             }
 
-            // Procesar los viajes después de tener todos los objetos
             procesarViajesPendientes(viajesData, objetos, busesMap, auxiliaresMap, conductoresMap, terminalesMap);
 
         } catch (FileNotFoundException e) {
@@ -75,7 +74,9 @@ public class IOSVP {
 
     private void procesarClientePasajero(String linea, ArrayList<Object> objetos) throws SistemaVentaPasajesException {
         String[] partes = linea.split(";");
-        if (partes.length < 8) return;
+        if (partes.length < 8) {
+            throw new SistemaVentaPasajesException("Linea de cliente/pasajero incompleta: " + linea);
+        }
 
         String tipo = partes[0];
         String rut = partes[1];
@@ -122,6 +123,8 @@ public class IOSVP {
 
                     Pasajero pasajero = new Pasajero(nombre, id, telefono, nombreContacto, fonoContacto);
                     objetos.add(pasajero);
+                } else {
+                    throw new SistemaVentaPasajesException("Datos de contacto incompletos para pasajero: " + linea);
                 }
             }
         } catch (Exception e) {
@@ -131,7 +134,9 @@ public class IOSVP {
 
     private void procesarEmpresa(String linea, ArrayList<Object> objetos, Map<String, Empresa> empresasMap) throws SistemaVentaPasajesException {
         String[] partes = linea.split(";");
-        if (partes.length < 3) return;
+        if (partes.length < 3) {
+            throw new SistemaVentaPasajesException("Linea de empresa incompleta: " + linea);
+        }
 
         try {
             Rut rut = Rut.of(partes[0]);
@@ -149,7 +154,9 @@ public class IOSVP {
     private void procesarTripulante(String linea, ArrayList<Object> objetos, Map<String, Empresa> empresasMap,
                                     Map<String, Auxiliar> auxiliaresMap, Map<String, Conductor> conductoresMap) throws SistemaVentaPasajesException {
         String[] partes = linea.split(";");
-        if (partes.length < 10) return;
+        if (partes.length < 10) {
+            throw new SistemaVentaPasajesException("Linea de tripulante incompleta: " + linea);
+        }
 
         String tipo = partes[0];
         String rut = partes[1];
@@ -193,6 +200,8 @@ public class IOSVP {
                 empresa.addConductor(id, nombre, null, direccion);
                 objetos.add(conductor);
                 conductoresMap.put(rut, conductor);
+            } else {
+                throw new SistemaVentaPasajesException("Tipo de tripulante invalido: " + tipo);
             }
         } catch (Exception e) {
             throw new SistemaVentaPasajesException("Error al procesar tripulante: " + e.getMessage());
@@ -201,17 +210,25 @@ public class IOSVP {
 
     private void procesarTerminal(String linea, ArrayList<Object> objetos, Map<String, Terminal> terminalesMap) throws SistemaVentaPasajesException {
         String[] partes = linea.split(";");
-        if (partes.length < 4) return;
+        if (partes.length < 4) {
+            throw new SistemaVentaPasajesException("Linea de terminal incompleta: " + linea);
+        }
 
-        String nombre = partes[0];
-        String calle = partes[1];
-        String numero = partes[2];
-        String comuna = partes[3];
+        try {
+            String nombre = partes[0].trim();
+            String calle = partes[1].trim();
+            String numero = partes[2].trim();
+            String comuna = partes[3].trim();
 
-        Direccion direccion = new Direccion(calle, Integer.parseInt(numero), comuna);
-        Terminal terminal = new Terminal(nombre, direccion);
-        objetos.add(terminal);
-        terminalesMap.put(nombre, terminal);
+            Direccion direccion = new Direccion(calle, Integer.parseInt(numero), comuna);
+            Terminal terminal = new Terminal(nombre, direccion);
+            objetos.add(terminal);
+            terminalesMap.put(nombre, terminal);
+        } catch (NumberFormatException e) {
+            throw new SistemaVentaPasajesException("Error al procesar terminal - numero de direccion invalido: " + e.getMessage());
+        } catch (Exception e) {
+            throw new SistemaVentaPasajesException("Error al procesar terminal: " + e.getMessage());
+        }
     }
 
     private void procesarBus(String linea, ArrayList<Object> objetos, Map<String, Empresa> empresasMap, Map<String, Bus> busesMap) throws SistemaVentaPasajesException {
@@ -221,10 +238,13 @@ public class IOSVP {
         String patente = partes[0];
         String marca = partes[1];
         String modelo = partes[2];
-        int nroAsientos = Integer.parseInt(partes[3]);
-        String rutEmpresa = partes[4];
+        int nroAsientos;
+        String rutEmpresa;
 
         try {
+            nroAsientos = Integer.parseInt(partes[3]);
+            rutEmpresa = partes[4];
+
             Bus bus = new Bus(patente, nroAsientos);
             bus.setMarca(marca);
             bus.setModelo(modelo);
@@ -237,6 +257,8 @@ public class IOSVP {
             empresa.addBus(bus);
             objetos.add(bus);
             busesMap.put(patente, bus);
+        } catch (NumberFormatException e) {
+            throw new SistemaVentaPasajesException("Error al procesar bus - numero de asientos invalido: " + e.getMessage());
         } catch (Exception e) {
             throw new SistemaVentaPasajesException("Error al procesar bus: " + e.getMessage());
         }
@@ -244,19 +266,21 @@ public class IOSVP {
 
     private void procesarViaje(String linea, ArrayList<Object> objetos, List<ViajeData> viajesData) throws SistemaVentaPasajesException {
         String[] partes = linea.split(";");
-        if (partes.length < 9) return;
+        if (partes.length < 9) {
+            throw new SistemaVentaPasajesException("Linea de viaje incompleta: " + linea);
+        }
 
         try {
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            LocalDate fecha = LocalDate.parse(partes[0], dateFormatter);
-            LocalTime hora = LocalTime.parse(partes[1]);
-            int precio = Integer.parseInt(partes[2]);
-            int duracion = Integer.parseInt(partes[3]);
-            String patente = partes[4];
-            String rutAuxiliar = partes[5];
-            String rutConductor = partes[6];
-            String terminalSalida = partes[7];
-            String terminalLlegada = partes[8];
+            LocalDate fecha = LocalDate.parse(partes[0].trim(), dateFormatter);
+            LocalTime hora = LocalTime.parse(partes[1].trim());
+            int precio = Integer.parseInt(partes[2].trim());
+            int duracion = Integer.parseInt(partes[3].trim());
+            String patente = partes[4].trim();
+            String rutAuxiliar = partes[5].trim();
+            String rutConductor = partes[6].trim();
+            String terminalSalida = partes[7].trim();
+            String terminalLlegada = partes[8].trim();
 
             viajesData.add(new ViajeData(fecha, hora, precio, duracion, patente,
                     rutAuxiliar, rutConductor, terminalSalida, terminalLlegada));
@@ -267,30 +291,59 @@ public class IOSVP {
 
     private void procesarViajesPendientes(List<ViajeData> viajesData, ArrayList<Object> objetos,
                                           Map<String, Bus> busesMap, Map<String, Auxiliar> auxiliaresMap,
-                                          Map<String, Conductor> conductoresMap, Map<String, Terminal> terminalesMap) {
+                                          Map<String, Conductor> conductoresMap, Map<String, Terminal> terminalesMap) throws SistemaVentaPasajesException {
         for (ViajeData data : viajesData) {
             Bus bus = busesMap.get(data.patente);
             Auxiliar auxiliar = auxiliaresMap.get(data.rutAuxiliar);
             Conductor conductor = conductoresMap.get(data.rutConductor);
-            Terminal salida = terminalesMap.get(data.terminalSalida);
-            Terminal llegada = terminalesMap.get(data.terminalLlegada);
+            Terminal salida = resolverTerminal(data.terminalSalida, terminalesMap);
+            Terminal llegada = resolverTerminal(data.terminalLlegada, terminalesMap);
 
-            if (bus != null && auxiliar != null && conductor != null && salida != null && llegada != null) {
-                Viaje viaje = new Viaje(data.fecha, data.hora, data.precio, data.duracion,
-                        bus, auxiliar, conductor, salida, llegada);
-                objetos.add(viaje);
-
-
-                bus.addViaje(viaje);
-                auxiliar.addViaje(viaje);
-                conductor.addViaje(viaje);
-                salida.addSalida(viaje);
-                llegada.addLlegada(viaje);
+            if (bus == null) {
+                throw new SistemaVentaPasajesException("Bus no encontrado para viaje: " + data.patente);
             }
+            if (auxiliar == null) {
+                throw new SistemaVentaPasajesException("Auxiliar no encontrado para viaje: " + data.rutAuxiliar);
+            }
+            if (conductor == null) {
+                throw new SistemaVentaPasajesException("Conductor no encontrado para viaje: " + data.rutConductor);
+            }
+            if (salida == null) {
+                throw new SistemaVentaPasajesException("Terminal de salida no encontrada: " + data.terminalSalida);
+            }
+            if (llegada == null) {
+                throw new SistemaVentaPasajesException("Terminal de llegada no encontrada: " + data.terminalLlegada);
+            }
+
+            Viaje viaje = new Viaje(data.fecha, data.hora, data.precio, data.duracion,
+                    bus, auxiliar, conductor, salida, llegada);
+            objetos.add(viaje);
+
+            bus.addViaje(viaje);
+            auxiliar.addViaje(viaje);
+            conductor.addViaje(viaje);
+            salida.addSalida(viaje);
+            llegada.addLlegada(viaje);
         }
     }
 
-    // Clase auxiliar para almacenar datos de viaje temporalmente
+
+    private Terminal resolverTerminal(String valor, Map<String, Terminal> terminalesMap) {
+        String clave = valor.trim();
+        Terminal terminal = terminalesMap.get(clave);
+        if (terminal != null) {
+            return terminal;
+        }
+
+        for (Terminal t : terminalesMap.values()) {
+            if (t.getDireccion().getComuna().equalsIgnoreCase(clave)) {
+                return t;
+            }
+        }
+
+        return null;
+    }
+
     private static class ViajeData {
         LocalDate fecha;
         LocalTime hora;

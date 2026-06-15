@@ -22,7 +22,10 @@ public class Nombre implements Serializable {
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("ERROR: El nombre no puede estar vacio");
+        }
+        this.nombre = nombre.trim();
     }
 
     public String getApellido_paterno() {
@@ -30,7 +33,10 @@ public class Nombre implements Serializable {
     }
 
     public void setApellido_paterno(String apellido_paterno) {
-        this.apellido_paterno = apellido_paterno;
+        if (apellido_paterno == null || apellido_paterno.trim().isEmpty()) {
+            throw new IllegalArgumentException("ERROR: El apellido paterno no puede estar vacio");
+        }
+        this.apellido_paterno = apellido_paterno.trim();
     }
 
     public String getApellido_materno() {
@@ -38,7 +44,10 @@ public class Nombre implements Serializable {
     }
 
     public void setApellido_materno(String apellido_materno) {
-        this.apellido_materno = apellido_materno;
+        if (apellido_materno == null || apellido_materno.trim().isEmpty()) {
+            throw new IllegalArgumentException("ERROR: El apellido materno no puede estar vacio");
+        }
+        this.apellido_materno = apellido_materno.trim();
     }
 
     @Override

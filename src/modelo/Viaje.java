@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.io.Serializable;
 
 public class Viaje implements Serializable {
+
     private LocalDate fecha;
     private LocalTime hora;
     private int precio;
@@ -19,7 +20,36 @@ public class Viaje implements Serializable {
     private final ArrayList<Pasaje> pasajes = new ArrayList<>();
     private final ArrayList<Tripulante> tripulantes;
     private static final long serialVersionUID = 1L;
+
+
     public Viaje(LocalDate fecha, LocalTime hora, int precio, int dur, Bus bus, Auxiliar aux, Conductor cond, Terminal sale, Terminal llega) {
+        if (fecha == null) {
+            throw new IllegalArgumentException("ERROR: La fecha no puede ser nula");
+        }
+        if (hora == null) {
+            throw new IllegalArgumentException("ERROR: La hora no puede ser nula");
+        }
+        if (precio <= 0) {
+            throw new IllegalArgumentException("ERROR: El precio debe ser mayor a 0");
+        }
+        if (dur <= 0) {
+            throw new IllegalArgumentException("ERROR: La duración debe ser mayor a 0");
+        }
+        if (bus == null) {
+            throw new IllegalArgumentException("ERROR: El bus no puede ser nulo");
+        }
+        if (aux == null) {
+            throw new IllegalArgumentException("ERROR: El auxiliar no puede ser nulo");
+        }
+        if (cond == null) {
+            throw new IllegalArgumentException("ERROR: El conductor no puede ser nulo");
+        }
+        if (sale == null) {
+            throw new IllegalArgumentException("ERROR: El terminal de salida no puede ser nulo");
+        }
+        if (llega == null) {
+            throw new IllegalArgumentException("ERROR: El terminal de llegada no puede ser nulo");
+        }
         this.fecha = fecha;
         this.hora = hora;
         this.precio = precio;
@@ -47,10 +77,16 @@ public class Viaje implements Serializable {
     }
 
     public void setPrecio(int precio) {
+        if (precio <= 0) {
+            throw new IllegalArgumentException("ERROR: El precio debe ser mayor a 0");
+        }
         this.precio = precio;
     }
 
     public void setDuracion(int duracion) {
+        if (duracion <= 0) {
+            throw new IllegalArgumentException("ERROR: La duracion debe ser mayor a 0");
+        }
         this.duracion = duracion;
     }
 

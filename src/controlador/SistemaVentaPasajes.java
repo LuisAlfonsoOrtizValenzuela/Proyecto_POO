@@ -216,7 +216,7 @@ private static final long serialVersionUID = 1L;
         venta.createPasaje(asiento, viaje, buscarPasajero.get());
     }
 
-    public void pagaVenta(String idDocumento, TipoDocumento tipo) {
+    public void pagaVenta(String idDocumento, TipoDocumento tipo) throws SistemaVentaPasajesException {
         Optional<Venta> buscarVenta = findVenta(idDocumento, tipo);
 
         if (buscarVenta.isEmpty()) {
@@ -228,11 +228,9 @@ private static final long serialVersionUID = 1L;
         if (!pagado) {
             throw new SistemaVentaPasajesException(":::: La Venta ya fue pagada");
         }
-
-        buscarVenta.get().pagaMonto();
     }
 
-    public void pagaVenta(String idDocumento, TipoDocumento tipo, long nroTarjeta) {
+    public void pagaVenta(String idDocumento, TipoDocumento tipo, long nroTarjeta) throws SistemaVentaPasajesException {
         Optional<Venta> buscarVenta = findVenta(idDocumento, tipo);
 
         if (buscarVenta.isEmpty()) {
