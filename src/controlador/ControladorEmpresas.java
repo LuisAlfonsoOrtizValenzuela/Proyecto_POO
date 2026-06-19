@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 
 
@@ -61,7 +62,7 @@ public class ControladorEmpresas implements Serializable {
 
         Empresa empresa = buscarEmpresa.get();
 
-        Bus nuevo = new Bus(patente.trim(), nroAsientos);
+        Bus nuevo = new Bus(patente.trim(), nroAsientos, empresa);
         nuevo.setMarca(marca);
         nuevo.setModelo(modelo);
 
@@ -244,72 +245,34 @@ public class ControladorEmpresas implements Serializable {
 
 
     protected Optional<Empresa> findEmpresa(Rut rut) {
-        for (Empresa e : empresas) {
-            if (e.getRut().equals(rut)) {
-                return Optional.of(e);
-            }
-        }
-
-        return Optional.empty();
+        return empresas.stream().filter(empresa -> empresa.getRut().equals(rut)).findFirst();
     }
 
     protected Optional<Terminal> findTerminal(String nombre) {
-        for (Terminal t : terminales) {
-            if (t.getNombre().equalsIgnoreCase(nombre)) {
-
-                return Optional.of(t);
-            }
-        }
-
-        return Optional.empty();
+        return terminales.stream().filter(terminal -> terminal.getNombre().equalsIgnoreCase(nombre)).findFirst();
     }
 
     protected Optional<Terminal> findTerminalPorComuna(String comuna) {
-        for (Terminal t : terminales) {
-            if (t.getDireccion().getComuna().equalsIgnoreCase(comuna)) {
-                return Optional.of(t);
-            }
-        }
-
-        return Optional.empty();
+        return terminales.stream().filter(terminal -> terminal.getDireccion().getComuna().equalsIgnoreCase(comuna)).findFirst();
     }
 
     protected Optional<Bus> findBus(String patente) {
-        for (Empresa e : empresas) {
-            for (Bus b : e.getBuses()) {
-                if (b.getPatente().trim().equalsIgnoreCase(patente.trim())) {
-                    return Optional.of(b);
-                }
-            }
-        }
-
-        return Optional.empty();
+        return empresas.stream().flatMap(empresa -> Arrays.stream(empresa.getBuses()))
+                .filter(bus -> bus.getPatente().equalsIgnoreCase(patente.trim())).findFirst();
     }
 
     protected Optional<Auxiliar> findAuxiliar(IdPersona idPersona) {
-        for (Empresa e : empresas) {
-            for (Tripulante t : e.getTripulantes()) {
-                if (t instanceof Auxiliar && t.getIdPersona().equals(idPersona)) {
-
-                    return Optional.of((Auxiliar) t);
-                }
-            }
-        }
-
-        return Optional.empty();
+        return empresas.stream().flatMap(empresa -> Arrays.stream(empresa.getTripulantes()))
+                .filter(tripulante -> tripulante instanceof Auxiliar)
+                .map(tripulante -> (Auxiliar) tripulante)
+                .filter(auxiliar -> auxiliar.getIdPersona().equals(idPersona)).findFirst();
     }
 
     protected Optional<Conductor> findConductor(IdPersona idPersona) {
-        for (Empresa e : empresas) {
-            for (Tripulante t : e.getTripulantes()) {
-                if (t instanceof Conductor && t.getIdPersona().equals(idPersona)) {
-
-                    return Optional.of((Conductor) t);
-                }
-            }
-        }
-
-        return Optional.empty();
+        return empresas.stream().flatMap(empresa -> Arrays.stream(empresa.getTripulantes()))
+                .filter(tripulante -> tripulante instanceof Conductor)
+                .map(tripulante -> (Conductor) tripulante)
+                .filter(conductor -> conductor.getIdPersona().equals(idPersona)).findFirst();
     }
 
     public void setInstanciaPersistente(ControladorEmpresas c) {
@@ -355,8 +318,4 @@ public class ControladorEmpresas implements Serializable {
             }
         }
     }
-
-
-
-
 }

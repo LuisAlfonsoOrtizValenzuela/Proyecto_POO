@@ -119,11 +119,11 @@ private static final long serialVersionUID = 1L;
         Optional<Cliente> buscarCliente = findCliente(idCliente);
 
         if (buscarVenta.isPresent()) {
-            throw new SistemaVentaPasajesException(":::: Ya existe una Venta con el id y tipo de documento indicados");
+            throw new SistemaVentaPasajesException(":::: Ya existe una Venta con el Id y Tipo de Documento indicados");
         }
 
         if (buscarCliente.isEmpty()) {
-            throw new SistemaVentaPasajesException(":::: No existe un Cliente con el id indicado");
+            throw new SistemaVentaPasajesException(":::: No existe un Cliente con el Id indicado");
         }
 
         Cliente cliente = buscarCliente.get();
@@ -140,7 +140,7 @@ private static final long serialVersionUID = 1L;
             if (v.getFecha().equals(fechaViaje) &&
                     v.getTerminalSalida().getDireccion().getComuna().equalsIgnoreCase(comunaSalida) &&
                     v.getTerminalLlegada().getDireccion().getComuna().equalsIgnoreCase(comunaLlegada) &&
-                    v.getNroAsientosDisponibles() >= nroPasajes) {
+                    v.existeDisponibilidad(nroPasajes)) {
                 String[] row = {
                         v.getBus().getPatente().toUpperCase(),
                         v.getHora().toString(),
@@ -190,15 +190,15 @@ private static final long serialVersionUID = 1L;
         Optional<Pasajero> buscarPasajero = findPasajero(idPasajero);
 
         if (buscarVenta.isEmpty()) {
-            throw new SistemaVentaPasajesException(":::: No existe una Venta con el id y Tipo de documentos indicados");
+            throw new SistemaVentaPasajesException(":::: No existe una Venta con el Id y Tipo de Documentos indicados");
         }
 
         if (buscarViaje.isEmpty()) {
-            throw new SistemaVentaPasajesException(":::: No existe un Viaje con la fecha, hora y patente de bus indicados");
+            throw new SistemaVentaPasajesException(":::: No existe un Viaje con la Fecha, Hora y Patente de bus indicados");
         }
 
         if (buscarPasajero.isEmpty()) {
-            throw new SistemaVentaPasajesException(":::: No existe un Pasajero con el id indicado");
+            throw new SistemaVentaPasajesException(":::: No existe un Pasajero con el Id indicado");
         }
 
         Viaje viaje = buscarViaje.get();
@@ -220,7 +220,7 @@ private static final long serialVersionUID = 1L;
         Optional<Venta> buscarVenta = findVenta(idDocumento, tipo);
 
         if (buscarVenta.isEmpty()) {
-            throw new SistemaVentaPasajesException(":::: No existe una Venta con el id y tipo de documento indicados");
+            throw new SistemaVentaPasajesException(":::: No existe una Venta con el Id y Tipo de Documento indicados");
         }
 
         boolean pagado = buscarVenta.get().pagaMonto();
@@ -234,7 +234,7 @@ private static final long serialVersionUID = 1L;
         Optional<Venta> buscarVenta = findVenta(idDocumento, tipo);
 
         if (buscarVenta.isEmpty()) {
-            throw new SistemaVentaPasajesException(":::: No existe una Venta con el id y tipo de documento indicados");
+            throw new SistemaVentaPasajesException(":::: No existe una Venta con el Id y Tipo de Documento indicados");
         }
 
         buscarVenta.get().pagaMonto(nroTarjeta);
@@ -283,7 +283,7 @@ private static final long serialVersionUID = 1L;
         Optional<Viaje> buscarViaje = findViaje(fecha, hora, patBus);
 
         if (buscarViaje.isEmpty()) {
-            throw new SistemaVentaPasajesException(":::: No existe un Viaje con la fecha, hora  patente indicados");
+            throw new SistemaVentaPasajesException(":::: No existe un Viaje con la Fecha, Hora y Patente indicados");
         }
 
         return buscarViaje.get().getListaPasajeros();
@@ -352,43 +352,22 @@ private static final long serialVersionUID = 1L;
 
 
     private Optional<Cliente> findCliente(IdPersona id) {
-        for (Cliente c : clientes) {
-            if (c.getIdPersona().equals(id)) {
-                return Optional.of(c);
-            }
-        }
-
-        return Optional.empty();
+        return clientes.stream().filter(cliente -> cliente.getIdPersona().equals(id)).findFirst();
     }
 
     private Optional<Venta> findVenta(String idDocumento, TipoDocumento tipoDocumento) {
-        for(Venta v : ventas) {
-            if(v.getIdDocumento().equals(idDocumento) && v.getTipo().equals(tipoDocumento)) {
-                return Optional.of(v);
-            }
-        }
-
-        return Optional.empty();
+        return ventas.stream()
+                .filter(venta -> venta.getIdDocumento().equalsIgnoreCase(idDocumento) &&
+                        venta.getTipo().equals(tipoDocumento)).findFirst();
     }
 
     private Optional<Viaje> findViaje(LocalDate fecha, LocalTime hora, String patenteBus) {
-        for (Viaje v : viajes) {
-            if (v.getFecha().equals(fecha) && v.getHora().equals(hora) && v.getBus().getPatente().equalsIgnoreCase(patenteBus.trim())) {
-                return Optional.of(v);
-            }
-        }
-
-        return Optional.empty();
+        return viajes.stream().filter(viaje -> viaje.getFecha().equals(fecha) &&
+                viaje.getHora().equals(hora) && viaje.getBus().getPatente().equalsIgnoreCase(patenteBus.trim())).findFirst();
     }
 
     private Optional<Pasajero> findPasajero(IdPersona idPersona) {
-        for (Pasajero p : pasajeros) {
-            if (p.getIdPersona().equals(idPersona)) {
-                return Optional.of(p);
-            }
-        }
-
-        return Optional.empty();
+        return pasajeros.stream().filter(pasajero -> pasajero.getIdPersona().equals(idPersona)).findFirst();
     }
 
     // cosas
@@ -412,7 +391,7 @@ private static final long serialVersionUID = 1L;
     public void generatePasajesVenta(String idDocumento, TipoDocumento tipo) throws SistemaVentaPasajesException {
         Optional<Venta> ventaOpt = findVenta(idDocumento, tipo);
         if (ventaOpt.isEmpty()) {
-            throw new SistemaVentaPasajesException("No existe una venta con el id y tipo de documento indicados");
+            throw new SistemaVentaPasajesException(":::: No existe una Venta con el Id y Tipo de Documento indicados");
         }
         Venta venta = ventaOpt.get();
         venta.generatePasajesVenta();
