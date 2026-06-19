@@ -134,23 +134,17 @@ private static final long serialVersionUID = 1L;
     }
 
     public String[][] getHorariosDisponibles(LocalDate fechaViaje, String comunaSalida, String comunaLlegada, int nroPasajes) {
-        ArrayList<String[]> horariodis = new ArrayList<>();
-
-        for (Viaje v : viajes) {
-            if (v.getFecha().equals(fechaViaje) &&
-                    v.getTerminalSalida().getDireccion().getComuna().equalsIgnoreCase(comunaSalida) &&
-                    v.getTerminalLlegada().getDireccion().getComuna().equalsIgnoreCase(comunaLlegada) &&
-                    v.existeDisponibilidad(nroPasajes)) {
-                String[] row = {
-                        v.getBus().getPatente().toUpperCase(),
-                        v.getHora().toString(),
-                        String.valueOf(v.getPrecio()),
-                        String.valueOf(v.getNroAsientosDisponibles())
-                };
-                horariodis.add(row);
-            }
-        }
-        return horariodis.toArray(new String[0][0]);
+        return viajes.stream()
+                .filter(viaje -> viaje.getFecha().equals(fechaViaje))
+                .filter(viaje -> viaje.getTerminalSalida().getDireccion().getComuna().equalsIgnoreCase(comunaSalida))
+                .filter(viaje -> viaje.getTerminalLlegada().getDireccion().getComuna().equalsIgnoreCase(comunaLlegada))
+                .filter(viaje -> viaje.existeDisponibilidad(nroPasajes))
+                .map(viaje -> new String[]{
+                        viaje.getBus().getPatente().toUpperCase(),
+                        viaje.getHora().toString(),
+                        String.valueOf(viaje.getPrecio()),
+                        String.valueOf(viaje.getNroAsientosDisponibles())
+                }).toArray(String[][]::new);
     }
 
     public String[][] listAsientosDeViaje(LocalDate fecha, LocalTime hora, String patBus) {
@@ -241,42 +235,30 @@ private static final long serialVersionUID = 1L;
     }
 
     public String[][] listVentas() {
-        ArrayList<String[]> lista = new ArrayList<>();
-
-        for (Venta v : ventas) {
-            String[] row = {
-                    v.getIdDocumento(),
-                    v.getTipo().toString(),
-                    v.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-                    v.getCliente().getIdPersona().toString(),
-                    v.getCliente().getNombreCompleto().toString(),
-                    String.valueOf(v.getPasajes().length),
-                    String.valueOf(v.getMonto())
-            };
-            lista.add(row);
-        }
-        return lista.toArray(new String[0][0]);
+        return ventas.stream()
+                .map(venta -> new String[] {
+                        venta.getIdDocumento(),
+                        venta.getTipo().toString(),
+                        venta.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                        venta.getCliente().getIdPersona().toString(),
+                        venta.getCliente().getNombreCompleto().toString(),
+                        String.valueOf(venta.getPasajes().length),
+                        String.valueOf(venta.getMonto())
+                }).toArray(String[][]::new);
     }
 
     public String[][] listViajes() {
-
-        ArrayList<String[]> lista = new ArrayList<>();
-
-        for (Viaje v : viajes) {
-            String[] row = {
-                    v.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-                    v.getHora().toString(),
-                    v.getFechaHoraTermino().format(DateTimeFormatter.ofPattern("HH:mm")),
-                    String.valueOf(v.getPrecio()),
-                    String.valueOf(v.getNroAsientosDisponibles()),
-                    v.getBus().getPatente().toUpperCase(),
-                    v.getTerminalSalida().getDireccion().getComuna(),
-                    v.getTerminalLlegada().getDireccion().getComuna()
-
-            };
-            lista.add(row);
-        }
-        return lista.toArray(new String[0][0]);
+        return viajes.stream()
+                .map(viaje -> new String[] {
+                        viaje.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                        viaje.getHora().toString(),
+                        viaje.getFechaHoraTermino().format(DateTimeFormatter.ofPattern("HH:mm")),
+                        String.valueOf(viaje.getPrecio()),
+                        String.valueOf(viaje.getNroAsientosDisponibles()),
+                        viaje.getBus().getPatente().toUpperCase(),
+                        viaje.getTerminalSalida().getDireccion().getComuna(),
+                        viaje.getTerminalLlegada().getDireccion().getComuna()
+                }).toArray(String[][]::new);
     }
 
     public String[][] listPasajeros(LocalDate fecha, LocalTime hora, String patBus) {

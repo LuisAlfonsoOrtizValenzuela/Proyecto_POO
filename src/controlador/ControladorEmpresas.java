@@ -120,20 +120,15 @@ public class ControladorEmpresas implements Serializable {
     }
 
     public String[][] listEmpresas() {
-        ArrayList<String[]> lista = new ArrayList<>();
-
-        for (Empresa e : empresas) {
-            String[] row = {
-                    e.getRut().toString(),
-                    e.getNombre(),
-                    e.getUrl(),
-                    String.valueOf(e.getTripulantes().length),
-                    String.valueOf(e.getBuses().length),
-                    String.valueOf(e.getVentas().length)
-            };
-            lista.add(row);
-        }
-        return lista.toArray(new String[0][0]);
+        return empresas.stream()
+                .map(empresa -> new String[] {
+                        empresa.getRut().toString(),
+                        empresa.getNombre(),
+                        empresa.getUrl(),
+                        String.valueOf(empresa.getTripulantes().length),
+                        String.valueOf(empresa.getBuses().length),
+                        String.valueOf(empresa.getVentas().length)
+                }).toArray(String[][]::new);
     }
 
     public String[][] listLlegadasSalidasTerminal(String nombre, LocalDate fecha) {
@@ -213,29 +208,26 @@ public class ControladorEmpresas implements Serializable {
         Empresa empresa = buscarEmpresa.get();
         ArrayList<String[]> lista = new ArrayList<>();
 
-        for (Venta v : empresa.getVentas()) {
+        return Arrays.stream(buscarEmpresa.get().getVentas())
+                .map(venta -> {
+                    String tipoPago;
+                    String montoPagado;
 
-            String tipoPago;
-            String montoPagado;
+                    if (venta.getTipoPago() == null) {
+                        tipoPago = "PENDIENTE";
+                        montoPagado = "0";
+                    } else {
+                        tipoPago = venta.getTipoPago();
+                        montoPagado = String.valueOf(venta.getMontoPagado());
+                    }
 
-            if (v.getTipoPago() == null) {
-                tipoPago = "PENDIENTE";
-                montoPagado = "0";
-            } else {
-                tipoPago = v.getTipoPago();
-                montoPagado = String.valueOf(v.getMontoPagado());
-            }
-
-            String[] row = {
-                    v.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-                    v.getTipo().toString(),
-                    montoPagado,
-                    tipoPago
-            };
-            lista.add(row);
-        }
-
-        return lista.toArray(new String[0][0]);
+                    return new String[]{
+                            venta.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                            venta.getTipo().toString(),
+                            montoPagado,
+                            tipoPago
+                    };
+                }).toArray(String[][]::new);
     }
 
 
