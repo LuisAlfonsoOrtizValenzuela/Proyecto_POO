@@ -49,51 +49,18 @@ public class Pasaje implements Serializable{
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-
-
-        String nombreEmpresa = "EMPRESA";
-
-        sb.append("PASAJE ELECTRÓNICO");
-        sb.append("\n");
-        sb.append("Nombre Empresa").append("\n");
-        sb.append("Número de pasaje");
-        sb.append("\n");
-        sb.append(nombreEmpresa);
-        sb.append("\n");
-        sb.append(numero);
-        sb.append("\n");
-        sb.append("Nombre Pasajero").append("\n");
-        sb.append("RUT/Pasaporte");
-        sb.append("\n");
-        sb.append(pasajero.getNombreCompleto().toString().toUpperCase());
-        sb.append("\n");
-        sb.append(pasajero.getIdPersona().toString());
-        sb.append("\n");
-        sb.append("Patente bus").append("\n");
-        sb.append("Asiento").append("\n");
-        sb.append("Valor Pagado");
-        sb.append("\n");
-        sb.append(viaje.getBus().getPatente());
-        sb.append("\n");
-        sb.append(asiento);
-        sb.append("\n");
-        sb.append(venta.getMontoPagado());
-        sb.append("\n");
-        sb.append("Terminal origen").append("\n");
-        sb.append("Terminal destino").append("\n");
-        sb.append("Fecha").append("\n");
-        sb.append("Hora");
-        sb.append("\n");
-        sb.append(viaje.getTerminalSalida().getDireccion().getComuna().toUpperCase());
-        sb.append("\n");
-        sb.append(viaje.getTerminalLlegada().getDireccion().getComuna().toUpperCase());
-        sb.append("\n");
-        sb.append(viaje.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        sb.append("\n");
-        sb.append(viaje.getHora().format(DateTimeFormatter.ofPattern("HH:mm")));
-
-        return sb.toString();
+        return "--------------------- PASAJE ELECTRÓNICO ---------------------\n" +
+               " Nombre Empresa       Número de Pasaje\n" +
+               String.format(" %-20s %-20s",viaje.getBus().getEmpresa().getNombre(),venta.getIdDocumento()) +
+               "\n\n Nombre Pasajero                          R.U.T/Pasaporte\n" +
+               String.format(" %-40s %-15s",pasajero.getNombreCompleto().toString(),pasajero.getIdPersona().toString()) +
+               "\n\n Patente Bus     Asiento          Valor Pagado\n" +
+               String.format(" %-15s %-16s $%-15s",viaje.getBus().getPatente(),asiento,viaje.getPrecio()) +
+               "\n\n Terminal Origen      Terminal Destino      Fecha        Hora\n" +
+               String.format(" %-20s %-21s %-12s %-5s",viaje.getTerminalSalida().getNombre(),viaje.getTerminalLlegada().getNombre(),
+                       viaje.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                       viaje.getHora().format(DateTimeFormatter.ofPattern("HH:mm"))) +
+               "\n--------------------------------------------------------------\n";
     }
 }
 
