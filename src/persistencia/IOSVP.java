@@ -64,9 +64,9 @@ public class IOSVP {
             procesarViajesPendientes(viajesData, objetos, busesMap, auxiliaresMap, conductoresMap, terminalesMap);
 
         } catch (FileNotFoundException e) {
-            throw new SistemaVentaPasajesException("No existe o no se puede abrir el archivo " + ARCHIVO_INICIAL);
+            throw new SistemaVentaPasajesException(":::: No existe o No se puede abrir el Archivo " + ARCHIVO_INICIAL);
         } catch (IOException e) {
-            throw new SistemaVentaPasajesException("Error al leer el archivo " + ARCHIVO_INICIAL);
+            throw new SistemaVentaPasajesException(":::: Error al intentar leer el Archivo " + ARCHIVO_INICIAL);
         }
 
         return objetos.toArray();
@@ -75,7 +75,7 @@ public class IOSVP {
     private void procesarClientePasajero(String linea, ArrayList<Object> objetos) throws SistemaVentaPasajesException {
         String[] partes = linea.split(";");
         if (partes.length < 8) {
-            throw new SistemaVentaPasajesException("Linea de cliente/pasajero incompleta: " + linea);
+            throw new SistemaVentaPasajesException(":::: Linea de Cliente/Pasajero Incompleta: " + linea);
         }
 
         String tipo = partes[0];
@@ -124,18 +124,18 @@ public class IOSVP {
                     Pasajero pasajero = new Pasajero(nombre, id, telefono, nombreContacto, fonoContacto);
                     objetos.add(pasajero);
                 } else {
-                    throw new SistemaVentaPasajesException("Datos de contacto incompletos para pasajero: " + linea);
+                    throw new SistemaVentaPasajesException(":::: Datos de Contacto incompletos para Pasajero: " + linea);
                 }
             }
         } catch (Exception e) {
-            throw new SistemaVentaPasajesException("Error al procesar cliente/pasajero: " + e.getMessage());
+            throw new SistemaVentaPasajesException(":::: Error al intentar procesar Cliente/Pasajero: " + e.getMessage());
         }
     }
 
     private void procesarEmpresa(String linea, ArrayList<Object> objetos, Map<String, Empresa> empresasMap) throws SistemaVentaPasajesException {
         String[] partes = linea.split(";");
         if (partes.length < 3) {
-            throw new SistemaVentaPasajesException("Linea de empresa incompleta: " + linea);
+            throw new SistemaVentaPasajesException(":::: Linea de Empresa Incompleta: " + linea);
         }
 
         try {
@@ -147,7 +147,7 @@ public class IOSVP {
             objetos.add(empresa);
             empresasMap.put(partes[0], empresa);
         } catch (Exception e) {
-            throw new SistemaVentaPasajesException("Error al procesar empresa: " + e.getMessage());
+            throw new SistemaVentaPasajesException(":::: Error al intentar procesar Empresa: " + e.getMessage());
         }
     }
 
@@ -155,7 +155,7 @@ public class IOSVP {
                                     Map<String, Auxiliar> auxiliaresMap, Map<String, Conductor> conductoresMap) throws SistemaVentaPasajesException {
         String[] partes = linea.split(";");
         if (partes.length < 10) {
-            throw new SistemaVentaPasajesException("Linea de tripulante incompleta: " + linea);
+            throw new SistemaVentaPasajesException(":::: Linea de Tripulante Incompleta: " + linea);
         }
 
         String tipo = partes[0];
@@ -187,7 +187,7 @@ public class IOSVP {
 
             Empresa empresa = empresasMap.get(rutEmpresa);
             if (empresa == null) {
-                throw new SistemaVentaPasajesException("Empresa no encontrada para tripulante: " + rutEmpresa);
+                throw new SistemaVentaPasajesException(":::: Empresa no Encontrada para Tripulante: " + rutEmpresa);
             }
 
             if (tipo.equals("A")) {
@@ -201,17 +201,17 @@ public class IOSVP {
                 objetos.add(conductor);
                 conductoresMap.put(rut, conductor);
             } else {
-                throw new SistemaVentaPasajesException("Tipo de tripulante invalido: " + tipo);
+                throw new SistemaVentaPasajesException(":::: Tipo de Tripulante Invalido: " + tipo);
             }
         } catch (Exception e) {
-            throw new SistemaVentaPasajesException("Error al procesar tripulante: " + e.getMessage());
+            throw new SistemaVentaPasajesException(":::: Error al intentar procesar Tripulante: " + e.getMessage());
         }
     }
 
     private void procesarTerminal(String linea, ArrayList<Object> objetos, Map<String, Terminal> terminalesMap) throws SistemaVentaPasajesException {
         String[] partes = linea.split(";");
         if (partes.length < 4) {
-            throw new SistemaVentaPasajesException("Linea de terminal incompleta: " + linea);
+            throw new SistemaVentaPasajesException(":::: Linea de Terminal Incompleta: " + linea);
         }
 
         try {
@@ -225,9 +225,9 @@ public class IOSVP {
             objetos.add(terminal);
             terminalesMap.put(nombre, terminal);
         } catch (NumberFormatException e) {
-            throw new SistemaVentaPasajesException("Error al procesar terminal - numero de direccion invalido: " + e.getMessage());
+            throw new SistemaVentaPasajesException(":::: Error al intentar procesar Terminal - Numero de Direccion Invalido: " + e.getMessage());
         } catch (Exception e) {
-            throw new SistemaVentaPasajesException("Error al procesar terminal: " + e.getMessage());
+            throw new SistemaVentaPasajesException(":::: Error al intentar procesar Terminal: " + e.getMessage());
         }
     }
 
@@ -245,29 +245,29 @@ public class IOSVP {
             nroAsientos = Integer.parseInt(partes[3]);
             rutEmpresa = partes[4];
 
-            Bus bus = new Bus(patente, nroAsientos);
-            bus.setMarca(marca);
-            bus.setModelo(modelo);
-
             Empresa empresa = empresasMap.get(rutEmpresa);
             if (empresa == null) {
-                throw new SistemaVentaPasajesException("Empresa no encontrada para bus: " + rutEmpresa);
+                throw new SistemaVentaPasajesException(":::: Empresa no Encontrada para Bus: " + rutEmpresa);
             }
+
+            Bus bus = new Bus(patente, nroAsientos, empresa);
+            bus.setMarca(marca);
+            bus.setModelo(modelo);
 
             empresa.addBus(bus);
             objetos.add(bus);
             busesMap.put(patente, bus);
         } catch (NumberFormatException e) {
-            throw new SistemaVentaPasajesException("Error al procesar bus - numero de asientos invalido: " + e.getMessage());
+            throw new SistemaVentaPasajesException(":::: Error al intentar procesar Bus - Numero de Asientos Invalido: " + e.getMessage());
         } catch (Exception e) {
-            throw new SistemaVentaPasajesException("Error al procesar bus: " + e.getMessage());
+            throw new SistemaVentaPasajesException(":::: Error al intentar procesar Bus: " + e.getMessage());
         }
     }
 
     private void procesarViaje(String linea, ArrayList<Object> objetos, List<ViajeData> viajesData) throws SistemaVentaPasajesException {
         String[] partes = linea.split(";");
         if (partes.length < 9) {
-            throw new SistemaVentaPasajesException("Linea de viaje incompleta: " + linea);
+            throw new SistemaVentaPasajesException(":::: Linea de Viaje Incompleta: " + linea);
         }
 
         try {
@@ -285,7 +285,7 @@ public class IOSVP {
             viajesData.add(new ViajeData(fecha, hora, precio, duracion, patente,
                     rutAuxiliar, rutConductor, terminalSalida, terminalLlegada));
         } catch (Exception e) {
-            throw new SistemaVentaPasajesException("Error al procesar viaje: " + e.getMessage());
+            throw new SistemaVentaPasajesException(":::: Error al intentar procesar Viaje: " + e.getMessage());
         }
     }
 
@@ -300,19 +300,19 @@ public class IOSVP {
             Terminal llegada = resolverTerminal(data.terminalLlegada, terminalesMap);
 
             if (bus == null) {
-                throw new SistemaVentaPasajesException("Bus no encontrado para viaje: " + data.patente);
+                throw new SistemaVentaPasajesException(":::: Bus no encontrado para Viaje: " + data.patente);
             }
             if (auxiliar == null) {
-                throw new SistemaVentaPasajesException("Auxiliar no encontrado para viaje: " + data.rutAuxiliar);
+                throw new SistemaVentaPasajesException(":::: Auxiliar no encontrado para Viaje: " + data.rutAuxiliar);
             }
             if (conductor == null) {
-                throw new SistemaVentaPasajesException("Conductor no encontrado para viaje: " + data.rutConductor);
+                throw new SistemaVentaPasajesException(":::: Conductor no encontrado para Viaje: " + data.rutConductor);
             }
             if (salida == null) {
-                throw new SistemaVentaPasajesException("Terminal de salida no encontrada: " + data.terminalSalida);
+                throw new SistemaVentaPasajesException(":::: Terminal de salida No encontrado: " + data.terminalSalida);
             }
             if (llegada == null) {
-                throw new SistemaVentaPasajesException("Terminal de llegada no encontrada: " + data.terminalLlegada);
+                throw new SistemaVentaPasajesException(":::: Terminal de llegada No encontrado: " + data.terminalLlegada);
             }
 
             Viaje viaje = new Viaje(data.fecha, data.hora, data.precio, data.duracion,
@@ -375,9 +375,9 @@ public class IOSVP {
             oos.writeObject(controlador1);
             oos.writeObject(controlador2);
         } catch (FileNotFoundException e) {
-            throw new SistemaVentaPasajesException("No se puede abrir o crear el archivo " + ARCHIVO_OBJETOS);
+            throw new SistemaVentaPasajesException(":::: No se puede Abrir o Crear el Archivo " + ARCHIVO_OBJETOS);
         } catch (IOException e) {
-            throw new SistemaVentaPasajesException("No se puede grabar en el archivo " + ARCHIVO_OBJETOS);
+            throw new SistemaVentaPasajesException(":::: No se puede Grabar en el Archivo " + ARCHIVO_OBJETOS);
         }
     }
 
@@ -387,9 +387,9 @@ public class IOSVP {
             Object obj2 = ois.readObject();
             return new Object[]{obj1, obj2};
         } catch (FileNotFoundException e) {
-            throw new SistemaVentaPasajesException("No existe o no se puede abrir el archivo " + ARCHIVO_OBJETOS);
+            throw new SistemaVentaPasajesException(":::: No existe o No se puede Abrir el Archivo " + ARCHIVO_OBJETOS);
         } catch (IOException | ClassNotFoundException e) {
-            throw new SistemaVentaPasajesException("No se puede leer el archivo " + ARCHIVO_OBJETOS);
+            throw new SistemaVentaPasajesException(":::: No se puede Leer el Archivo " + ARCHIVO_OBJETOS);
         }
     }
 
@@ -401,7 +401,28 @@ public class IOSVP {
                 bw.newLine();
             }
         } catch (IOException e) {
-            throw new SistemaVentaPasajesException("No se puede abrir o crear el archivo " + nombreArchivo);
+            throw new SistemaVentaPasajesException(":::: No se puede Abrir o Crear el Archivo " + nombreArchivo);
         }
+    }
+
+    // BUSCADORESS
+
+    private Optional<Empresa> findEmpresa(ArrayList<Empresa> empresas, Rut rut) {
+        return empresas.stream().filter(empresa -> empresa.getRut().equals(rut)).findFirst();
+    }
+
+    private Optional<Tripulante> findTripulante(Empresa empresa, IdPersona id) {
+        return Arrays.stream(empresa.getTripulantes())
+                .filter(tripulante -> tripulante.getIdPersona().equals(id))
+                .filter(tripulante -> tripulante instanceof Conductor || tripulante instanceof Auxiliar)
+                .findFirst();
+    }
+
+    private Optional<Bus> findBus(ArrayList<Bus> buses, String patente) {
+        return buses.stream().filter(bus -> bus.getPatente().equalsIgnoreCase(patente)).findFirst();
+    }
+
+    private Optional<Terminal> findTerminal(ArrayList<Terminal> terminales, String nombre) {
+        return terminales.stream().filter(terminal -> terminal.getNombre().equalsIgnoreCase(nombre)).findFirst();
     }
 }

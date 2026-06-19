@@ -46,7 +46,7 @@ public class Empresa implements Serializable{
     public void addBus(Bus bus) {
         for (Bus b : buses) {
             if (b.getPatente().equalsIgnoreCase(bus.getPatente())) {
-                throw new SistemaVentaPasajesException("::: Ya existe un Bus con la patente indicada");
+                throw new SistemaVentaPasajesException("::: Ya existe un Bus con la Patente indicada");
             }
         }
 

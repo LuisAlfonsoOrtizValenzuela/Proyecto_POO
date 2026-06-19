@@ -7,18 +7,20 @@ public class Bus implements Serializable{
     private String marca;
     private String modelo;
     private int nroAsientos;
+    private Empresa empresa;
     private ArrayList<Viaje> viajes;
     private static final long serialVersionUID = 1L;
 
-    public Bus(String patente, int nroAsientos) {
+    public Bus(String patente, int nroAsientos, Empresa empresa) {
         if (patente == null || patente.trim().isEmpty()) {
-            throw new IllegalArgumentException("ERROR: La patente no puede estar vacia");
+            throw new IllegalArgumentException(":::: La Patente no puede estar Vacia");
         }
         if (nroAsientos <= 0) {
-            throw new IllegalArgumentException("ERROR: El numero de asientos debe ser mayor a 0");
+            throw new IllegalArgumentException(":::: El numero de Asientos debe ser Mayor a 0");
         }
         this.patente = patente.trim();
         this.nroAsientos = nroAsientos;
+        this.empresa = empresa;
         this.viajes = new ArrayList<>();
     }
 
@@ -32,7 +34,7 @@ public class Bus implements Serializable{
 
     public void setMarca(String marca) {
         if (marca == null || marca.trim().isEmpty()) {
-            throw new IllegalArgumentException("ERROR: La marca no puede estar vacia");
+            throw new IllegalArgumentException(":::: La Marca no puede estar Vacia");
         }
         this.marca = marca.trim();
     }
@@ -43,13 +45,17 @@ public class Bus implements Serializable{
 
     public void setModelo(String modelo) {
         if (modelo == null || modelo.trim().isEmpty()) {
-            throw new IllegalArgumentException("ERROR: El modelo no puede estar vacio");
+            throw new IllegalArgumentException(":::: El Modelo no puede estar Vacio");
         }
         this.modelo = modelo.trim();
     }
 
     public int getNroAsientos() {
         return nroAsientos;
+    }
+
+    public Empresa getEmpresa() {
+        return empresa;
     }
 
     public void addViaje(Viaje viaje) {

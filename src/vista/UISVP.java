@@ -8,6 +8,7 @@ import modelo.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Optional;
 import java.util.Scanner;
@@ -382,7 +383,6 @@ public class UISVP {
             }
 
             System.out.print("                  Nombres : ");
-            sc.nextLine();
             String nombres = sc.nextLine();
 
             System.out.print("         Apellido paterno : ");
@@ -460,7 +460,7 @@ public class UISVP {
             System.out.println("   ...:::: Creando un nuevo Viaje ::::....");
             System.out.println();
 
-            System.out.print("     Fecha [dd/mm/aaaa] : ");
+            System.out.print("      Fecha [dd/mm/aaaa] : ");
             String fechaus = sc.next();
 
             LocalDate fecha = LocalDate.parse(fechaus, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
@@ -567,6 +567,9 @@ public class UISVP {
         } catch (SistemaVentaPasajesException e) {
             System.out.println();
             System.out.println(e.getMessage());
+        } catch (DateTimeParseException e) {
+            System.out.println();
+            System.out.println(":::: Formato de fecha u hora Invalido, intentar con [dd/mm/aaaa] y [hh:mm]");
         }
     }
 
@@ -853,7 +856,19 @@ public class UISVP {
             System.out.println();
             System.out.println(":::: Monto total de la Venta : $" + total);
             System.out.println();
+            pagaVentaPasajes(documento, tipoDoc);
 
+        } catch (SistemaVentaPasajesException e) {
+            System.out.println();
+            System.out.println(e.getMessage());
+        } catch (DateTimeParseException e) {
+            System.out.println();
+            System.out.println(":::: Formato de fecha u hora Invalido, intentar con [dd/mm/aaaa] y [hh:mm]");
+        }
+    }
+
+    private void pagaVentaPasajes(String documento, TipoDocumento tipoDoc) {
+        try {
             System.out.println(":::: Pago de la Venta");
             System.out.print(" Efectivo [1] o Tarjeta [2] : ");
             int tipoPago = sc.nextInt();
@@ -871,7 +886,7 @@ public class UISVP {
                     numTarjeta = sc.nextLong();
                 } catch (InputMismatchException e) {
                     System.out.println();
-                    System.out.println(":::: Numero de tarjeta invalido");
+                    System.out.println(":::: Numero de tarjeta Invalido");
                     sc.nextLine();
                     return;
                 }
@@ -886,10 +901,6 @@ public class UISVP {
             System.out.println();
             System.out.println(e.getMessage());
         }
-    }
-
-    private void pagaVentaPasajes() {
-
     }
 
     private void listPasajerosViaje() {
@@ -932,10 +943,15 @@ public class UISVP {
                     contacto = contacto.substring(0, 29) + "...";
                 }
 
+                String pass = p[1].toUpperCase();
+                if (pass.length() > 15) {
+                    pass = pass.substring(0, 12) + "...";
+                }
+
                 System.out.println("*---------+-----------------+----------------------------------+----------------------------------+-------------------*");
                 System.out.printf("| %-7s | %-15s | %-32s | %-32s | %-17s |\n",
                         p[0],
-                        p[1],
+                        pass.toUpperCase(),
                         pasajero,
                         contacto,
                         p[4]
@@ -948,6 +964,9 @@ public class UISVP {
         } catch (SistemaVentaPasajesException e) {
             System.out.println();
             System.out.println(e.getMessage());
+        } catch (DateTimeParseException e) {
+            System.out.println();
+            System.out.println(":::: Formato de fecha u hora Invalido, intentar con [dd/mm/aaaa] y [hh:mm]");
         }
     }
 
@@ -975,12 +994,17 @@ public class UISVP {
                 cliente = cliente.substring(0, 29) + "...";
             }
 
+            String pass = v[3].toUpperCase();
+            if (pass.length() > 15) {
+                pass = pass.substring(0, 12) + "...";
+            }
+
             System.out.println("*--------------+----------------+------------+-----------------+----------------------------------+---------+-------------*");
             System.out.printf("| %-12s | %-14s | %-10s | %-15s | %-32s | %-7s | $%-10s |\n",
                     v[0],
                     v[1].toUpperCase(),
                     v[2],
-                    v[3],
+                    pass.toUpperCase(),
                     cliente,
                     v[5],
                     v[6]
@@ -1093,6 +1117,9 @@ public class UISVP {
         } catch (SistemaVentaPasajesException e) {
             System.out.println();
             System.out.println(e.getMessage());
+        } catch (DateTimeParseException e) {
+            System.out.println();
+            System.out.println(":::: Formato de fecha u hora Invalido, intentar con [dd/mm/aaaa] y [hh:mm]");
         }
     }
 

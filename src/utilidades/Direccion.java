@@ -10,13 +10,10 @@ public class Direccion implements Serializable{
 
     public Direccion(String calle, int numero, String comuna) {
         if (calle == null || calle.trim().isEmpty()) {
-            throw new IllegalArgumentException("ERROR: La calle no puede estar vacia");
-        }
-        if (numero <= 0) {
-            throw new IllegalArgumentException("ERROR: El numero debe ser mayor a 0");
+            throw new IllegalArgumentException(":::: La Calle no puede estar Vacia");
         }
         if (comuna == null || comuna.trim().isEmpty()) {
-            throw new IllegalArgumentException("ERROR: La comuna no puede estar vacia");
+            throw new IllegalArgumentException(":::: La Comuna no puede estar Vacia");
         }
         this.calle = calle.trim();
         this.numero = numero;

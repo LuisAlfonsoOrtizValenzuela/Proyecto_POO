@@ -33,23 +33,23 @@ public class Pasaporte implements IdPersona, Serializable{
     }
     public static Pasaporte of(String numero, String nacionalidad) throws SistemaVentaPasajesException {
         if (numero == null || numero.trim().isEmpty()) {
-            throw new SistemaVentaPasajesException("ERROR: El número de pasaporte no puede estar vacío");
+            throw new SistemaVentaPasajesException(":::: El Numero de Pasaporte no puede estar Vacio");
         }
 
         if (nacionalidad == null || nacionalidad.trim().isEmpty()) {
-            throw new SistemaVentaPasajesException("ERROR: La nacionalidad no puede estar vacía");
+            throw new SistemaVentaPasajesException(":::: La Nacionalidad no puede estar Vacia");
         }
 
         numero = numero.trim();
         nacionalidad = nacionalidad.trim();
         if (numero.length() < 6) {
-            throw new SistemaVentaPasajesException("ERROR: El número de pasaporte debe tener al menos 6 caracteres");
+            throw new SistemaVentaPasajesException(":::: El Numero de Pasaporte debe tener al menos 6 Caracteres");
         }
         if (!nacionalidad.matches("[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\\s]+")) {
-            throw new SistemaVentaPasajesException("ERROR: La nacionalidad solo debe contener letras");
+            throw new SistemaVentaPasajesException(":::: La Nacionalidad solo debe contener Letras");
         }
         if (!numero.matches("[a-zA-Z0-9]+")) {
-            throw new SistemaVentaPasajesException("ERROR: El número de pasaporte solo puede contener letras y números, sin espacios");
+            throw new SistemaVentaPasajesException(":::: El Numero de Pasaporte solo puede contener Letras y Numeros, sin espacios");
         }
         return new Pasaporte(numero, nacionalidad);
     }

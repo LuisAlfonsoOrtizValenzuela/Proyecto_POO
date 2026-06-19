@@ -39,7 +39,7 @@ public class Rut implements IdPersona, Serializable{
     public static Rut of(String rut) throws SistemaVentaPasajesException {
 
         if (rut == null || rut.trim().isEmpty()) {
-            throw new SistemaVentaPasajesException("ERROR: El RUT no puede estar vacío");
+            throw new SistemaVentaPasajesException(":::: El RUT no puede estar Vacio");
         }
         rut = rut.replace(".", "").replace(" ", "");
 
@@ -52,10 +52,10 @@ public class Rut implements IdPersona, Serializable{
         }
 
         if (posicionGuion == -1) {
-            throw new SistemaVentaPasajesException("ERROR: Formato de RUT inválido - Debe contener un guión (ej: 12345678-9)");
+            throw new SistemaVentaPasajesException(":::: Formato de RUT invalido - Debe contener un Guion [11222333-9]");
         }
         if (posicionGuion == 0 || posicionGuion == rut.length() - 1) {
-            throw new SistemaVentaPasajesException("ERROR: RUT inválido - El guión no puede estar al inicio o al final");
+            throw new SistemaVentaPasajesException(":::: RUT invalido - El Guion no puede estar al Inicio ni al Final");
         }
 
         String numeroTexto = "";
@@ -64,19 +64,19 @@ public class Rut implements IdPersona, Serializable{
             if (c >= '0' && c <= '9') {
                 numeroTexto += c;
             } else {
-                throw new SistemaVentaPasajesException("ERROR: RUT inválido - Solo se permiten números antes del guión");
+                throw new SistemaVentaPasajesException(":::: RUT invalido - Solo se permiten Numeros antes del Guion");
             }
         }
 
         if (numeroTexto.length() == 0) {
-            throw new SistemaVentaPasajesException("ERROR: RUT inválido - Debe ingresar un número antes del guión");
+            throw new SistemaVentaPasajesException(":::: RUT invalido - Debe ingresar un Numero antes del Guion");
         }
 
         char digitoVerificador = rut.charAt(posicionGuion + 1);
 
         if (!((digitoVerificador >= '0' && digitoVerificador <= '9') ||
                 digitoVerificador == 'K' || digitoVerificador == 'k')) {
-            throw new SistemaVentaPasajesException("ERROR: Dígito verificador inválido - Debe ser un número o K");
+            throw new SistemaVentaPasajesException(":::: Digito Verificador invalido - Debe ser un Numero o K");
         }
 
         int numero = 0;
