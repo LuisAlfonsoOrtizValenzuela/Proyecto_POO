@@ -1,0 +1,30 @@
+--------------------- PASAJE ELECTRÓNICO ---------------------
+ Nombre Empresa       Número de Pasaje
+ Buses Ñuble          1234512344          
+
+ Nombre Pasajero                          R.U.T/Pasaporte
+ SRA María Paz Daza Barrera               22222222-2     
+
+ Patente Bus     Asiento          Valor Pagado
+ EFGH34          25               $3500           
+
+ Terminal Origen      Terminal Destino      Fecha        Hora
+ El Nevado Alto       El Pinar              15/12/2024   16:00
+--------------------------------------------------------------
+
+
+--------------------- PASAJE ELECTRÓNICO ---------------------
+ Nombre Empresa       Número de Pasaje
+ Buses Ñuble          1234512344          
+
+ Nombre Pasajero                          R.U.T/Pasaporte
+ SR Rodrigo Jhonny Carballo Gutierrez     11222333-1     
+
+ Patente Bus     Asiento          Valor Pagado
+ EFGH34          26               $3500           
+
+ Terminal Origen      Terminal Destino      Fecha        Hora
+ El Nevado Alto       El Pinar              15/12/2024   16:00
+--------------------------------------------------------------
+
+

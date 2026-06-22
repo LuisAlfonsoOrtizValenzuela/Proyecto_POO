@@ -1,0 +1,45 @@
+--------------------- PASAJE ELECTRÓNICO ---------------------
+ Nombre Empresa       Número de Pasaje
+ Buses Ñuble          4321654321          
+
+ Nombre Pasajero                          R.U.T/Pasaporte
+ SRA Charlotte Mikaela Parra Avendaño     22444064-4     
+
+ Patente Bus     Asiento          Valor Pagado
+ EFGH34          5                $3500           
+
+ Terminal Origen      Terminal Destino      Fecha        Hora
+ El Nevado Alto       El Pinar              15/12/2024   16:00
+--------------------------------------------------------------
+
+
+--------------------- PASAJE ELECTRÓNICO ---------------------
+ Nombre Empresa       Número de Pasaje
+ Buses Ñuble          4321654321          
+
+ Nombre Pasajero                          R.U.T/Pasaporte
+ SRA Silvana Paola Avendaño Vladilo       13325708-K     
+
+ Patente Bus     Asiento          Valor Pagado
+ EFGH34          6                $3500           
+
+ Terminal Origen      Terminal Destino      Fecha        Hora
+ El Nevado Alto       El Pinar              15/12/2024   16:00
+--------------------------------------------------------------
+
+
+--------------------- PASAJE ELECTRÓNICO ---------------------
+ Nombre Empresa       Número de Pasaje
+ Buses Ñuble          4321654321          
+
+ Nombre Pasajero                          R.U.T/Pasaporte
+ SR Cristian Ruben Parra Avendaño         20064455-5     
+
+ Patente Bus     Asiento          Valor Pagado
+ EFGH34          8                $3500           
+
+ Terminal Origen      Terminal Destino      Fecha        Hora
+ El Nevado Alto       El Pinar              15/12/2024   16:00
+--------------------------------------------------------------
+
+

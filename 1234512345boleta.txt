@@ -1,0 +1,15 @@
+--------------------- PASAJE ELECTRÓNICO ---------------------
+ Nombre Empresa       Número de Pasaje
+ Buses Ñuble          1234512345          
+
+ Nombre Pasajero                          R.U.T/Pasaporte
+ SR José Esteban Cid Aedo                 11111111-1     
+
+ Patente Bus     Asiento          Valor Pagado
+ EFGH34          10               $3500           
+
+ Terminal Origen      Terminal Destino      Fecha        Hora
+ El Nevado Alto       El Pinar              15/12/2024   16:00
+--------------------------------------------------------------
+
+
