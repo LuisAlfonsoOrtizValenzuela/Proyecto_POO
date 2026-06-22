@@ -12,6 +12,7 @@ import java.util.Optional;
 
 
 public class ControladorEmpresas implements Serializable {
+    private static final long serialVersionUID = 1L;
     private static ControladorEmpresas instance;
 
     private final ArrayList<Empresa> empresas;

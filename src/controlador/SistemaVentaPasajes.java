@@ -10,6 +10,7 @@ import java.util.*;
 import java.time.LocalDate;
 
 public class SistemaVentaPasajes implements Serializable{
+private static final long serialVersionUID = 1L;
     private static SistemaVentaPasajes instance;
     private final ControladorEmpresas controlador;
 
