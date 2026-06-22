@@ -6,7 +6,7 @@
  SR José Esteban Cid Aedo                 11111111-1     
 
  Patente Bus     Asiento          Valor Pagado
- EFGH34          10               $3500           
+ EFGH34          25               $3500           
 
  Terminal Origen      Terminal Destino      Fecha        Hora
  El Nevado Alto       El Pinar              15/12/2024   16:00
