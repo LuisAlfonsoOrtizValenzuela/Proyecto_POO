@@ -468,7 +468,7 @@ public class UISVP {
             System.out.print("            Hora [hh:mm] : ");
             String horaStr = sc.next();
 
-            LocalTime hora = LocalTime.parse(horaStr);
+            LocalTime hora = LocalTime.parse(horaStr, DateTimeFormatter.ofPattern("HH:mm"));
 
             System.out.print("                  Precio : ");
             int precio = sc.nextInt();
@@ -677,7 +677,7 @@ public class UISVP {
             sc.nextLine();
 
             String patente = horario[selec - 1][0];
-            LocalTime hora = LocalTime.parse(horario[selec - 1][1]);
+            LocalTime hora = LocalTime.parse(horario[selec - 1][1], DateTimeFormatter.ofPattern("HH:mm"));
 
             System.out.println();
 
@@ -915,7 +915,7 @@ public class UISVP {
 
             System.out.print("      Hora del viaje [hh:mm] : ");
             String horaStr = sc.nextLine();
-            LocalTime hora = LocalTime.parse(horaStr);
+            LocalTime hora = LocalTime.parse(horaStr, DateTimeFormatter.ofPattern("HH:mm"));
 
             System.out.print("                 Patente bus : ");
             String patente = sc.nextLine();

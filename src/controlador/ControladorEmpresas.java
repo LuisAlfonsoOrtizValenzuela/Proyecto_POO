@@ -15,9 +15,9 @@ public class ControladorEmpresas implements Serializable {
     private static final long serialVersionUID = 1L;
     private static ControladorEmpresas instance;
 
-    private final ArrayList<Empresa> empresas;
-    private final ArrayList<Bus> buses;
-    private final ArrayList<Terminal> terminales;
+    protected final ArrayList<Empresa> empresas;
+    protected final ArrayList<Bus> buses;
+    protected final ArrayList<Terminal> terminales;
 
     private ControladorEmpresas() {
         this.empresas = new ArrayList<>();
@@ -66,8 +66,8 @@ public class ControladorEmpresas implements Serializable {
         nuevo.setMarca(marca);
         nuevo.setModelo(modelo);
 
-
         empresa.addBus(nuevo);
+        buses.add(nuevo);
     }
 
     public void createTerminal(String nombre, Direccion direccion) {

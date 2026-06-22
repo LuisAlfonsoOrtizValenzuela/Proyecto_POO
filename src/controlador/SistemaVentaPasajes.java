@@ -14,10 +14,10 @@ private static final long serialVersionUID = 1L;
     private static SistemaVentaPasajes instance;
     private final ControladorEmpresas controlador;
 
-    private final ArrayList<Cliente> clientes;
-    private final ArrayList<Pasajero> pasajeros;
-    private final ArrayList<Viaje> viajes;
-    private final ArrayList<Venta> ventas;
+    protected final ArrayList<Cliente> clientes;
+    protected final ArrayList<Pasajero> pasajeros;
+    protected final ArrayList<Viaje> viajes;
+    protected final ArrayList<Venta> ventas;
 
     private SistemaVentaPasajes() {
         controlador = ControladorEmpresas.getInstance();
