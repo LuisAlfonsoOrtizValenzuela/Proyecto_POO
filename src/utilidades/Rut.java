@@ -1,5 +1,5 @@
 package utilidades;
-import excepciones.SistemaVentaPasajesException;
+import excepciones.SVPException;
 import java.io.Serializable;
 public class Rut implements IdPersona, Serializable{
     private static final long serialVersionUID = 1L;
@@ -36,10 +36,10 @@ public class Rut implements IdPersona, Serializable{
     }
 
 
-    public static Rut of(String rut) throws SistemaVentaPasajesException {
+    public static Rut of(String rut) throws SVPException {
 
         if (rut == null || rut.trim().isEmpty()) {
-            throw new SistemaVentaPasajesException(":::: El RUT no puede estar Vacio");
+            throw new SVPException("El RUT no puede estar Vacio");
         }
         rut = rut.replace(".", "").replace(" ", "");
 
@@ -52,10 +52,10 @@ public class Rut implements IdPersona, Serializable{
         }
 
         if (posicionGuion == -1) {
-            throw new SistemaVentaPasajesException(":::: Formato de RUT invalido - Debe contener un Guion [11222333-9]");
+            throw new SVPException("Formato de RUT invalido - Debe contener un Guion [11222333-9]");
         }
         if (posicionGuion == 0 || posicionGuion == rut.length() - 1) {
-            throw new SistemaVentaPasajesException(":::: RUT invalido - El Guion no puede estar al Inicio ni al Final");
+            throw new SVPException("RUT invalido - El Guion no puede estar al Inicio ni al Final");
         }
 
         String numeroTexto = "";
@@ -64,19 +64,19 @@ public class Rut implements IdPersona, Serializable{
             if (c >= '0' && c <= '9') {
                 numeroTexto += c;
             } else {
-                throw new SistemaVentaPasajesException(":::: RUT invalido - Solo se permiten Numeros antes del Guion");
+                throw new SVPException("RUT invalido - Solo se permiten Numeros antes del Guion");
             }
         }
 
         if (numeroTexto.length() == 0) {
-            throw new SistemaVentaPasajesException(":::: RUT invalido - Debe ingresar un Numero antes del Guion");
+            throw new SVPException("RUT invalido - Debe ingresar un Numero antes del Guion");
         }
 
         char digitoVerificador = rut.charAt(posicionGuion + 1);
 
         if (!((digitoVerificador >= '0' && digitoVerificador <= '9') ||
                 digitoVerificador == 'K' || digitoVerificador == 'k')) {
-            throw new SistemaVentaPasajesException(":::: Digito Verificador invalido - Debe ser un Numero o K");
+            throw new SVPException("Digito Verificador invalido - Debe ser un Numero o K");
         }
 
         int numero = 0;

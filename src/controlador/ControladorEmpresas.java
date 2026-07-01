@@ -38,7 +38,7 @@ public class ControladorEmpresas implements Serializable {
         Optional<Empresa> buscarEmpresa = findEmpresa(rut);
 
             if (buscarEmpresa.isPresent()) {
-                throw new SistemaVentaPasajesException(":::: Ya existe una Empresa con el rut ingresado");
+                throw new SVPException("Ya existe una Empresa con el rut ingresado");
             }
 
         Empresa nuevo = new Empresa(rut, nombre);
@@ -51,13 +51,13 @@ public class ControladorEmpresas implements Serializable {
         Optional<Bus> buscarBus = findBus(patente);
 
         if (buscarBus.isPresent()) {
-            throw new SistemaVentaPasajesException(":::: Ya existe un Bus con la patente indicada");
+            throw new SVPException("Ya existe un Bus con la patente indicada");
         }
 
         Optional<Empresa> buscarEmpresa = findEmpresa(rutEmp);
 
         if (buscarEmpresa.isEmpty()) {
-            throw new SistemaVentaPasajesException(":::: No existe una Empresa con el rut indicado");
+            throw new SVPException("No existe una Empresa con el rut indicado");
         }
 
         Empresa empresa = buscarEmpresa.get();
@@ -75,11 +75,11 @@ public class ControladorEmpresas implements Serializable {
         Optional<Terminal> buscarTerminalPorComuna = findTerminalPorComuna(direccion.getComuna());
 
         if (buscarTerminal.isPresent()) {
-            throw new SistemaVentaPasajesException(":::: Ya existe un Terminal con el nombre indicado");
+            throw new SVPException("Ya existe un Terminal con el nombre indicado");
         }
 
         if (buscarTerminalPorComuna.isPresent()) {
-            throw new SistemaVentaPasajesException(":::: Ya existe un Terminal en la comuna indicada");
+            throw new SVPException("Ya existe un Terminal en la comuna indicada");
         }
 
         Terminal nuevo = new Terminal(nombre, direccion);
@@ -91,14 +91,14 @@ public class ControladorEmpresas implements Serializable {
         Optional<Empresa> buscarEmpresa = findEmpresa(Rut.of(rut));
 
         if (buscarEmpresa.isEmpty()) {
-            throw new SistemaVentaPasajesException(":::: No existe una Empresa con el rut indicado");
+            throw new SVPException("No existe una Empresa con el rut indicado");
         }
 
         Empresa empresa = buscarEmpresa.get();
         boolean contratado = empresa.addConductor(id, nom, null, dir);
 
         if (!contratado) {
-            throw new SistemaVentaPasajesException(":::: Ya esta contratado un Auxiliar/Conductor con el id dado en la empresa señalada");
+            throw new SVPException("Ya esta contratado un Auxiliar/Conductor con el id dado en la empresa señalada");
         }
     }
 
@@ -107,14 +107,14 @@ public class ControladorEmpresas implements Serializable {
         Optional<Empresa> buscarEmpresa = findEmpresa(Rut.of(rut));
 
         if (buscarEmpresa.isEmpty()) {
-            throw new SistemaVentaPasajesException(":::: No existe una Empresa con el rut indicado");
+            throw new SVPException("No existe una Empresa con el rut indicado");
         }
 
         Empresa empresa = buscarEmpresa.get();
         boolean contratado = empresa.addAuxiliar(id, nom, null, dir);
 
         if (!contratado) {
-            throw new SistemaVentaPasajesException(":::: Ya esta contratado Auxiliar/Conductor con el id dado en la empresa señalada");
+            throw new SVPException("Ya esta contratado Auxiliar/Conductor con el id dado en la empresa señalada");
         }
 
     }
@@ -136,7 +136,7 @@ public class ControladorEmpresas implements Serializable {
 
         if (buscarTerminal.isEmpty()) {
 
-            throw new SistemaVentaPasajesException(":::: No existe un Terminal con el nombre dado");
+            throw new SVPException("No existe un Terminal con el nombre dado");
         }
         Terminal terminal = buscarTerminal.get();
         ArrayList<String[]> lista = new ArrayList<>();
@@ -202,7 +202,7 @@ public class ControladorEmpresas implements Serializable {
         Optional<Empresa> buscarEmpresa = findEmpresa(rut);
 
         if (buscarEmpresa.isEmpty()) {
-            throw new SistemaVentaPasajesException(":::: No existe una Empresa con el rut indicado");
+            throw new SVPException("No existe una Empresa con el rut indicado");
         }
 
         return Arrays.stream(buscarEmpresa.get().getVentas())
@@ -273,7 +273,7 @@ public class ControladorEmpresas implements Serializable {
         this.terminales.addAll(c.terminales);
     }
 
-    public void setDatosIniciales(Object[] objetos) throws SistemaVentaPasajesException {
+    public void setDatosIniciales(Object[] objetos) throws SVPException {
 
         this.empresas.clear();
         this.buses.clear();
