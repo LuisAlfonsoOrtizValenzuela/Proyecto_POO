@@ -1,5 +1,5 @@
 package utilidades;
-import excepciones.SistemaVentaPasajesException;
+import excepciones.SVPException;
 import java.util.Objects;
 import java.io.Serializable;
 public class Pasaporte implements IdPersona, Serializable{
@@ -31,25 +31,25 @@ public class Pasaporte implements IdPersona, Serializable{
         Pasaporte pasaporte = (Pasaporte) objecto;
         return Objects.equals(numero, pasaporte.numero) && Objects.equals(nacionalidad, pasaporte.nacionalidad);
     }
-    public static Pasaporte of(String numero, String nacionalidad) throws SistemaVentaPasajesException {
+    public static Pasaporte of(String numero, String nacionalidad) throws SVPException {
         if (numero == null || numero.trim().isEmpty()) {
-            throw new SistemaVentaPasajesException(":::: El Numero de Pasaporte no puede estar Vacio");
+            throw new SVPException("El Numero de Pasaporte no puede estar Vacio");
         }
 
         if (nacionalidad == null || nacionalidad.trim().isEmpty()) {
-            throw new SistemaVentaPasajesException(":::: La Nacionalidad no puede estar Vacia");
+            throw new SVPException("La Nacionalidad no puede estar Vacia");
         }
 
         numero = numero.trim();
         nacionalidad = nacionalidad.trim();
         if (numero.length() < 6) {
-            throw new SistemaVentaPasajesException(":::: El Numero de Pasaporte debe tener al menos 6 Caracteres");
+            throw new SVPException("El Numero de Pasaporte debe tener al menos 6 Caracteres");
         }
         if (!nacionalidad.matches("[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\\s]+")) {
-            throw new SistemaVentaPasajesException(":::: La Nacionalidad solo debe contener Letras");
+            throw new SVPException("La Nacionalidad solo debe contener Letras");
         }
         if (!numero.matches("[a-zA-Z0-9]+")) {
-            throw new SistemaVentaPasajesException(":::: El Numero de Pasaporte solo puede contener Letras y Numeros, sin espacios");
+            throw new SVPException("El Numero de Pasaporte solo puede contener Letras y Numeros, sin espacios");
         }
         return new Pasaporte(numero, nacionalidad);
     }

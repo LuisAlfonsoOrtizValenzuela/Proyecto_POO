@@ -13,10 +13,10 @@ public class Bus implements Serializable{
 
     public Bus(String patente, int nroAsientos, Empresa empresa) {
         if (patente == null || patente.trim().isEmpty()) {
-            throw new IllegalArgumentException(":::: La Patente no puede estar Vacia");
+            throw new IllegalArgumentException("La Patente no puede estar Vacia");
         }
         if (nroAsientos <= 0) {
-            throw new IllegalArgumentException(":::: El numero de Asientos debe ser Mayor a 0");
+            throw new IllegalArgumentException("El numero de Asientos debe ser Mayor a 0");
         }
         this.patente = patente.trim();
         this.nroAsientos = nroAsientos;
@@ -34,7 +34,7 @@ public class Bus implements Serializable{
 
     public void setMarca(String marca) {
         if (marca == null || marca.trim().isEmpty()) {
-            throw new IllegalArgumentException(":::: La Marca no puede estar Vacia");
+            throw new IllegalArgumentException("La Marca no puede estar Vacia");
         }
         this.marca = marca.trim();
     }
@@ -45,7 +45,7 @@ public class Bus implements Serializable{
 
     public void setModelo(String modelo) {
         if (modelo == null || modelo.trim().isEmpty()) {
-            throw new IllegalArgumentException(":::: El Modelo no puede estar Vacio");
+            throw new IllegalArgumentException("El Modelo no puede estar Vacio");
         }
         this.modelo = modelo.trim();
     }

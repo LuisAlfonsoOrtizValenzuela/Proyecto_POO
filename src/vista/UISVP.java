@@ -1,7 +1,7 @@
 package vista;
 
 import controlador.*;
-import excepciones.SistemaVentaPasajesException;
+import excepciones.SVPException;
 import utilidades.*;
 import modelo.*;
 
@@ -158,7 +158,7 @@ public class UISVP {
 
             System.out.println();
             System.out.println(" ...:::: Empresa guardada exitosamente ::::.... ");
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println();
             System.out.println(e.getMessage());
         }
@@ -191,7 +191,7 @@ public class UISVP {
             }
             sc.nextLine();
             if (tipoTripulante < 1 || tipoTripulante > 2) {
-                throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+                throw new SVPException("La opcion solo puede ser 1 o 2");
             }
 
             System.out.print("     Rut[1] o Pasaporte[2] : ");
@@ -206,7 +206,7 @@ public class UISVP {
             }
             sc.nextLine();
             if (ruop < 1 || ruop > 2) {
-                throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+                throw new SVPException("La opcion solo puede ser 1 o 2");
             }
 
             IdPersona id;
@@ -236,7 +236,7 @@ public class UISVP {
             }
             sc.nextLine();
             if (tipo < 1 || tipo > 2) {
-                throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+                throw new SVPException("La opcion solo puede ser 1 o 2");
             }
 
             Tratamiento tratamiento;
@@ -281,7 +281,7 @@ public class UISVP {
                 System.out.println();
                 System.out.println(" ...:::: Conductor contratado exitosamente ::::....");
             }
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println(" ");
             System.out.println(e.getMessage());
         }
@@ -319,7 +319,7 @@ public class UISVP {
 
             System.out.println();
             System.out.println(" ...:::: Terminal guardado exitosamente ::::....");
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println(e.getMessage());
         }
 
@@ -341,7 +341,7 @@ public class UISVP {
             }
             sc.nextLine();
             if (tipo < 1 || tipo > 2) {
-                throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+                throw new SVPException("La opcion solo puede ser 1 o 2");
             }
 
             IdPersona id;
@@ -373,7 +373,7 @@ public class UISVP {
             sc.nextLine();
             Tratamiento tratamiento;
             if (trat < 1 || trat > 2) {
-                throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+                throw new SVPException("La opcion solo puede ser 1 o 2");
             }
 
             if (trat == 1) {
@@ -407,7 +407,7 @@ public class UISVP {
 
             System.out.println();
             System.out.println(" ...:::: Cliente guardado exitosamente ::::.... ");
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println();
             System.out.println(e.getMessage());
         }
@@ -449,7 +449,7 @@ public class UISVP {
 
             System.out.println();
             System.out.println("    ...:::: Bus guardado exitosamente ::::....");
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println();
             System.out.println(e.getMessage());
         }
@@ -485,7 +485,7 @@ public class UISVP {
             sc.nextLine();
 
             if (numConductor < 1 || numConductor > 2) {
-                throw new SistemaVentaPasajesException(":::: Solo se puede tener 1 o 2 Conductores por viaje");
+                throw new SVPException("Solo se puede tener 1 o 2 Conductores por viaje");
             }
 
             String[] nomComunas = new String[2];
@@ -499,7 +499,7 @@ public class UISVP {
             int tipo = sc.nextInt();
             sc.nextLine();
             if (tipo < 1 || tipo > 2) {
-                throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+                throw new SVPException("La opcion solo puede ser 1 o 2");
             }
 
             IdPersona idAux;
@@ -531,7 +531,7 @@ public class UISVP {
                 tipo = sc.nextInt();
                 sc.nextLine();
                 if (tipo < 1 || tipo > 2) {
-                    throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+                    throw new SVPException("La opcion solo puede ser 1 o 2");
                 }
 
                 IdPersona idCond;
@@ -564,7 +564,7 @@ public class UISVP {
 
             System.out.println();
             System.out.println("...:::: Viaje guardado exitosamente ::::....");
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println();
             System.out.println(e.getMessage());
         } catch (DateTimeParseException e) {
@@ -587,7 +587,7 @@ public class UISVP {
             int tipo = sc.nextInt();
             sc.nextLine();
             if (tipo < 1 || tipo > 2) {
-                throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+                throw new SVPException("La opcion solo puede ser 1 o 2");
             }
 
             TipoDocumento tipoDoc;
@@ -616,7 +616,7 @@ public class UISVP {
             int tipoId = sc.nextInt();
             sc.nextLine();
             if (tipoId < 1 || tipoId > 2) {
-                throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+                throw new SVPException("La opcion solo puede ser 1 o 2");
             }
 
             IdPersona id;
@@ -715,13 +715,13 @@ public class UISVP {
 
             if (partido.length != cantidad) {
                 System.out.println();
-                throw new SistemaVentaPasajesException(":::: Solo puede Elegir " + cantidad + " Asientos");
+                throw new SVPException("Solo puede Elegir " + cantidad + " Asientos");
             }
 
             for (int i = 0; i < cantidad; i++) {
                 for (int j = i + 1; j < cantidad; j++) {
                     if (partido[i].equals(partido[j])) {
-                        throw new SistemaVentaPasajesException(":::: No se puede elegir el mismo Asiento mas de una vez");
+                        throw new SVPException("No se puede elegir el mismo Asiento mas de una vez");
                     }
                 }
             }
@@ -732,7 +732,7 @@ public class UISVP {
                 try {
                     asientosElegidos[i] = Integer.parseInt(partido[i].trim());
                 } catch (NumberFormatException e) {
-                    throw new SistemaVentaPasajesException(":::: Los asientos deben ser numeros validos");
+                    throw new SVPException("Los asientos deben ser numeros validos");
                 }
             }
 
@@ -747,7 +747,7 @@ public class UISVP {
                 tipo = sc.nextInt();
                 sc.nextLine();
                 if (tipo < 1 || tipo > 2) {
-                    throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+                    throw new SVPException("La opcion solo puede ser 1 o 2");
                 }
 
                 IdPersona idPasajero;
@@ -777,7 +777,7 @@ public class UISVP {
                     int trat = sc.nextInt();
                     sc.nextLine();
                     if (trat < 1 || trat > 2) {
-                        throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+                        throw new SVPException("La opcion solo puede ser 1 o 2");
                     }
                     Tratamiento tratamiento;
 
@@ -802,7 +802,7 @@ public class UISVP {
                     int tratContacto = sc.nextInt();
                     sc.nextLine();
                     if (tratContacto < 1 || tratContacto > 2) {
-                        throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+                        throw new SVPException("La opcion solo puede ser 1 o 2");
                     }
                     Tratamiento tratamientoCont;
 
@@ -849,7 +849,7 @@ public class UISVP {
             try {
                 precio = Integer.parseInt(horario[selec -1][2]);
             } catch (NumberFormatException e) {
-                throw new SistemaVentaPasajesException(":::: Error al procesar el precio del viaje");
+                throw new SVPException("Error al procesar el precio del viaje");
             }
 
             int total = precio * cantidad;
@@ -858,7 +858,7 @@ public class UISVP {
             System.out.println();
             pagaVentaPasajes(documento, tipoDoc);
 
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println();
             System.out.println(e.getMessage());
         } catch (DateTimeParseException e) {
@@ -874,7 +874,7 @@ public class UISVP {
             int tipoPago = sc.nextInt();
             sc.nextLine();
             if (tipoPago < 1 || tipoPago > 2) {
-                throw new SistemaVentaPasajesException(":::: La opcion solo puede ser 1 o 2");
+                throw new SVPException("La opcion solo puede ser 1 o 2");
             }
 
             if (tipoPago == 1) {
@@ -897,7 +897,7 @@ public class UISVP {
 
             System.out.println();
             System.out.println("  ...:::: Venta realizada exitosamente ::::....");
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println();
             System.out.println(e.getMessage());
         }
@@ -961,7 +961,7 @@ public class UISVP {
             System.out.println("*---------*-----------------*----------------------------------*----------------------------------*-------------------*");
             System.out.println();
 
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println();
             System.out.println(e.getMessage());
         } catch (DateTimeParseException e) {
@@ -1114,7 +1114,7 @@ public class UISVP {
             System.out.println("*----------------*-------*-------------*--------------------------------*----------------*");
             System.out.println(" ");
 
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println();
             System.out.println(e.getMessage());
         } catch (DateTimeParseException e) {
@@ -1156,7 +1156,7 @@ public class UISVP {
             System.out.println("*------------*----------*--------------*----------------*");
             System.out.println();
 
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println(" ");
             System.out.println(e.getMessage());
         }
@@ -1176,7 +1176,7 @@ public class UISVP {
             sistema.generatePasajesVenta(idDoc, tipoDoc);
             System.out.println();
             System.out.println(" ...::: Pasajes generados exitosamente ::::....");
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println();
             System.out.println(e.getMessage());
         }
@@ -1189,7 +1189,7 @@ public class UISVP {
             sistema.readDatosIniciales();
             System.out.println();
             System.out.println(" ...::: Datos iniciales cargados exitosamente ::::....");
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println();
             System.out.println(e.getMessage());
         }
@@ -1202,7 +1202,7 @@ public class UISVP {
             sistema.saveDatosSistema();
             System.out.println();
             System.out.println(" ...::: Datos guardados exitosamente ::::....");
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println();
             System.out.println(e.getMessage());
         }
@@ -1215,7 +1215,7 @@ public class UISVP {
             sistema.readDatosSistema();
             System.out.println();
             System.out.println(" ...::: Datos cargados exitosamente ::::....");
-        } catch (SistemaVentaPasajesException e) {
+        } catch (SVPException e) {
             System.out.println();
             System.out.println(e.getMessage());
         }

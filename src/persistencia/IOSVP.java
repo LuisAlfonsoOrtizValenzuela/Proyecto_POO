@@ -1,6 +1,7 @@
 package persistencia;
 
-import excepciones.SistemaVentaPasajesException;
+import controlador.ControladorEmpresas;
+import excepciones.SVPException;
 import modelo.*;
 import utilidades.*;
 
@@ -11,11 +12,23 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class IOSVP {
+    /*private static IOSVP instance;
+
+    private IOSVP() {
+
+    }
+
+    public static IOSVP getInstance() {
+        if (instance == null) {
+            instance = new IOSVP();
+        }
+        return instance;
+    }*/
 
     private static final String ARCHIVO_INICIAL = "SVPDatosIniciales.txt";
     private static final String ARCHIVO_OBJETOS = "SVPObjetos.obj";
 
-    public Object[] readDatosIniciales() throws SistemaVentaPasajesException {
+    public Object[] readDatosIniciales() throws SVPException {
         ArrayList<Object> objetos = new ArrayList<>();
 
 
@@ -64,18 +77,18 @@ public class IOSVP {
             procesarViajesPendientes(viajesData, objetos, busesMap, auxiliaresMap, conductoresMap, terminalesMap);
 
         } catch (FileNotFoundException e) {
-            throw new SistemaVentaPasajesException(":::: No existe o No se puede abrir el Archivo " + ARCHIVO_INICIAL);
+            throw new SVPException("No existe o No se puede abrir el Archivo " + ARCHIVO_INICIAL);
         } catch (IOException e) {
-            throw new SistemaVentaPasajesException(":::: Error al intentar leer el Archivo " + ARCHIVO_INICIAL);
+            throw new SVPException("Error al intentar leer el Archivo " + ARCHIVO_INICIAL);
         }
 
         return objetos.toArray();
     }
 
-    private void procesarClientePasajero(String linea, ArrayList<Object> objetos) throws SistemaVentaPasajesException {
+    private void procesarClientePasajero(String linea, ArrayList<Object> objetos) throws SVPException {
         String[] partes = linea.split(";");
         if (partes.length < 8) {
-            throw new SistemaVentaPasajesException(":::: Linea de Cliente/Pasajero Incompleta: " + linea);
+            throw new SVPException("Linea de Cliente/Pasajero Incompleta: " + linea);
         }
 
         String tipo = partes[0];
@@ -124,18 +137,18 @@ public class IOSVP {
                     Pasajero pasajero = new Pasajero(nombre, id, telefono, nombreContacto, fonoContacto);
                     objetos.add(pasajero);
                 } else {
-                    throw new SistemaVentaPasajesException(":::: Datos de Contacto incompletos para Pasajero: " + linea);
+                    throw new SVPException("Datos de Contacto incompletos para Pasajero: " + linea);
                 }
             }
         } catch (Exception e) {
-            throw new SistemaVentaPasajesException(":::: Error al intentar procesar Cliente/Pasajero: " + e.getMessage());
+            throw new SVPException("Error al intentar procesar Cliente/Pasajero: " + e.getMessage());
         }
     }
 
-    private void procesarEmpresa(String linea, ArrayList<Object> objetos, Map<String, Empresa> empresasMap) throws SistemaVentaPasajesException {
+    private void procesarEmpresa(String linea, ArrayList<Object> objetos, Map<String, Empresa> empresasMap) throws SVPException {
         String[] partes = linea.split(";");
         if (partes.length < 3) {
-            throw new SistemaVentaPasajesException(":::: Linea de Empresa Incompleta: " + linea);
+            throw new SVPException("Linea de Empresa Incompleta: " + linea);
         }
 
         try {
@@ -147,15 +160,15 @@ public class IOSVP {
             objetos.add(empresa);
             empresasMap.put(partes[0], empresa);
         } catch (Exception e) {
-            throw new SistemaVentaPasajesException(":::: Error al intentar procesar Empresa: " + e.getMessage());
+            throw new SVPException("Error al intentar procesar Empresa: " + e.getMessage());
         }
     }
 
     private void procesarTripulante(String linea, ArrayList<Object> objetos, Map<String, Empresa> empresasMap,
-                                    Map<String, Auxiliar> auxiliaresMap, Map<String, Conductor> conductoresMap) throws SistemaVentaPasajesException {
+                                    Map<String, Auxiliar> auxiliaresMap, Map<String, Conductor> conductoresMap) throws SVPException {
         String[] partes = linea.split(";");
         if (partes.length < 10) {
-            throw new SistemaVentaPasajesException(":::: Linea de Tripulante Incompleta: " + linea);
+            throw new SVPException("Linea de Tripulante Incompleta: " + linea);
         }
 
         String tipo = partes[0];
@@ -187,7 +200,7 @@ public class IOSVP {
 
             Empresa empresa = empresasMap.get(rutEmpresa);
             if (empresa == null) {
-                throw new SistemaVentaPasajesException(":::: Empresa no Encontrada para Tripulante: " + rutEmpresa);
+                throw new SVPException("Empresa no Encontrada para Tripulante: " + rutEmpresa);
             }
 
             if (tipo.equals("A")) {
@@ -201,17 +214,17 @@ public class IOSVP {
                 objetos.add(conductor);
                 conductoresMap.put(rut, conductor);
             } else {
-                throw new SistemaVentaPasajesException(":::: Tipo de Tripulante Invalido: " + tipo);
+                throw new SVPException("Tipo de Tripulante Invalido: " + tipo);
             }
         } catch (Exception e) {
-            throw new SistemaVentaPasajesException(":::: Error al intentar procesar Tripulante: " + e.getMessage());
+            throw new SVPException("Error al intentar procesar Tripulante: " + e.getMessage());
         }
     }
 
-    private void procesarTerminal(String linea, ArrayList<Object> objetos, Map<String, Terminal> terminalesMap) throws SistemaVentaPasajesException {
+    private void procesarTerminal(String linea, ArrayList<Object> objetos, Map<String, Terminal> terminalesMap) throws SVPException {
         String[] partes = linea.split(";");
         if (partes.length < 4) {
-            throw new SistemaVentaPasajesException(":::: Linea de Terminal Incompleta: " + linea);
+            throw new SVPException("Linea de Terminal Incompleta: " + linea);
         }
 
         try {
@@ -225,13 +238,13 @@ public class IOSVP {
             objetos.add(terminal);
             terminalesMap.put(nombre, terminal);
         } catch (NumberFormatException e) {
-            throw new SistemaVentaPasajesException(":::: Error al intentar procesar Terminal - Numero de Direccion Invalido: " + e.getMessage());
+            throw new SVPException("Error al intentar procesar Terminal - Numero de Direccion Invalido: " + e.getMessage());
         } catch (Exception e) {
-            throw new SistemaVentaPasajesException(":::: Error al intentar procesar Terminal: " + e.getMessage());
+            throw new SVPException("Error al intentar procesar Terminal: " + e.getMessage());
         }
     }
 
-    private void procesarBus(String linea, ArrayList<Object> objetos, Map<String, Empresa> empresasMap, Map<String, Bus> busesMap) throws SistemaVentaPasajesException {
+    private void procesarBus(String linea, ArrayList<Object> objetos, Map<String, Empresa> empresasMap, Map<String, Bus> busesMap) throws SVPException {
         String[] partes = linea.split(";");
         if (partes.length < 5) return;
 
@@ -247,7 +260,7 @@ public class IOSVP {
 
             Empresa empresa = empresasMap.get(rutEmpresa);
             if (empresa == null) {
-                throw new SistemaVentaPasajesException(":::: Empresa no Encontrada para Bus: " + rutEmpresa);
+                throw new SVPException("Empresa no Encontrada para Bus: " + rutEmpresa);
             }
 
             Bus bus = new Bus(patente, nroAsientos, empresa);
@@ -258,16 +271,16 @@ public class IOSVP {
             objetos.add(bus);
             busesMap.put(patente, bus);
         } catch (NumberFormatException e) {
-            throw new SistemaVentaPasajesException(":::: Error al intentar procesar Bus - Numero de Asientos Invalido: " + e.getMessage());
+            throw new SVPException("Error al intentar procesar Bus - Numero de Asientos Invalido: " + e.getMessage());
         } catch (Exception e) {
-            throw new SistemaVentaPasajesException(":::: Error al intentar procesar Bus: " + e.getMessage());
+            throw new SVPException("Error al intentar procesar Bus: " + e.getMessage());
         }
     }
 
-    private void procesarViaje(String linea, ArrayList<Object> objetos, List<ViajeData> viajesData) throws SistemaVentaPasajesException {
+    private void procesarViaje(String linea, ArrayList<Object> objetos, List<ViajeData> viajesData) throws SVPException {
         String[] partes = linea.split(";");
         if (partes.length < 9) {
-            throw new SistemaVentaPasajesException(":::: Linea de Viaje Incompleta: " + linea);
+            throw new SVPException("Linea de Viaje Incompleta: " + linea);
         }
 
         try {
@@ -285,13 +298,13 @@ public class IOSVP {
             viajesData.add(new ViajeData(fecha, hora, precio, duracion, patente,
                     rutAuxiliar, rutConductor, terminalSalida, terminalLlegada));
         } catch (Exception e) {
-            throw new SistemaVentaPasajesException(":::: Error al intentar procesar Viaje: " + e.getMessage());
+            throw new SVPException("Error al intentar procesar Viaje: " + e.getMessage());
         }
     }
 
     private void procesarViajesPendientes(List<ViajeData> viajesData, ArrayList<Object> objetos,
                                           Map<String, Bus> busesMap, Map<String, Auxiliar> auxiliaresMap,
-                                          Map<String, Conductor> conductoresMap, Map<String, Terminal> terminalesMap) throws SistemaVentaPasajesException {
+                                          Map<String, Conductor> conductoresMap, Map<String, Terminal> terminalesMap) throws SVPException {
         for (ViajeData data : viajesData) {
             Bus bus = busesMap.get(data.patente);
             Auxiliar auxiliar = auxiliaresMap.get(data.rutAuxiliar);
@@ -300,19 +313,19 @@ public class IOSVP {
             Terminal llegada = resolverTerminal(data.terminalLlegada, terminalesMap);
 
             if (bus == null) {
-                throw new SistemaVentaPasajesException(":::: Bus no encontrado para Viaje: " + data.patente);
+                throw new SVPException("Bus no encontrado para Viaje: " + data.patente);
             }
             if (auxiliar == null) {
-                throw new SistemaVentaPasajesException(":::: Auxiliar no encontrado para Viaje: " + data.rutAuxiliar);
+                throw new SVPException("Auxiliar no encontrado para Viaje: " + data.rutAuxiliar);
             }
             if (conductor == null) {
-                throw new SistemaVentaPasajesException(":::: Conductor no encontrado para Viaje: " + data.rutConductor);
+                throw new SVPException("Conductor no encontrado para Viaje: " + data.rutConductor);
             }
             if (salida == null) {
-                throw new SistemaVentaPasajesException(":::: Terminal de salida No encontrado: " + data.terminalSalida);
+                throw new SVPException("Terminal de salida No encontrado: " + data.terminalSalida);
             }
             if (llegada == null) {
-                throw new SistemaVentaPasajesException(":::: Terminal de llegada No encontrado: " + data.terminalLlegada);
+                throw new SVPException("Terminal de llegada No encontrado: " + data.terminalLlegada);
             }
 
             Viaje viaje = new Viaje(data.fecha, data.hora, data.precio, data.duracion,
@@ -370,30 +383,30 @@ public class IOSVP {
     }
 
 
-    public void saveControladores(Object controlador1, Object controlador2) throws SistemaVentaPasajesException {
+    public void saveControladores(Object controlador1, Object controlador2) throws SVPException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ARCHIVO_OBJETOS))) {
             oos.writeObject(controlador1);
             oos.writeObject(controlador2);
         } catch (FileNotFoundException e) {
-            throw new SistemaVentaPasajesException(":::: No se puede Abrir o Crear el Archivo " + ARCHIVO_OBJETOS);
+            throw new SVPException("No se puede Abrir o Crear el Archivo " + ARCHIVO_OBJETOS);
         } catch (IOException e) {
-            throw new SistemaVentaPasajesException(":::: No se puede Grabar en el Archivo " + ARCHIVO_OBJETOS);
+            throw new SVPException("No se puede Grabar en el Archivo " + ARCHIVO_OBJETOS);
         }
     }
 
-    public Object[] readControladores() throws SistemaVentaPasajesException {
+    public Object[] readControladores() throws SVPException {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ARCHIVO_OBJETOS))) {
             Object obj1 = ois.readObject();
             Object obj2 = ois.readObject();
             return new Object[]{obj1, obj2};
         } catch (FileNotFoundException e) {
-            throw new SistemaVentaPasajesException(":::: No existe o No se puede Abrir el Archivo " + ARCHIVO_OBJETOS);
+            throw new SVPException("No existe o No se puede Abrir el Archivo " + ARCHIVO_OBJETOS);
         } catch (IOException | ClassNotFoundException e) {
-            throw new SistemaVentaPasajesException(":::: No se puede Leer el Archivo " + ARCHIVO_OBJETOS);
+            throw new SVPException("No se puede Leer el Archivo " + ARCHIVO_OBJETOS);
         }
     }
 
-    public void savePasajesDeVenta(String[] pasajes, String nombreArchivo) throws SistemaVentaPasajesException {
+    public void savePasajesDeVenta(String[] pasajes, String nombreArchivo) throws SVPException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(nombreArchivo))) {
             for (String pasaje : pasajes) {
                 bw.write(pasaje);
@@ -401,7 +414,7 @@ public class IOSVP {
                 bw.newLine();
             }
         } catch (IOException e) {
-            throw new SistemaVentaPasajesException(":::: No se puede Abrir o Crear el Archivo " + nombreArchivo);
+            throw new SVPException("No se puede Abrir o Crear el Archivo " + nombreArchivo);
         }
     }
 

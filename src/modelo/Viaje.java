@@ -1,5 +1,6 @@
 package modelo;
 
+import excepciones.SVPException;
 import utilidades.IdPersona;
 
 import java.time.LocalDate;
@@ -24,31 +25,31 @@ public class Viaje implements Serializable {
 
     public Viaje(LocalDate fecha, LocalTime hora, int precio, int dur, Bus bus, Auxiliar aux, Conductor cond, Terminal sale, Terminal llega) {
         if (fecha == null) {
-            throw new IllegalArgumentException(":::: La Fecha no puede ser Nula");
+            throw new IllegalArgumentException("La Fecha no puede ser Nula");
         }
         if (hora == null) {
-            throw new IllegalArgumentException(":::: La Hora no puede ser Nula");
+            throw new IllegalArgumentException("La Hora no puede ser Nula");
         }
         if (precio <= 0) {
-            throw new IllegalArgumentException(":::: El Precio debe ser Mayor a 0");
+            throw new IllegalArgumentException("El Precio debe ser Mayor a 0");
         }
         if (dur <= 0) {
-            throw new IllegalArgumentException(":::: La Duración debe ser Mayor a 0");
+            throw new IllegalArgumentException("La Duración debe ser Mayor a 0");
         }
         if (bus == null) {
-            throw new IllegalArgumentException(":::: El Bus no puede ser Nulo");
+            throw new IllegalArgumentException("El Bus no puede ser Nulo");
         }
         if (aux == null) {
-            throw new IllegalArgumentException(":::: El Auxiliar no puede ser Nulo");
+            throw new IllegalArgumentException("El Auxiliar no puede ser Nulo");
         }
         if (cond == null) {
-            throw new IllegalArgumentException(":::: El Conductor no puede ser Nulo");
+            throw new IllegalArgumentException("El Conductor no puede ser Nulo");
         }
         if (sale == null) {
-            throw new IllegalArgumentException(":::: El Terminal de Salida no puede ser Nulo");
+            throw new IllegalArgumentException("El Terminal de Salida no puede ser Nulo");
         }
         if (llega == null) {
-            throw new IllegalArgumentException(":::: El Terminal de Llegada no puede ser Nulo");
+            throw new IllegalArgumentException("El Terminal de Llegada no puede ser Nulo");
         }
         this.fecha = fecha;
         this.hora = hora;
@@ -78,14 +79,14 @@ public class Viaje implements Serializable {
 
     public void setPrecio(int precio) {
         if (precio <= 0) {
-            throw new IllegalArgumentException(":::: El Precio debe ser Mayor a 0");
+            throw new IllegalArgumentException("El Precio debe ser Mayor a 0");
         }
         this.precio = precio;
     }
 
     public void setDuracion(int duracion) {
         if (duracion <= 0) {
-            throw new IllegalArgumentException(":::: La Duracion debe ser Mayor a 0");
+            throw new IllegalArgumentException("La Duracion debe ser Mayor a 0");
         }
         this.duracion = duracion;
     }

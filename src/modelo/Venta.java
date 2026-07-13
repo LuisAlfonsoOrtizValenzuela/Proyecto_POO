@@ -1,6 +1,7 @@
 package modelo;
 
-import excepciones.SistemaVentaPasajesException;
+import excepciones.SVPException;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
@@ -90,7 +91,7 @@ public class Venta implements Serializable{
 
         return "DESCONOCIDO";
     }
-    public void generatePasajesVenta() throws SistemaVentaPasajesException {
+    public void generatePasajesVenta() throws SVPException {
         persistencia.IOSVP iosvp = new persistencia.IOSVP();
         String[] pasajesTexto = new String[pasajes.size()];
 
