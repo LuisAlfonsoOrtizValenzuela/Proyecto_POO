@@ -57,7 +57,19 @@ public class MenuPrincipal extends JDialog {
         ventaDePasajesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                onVentas();
+            }
+        });
+        creacionDeViajesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onCreacionViaje();
+            }
+        });
+        consultasSobreViajesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onConsultas();
             }
         });
     }
@@ -72,7 +84,18 @@ public class MenuPrincipal extends JDialog {
     }
 
     private void onVentas() {
+        VentaPasajes ventas = new VentaPasajes();
+        ventas.setVisible(true);
+    }
 
+    private void onCreacionViaje() {
+        CreacionViaje creacion = new CreacionViaje();
+        creacion.setVisible(true);
+    }
+
+    private void onConsultas() {
+        Consultas consultas = new Consultas();
+        consultas.setVisible(true);
     }
 
     public static void main(String[] args) {

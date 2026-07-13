@@ -1,9 +1,11 @@
 package vista;
 
+import interfaces.MenuPrincipal;
+
 public class Main {
 
     public static void main(String[] args) {
-        UISVP main = UISVP.getInstance();
-        main.menu();
+        MenuPrincipal menu = new MenuPrincipal();
+        menu.setVisible(true);
     }
 }
